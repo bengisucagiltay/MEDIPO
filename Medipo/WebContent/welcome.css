@@ -1,10 +1,8 @@
-*{
-	box-sizing: border-box;
-}
 
 body{
 	margin: 0;
-	height: 100%;
+	background: url("WebContent/pulse1.png") fixed center no-repeat;
+	background-size: 500px;
 }
 h1{
 	margin: 0px;
@@ -22,6 +20,7 @@ p{
 	font-size: 12px;
 	font-weight: 400;
 }
+
 .header{
 	position: center;
 	font-family: 'Cinzel Decorative', cursive;
@@ -56,16 +55,13 @@ p{
 }
 
 }
-.center {
+a.centerp {
 	height: 500px;
 	width: 80%;
 	text-align: center;
-	background: url("WebContent/Welcome_ Medipo.png") no-repeat fixed center;
-	background-origin: content-box;
-	background-position: 100%;
 }
-.right {
-	height: 500px;
+.rightp {
+	height: 600px;
 	width: 20%;
 	padding: 10px;
 	background-color: #cdeffe;
