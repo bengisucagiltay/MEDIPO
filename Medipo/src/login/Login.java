@@ -25,12 +25,12 @@ public class Login extends HttpServlet {
 		
 			HttpSession session = request.getSession();
 			session.setAttribute("username", uname);
-			response.sendRedirect("Upload.jsp");
+			response.sendRedirect("upload.jsp");
 		}
 		
 		else {
 			System.out.println("Invalid username and password");
-			response.sendRedirect("Login.jsp");
+			response.sendRedirect("login.jsp");
 		}
 		
 	}

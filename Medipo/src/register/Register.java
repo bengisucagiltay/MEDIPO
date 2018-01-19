@@ -18,7 +18,7 @@ public class Register extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Check if registration is succesful. save user info to database
-		response.sendRedirect("Welcome.jsp");
+		response.sendRedirect("welcome.jsp");
 	}
 
 }
