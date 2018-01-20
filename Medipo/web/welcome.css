@@ -1,14 +1,18 @@
 
 body{
 	margin: 0;
-	background-size: 500px;
+	background: url("pulse1.png") fixed center; /* fixed center yaparsak kayıyor, yapmazsak kaymıyor*/
+ 	background-repeat:repeat;
+	background-size:contain;
 }
+
+
 h1{
-	margin: 0px;
+	margin: 0;
 }
 
 h2{
-	margin:0px;
+	margin:0;
 	font-family: 'Open Sans', sans-serif bold;
 	font-size: 16px;
 	font-weight: 600;
