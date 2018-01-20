@@ -16,16 +16,16 @@
 <h1 class="header">Medipo</h1>
 
 <div class="topnav">
-	<a href="welcomehtml.html">Home</a>
-	<a href="GuestUpload.jsp">Upload</a>
-	<a href="Login.jsp">Login</a>
+	<a href="welcome.jsp">Home</a>
+	<a href="guestupload.jsp">Upload</a>
+	<a href="login.jsp">Login</a>
 	<a href="#">About</a>
 	<a href="#">Contact</a>
 </div>
 
 <div class="row">
 	<div class="centerp" style="background-image:url(pulse1.png)">
-		<a class= "gubutton" href="GuestUpload.jsp" class="gubutton">Upload</a>
+		<a class= "gubutton" href="guestupload.jsp" class="gubutton">Upload</a>
 	</div>
 
 	<div class="rightp">
