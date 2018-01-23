@@ -12,6 +12,8 @@ Bengisu Çağıltay
 Caner Sezginer
 
 
+
+
 *Supervisor:* Çiğdem Gündüz Demir
 
 *Jury Members:* Selim Aksoy, Özgür Ulusoy
