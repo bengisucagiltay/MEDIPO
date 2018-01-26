@@ -1,18 +1,13 @@
 package server;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.imageio.ImageIO;
-
 public class Server {
+
 	private Socket clientSocket;
 	private ServerSocket serverSocket;
 	private DataInputStream is;
@@ -43,10 +38,10 @@ public class Server {
 			int length = is.readInt();
 			if(length > 0) {
 				byte[] byteImage = new byte[length];
-				is.readFully(byteImage);;
+				is.readFully(byteImage);
 				InputStream in = new ByteArrayInputStream(byteImage);
 				BufferedImage bImageFromConvert = ImageIO.read(in);
-				ImageIO.write(bImageFromConvert, "bmp", new File("./resource/server_data/testImage.bmp"));
+				ImageIO.write(bImageFromConvert, "bmp", new File("./resource/server_data/test.bmp"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

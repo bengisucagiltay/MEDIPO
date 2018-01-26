@@ -8,6 +8,6 @@ public class ServerMain {
 		Server s = new Server(6789);
 		s.acceptConnection();
 		s.recieveImage();
-
+		s.recieveImage();
 	}
 }

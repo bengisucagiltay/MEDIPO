@@ -1,13 +1,13 @@
 package client;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServlet;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
-import javax.imageio.ImageIO;
 
 public class Client {
 	private int port;

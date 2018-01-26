@@ -1,47 +1,27 @@
 package test;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
-import bitmap.BitmapEditor;
+import bitmap.ImageEditor;
+import gui.TestFrame;
+import utils.MyTimer;
 
 public class BitmapMain {
 
-	public static void main(String args[]) {
-				
-		BitmapEditor be = new BitmapEditor();
-		BufferedImage image = null;
-		BufferedImage outputImage = null;
+	private static MyTimer timer;
 
-		
-		
-		JFrame frame = new JFrame();
-		frame.getContentPane().setLayout(new GridLayout(2, 2));
-		
-		for(int i = 100; i < 104; i++) {
-			
-			try {
-				image = ImageIO.read(new File("./resource/ba/im" + i + ".bmp"));
-				outputImage = be.createBoundImage(image);
-				frame.getContentPane().add(new JLabel(new ImageIcon(outputImage)));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		frame.pack();
-		frame.setVisible(true);
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public static void main(String args[]) {
+		timer = new MyTimer();
+
+		ImageEditor ie = new ImageEditor();
+
+		timer.start();
+		ie.createImages(1, 176);
+		timer.end();
+		System.out.println("Scan Images: " + timer.getTotalTime());
+
+		timer.start();
+		TestFrame tf = new TestFrame(ie.getImages());
+		timer.end();
+		System.out.println("GUI: " + timer.getTotalTime());
+
 	}
 }
