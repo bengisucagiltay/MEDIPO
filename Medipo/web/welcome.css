@@ -1,8 +1,7 @@
 
 body{
 	margin: 0;
- 	background-repeat:repeat;
-	background-size:contain;
+	background-color: #cdeffe;
 }
 
 
@@ -17,6 +16,12 @@ h2{
 	font-weight: 600;
 }
 
+h3{
+	margin:0;
+	font-family: 'Open Sans', sans-serif bold;
+	font-size: 30px;
+	font-weight: 600;
+}
 p{
 	font-family: 'Open Sans', sans-serif bold;
 	font-size: 12px;
@@ -56,12 +61,14 @@ p{
     color: aliceblue;
 }
 
-a.centerp {
-	height: 500px;
+.centerclmn {
 	width: 80%;
-	text-align: center;
+	text-align: left;
 }
-.rightp {
+.rightclmn {
+	right: 0;
+	position: absolute;
+	float:right;
 	height: 600px;
 	width: 20%;
 	padding: 10px;
@@ -81,8 +88,8 @@ a.centerp {
 }
 
 a.gubutton{
-	top: 50%;
-	left: 32%;
+	top: 52%;
+	left: 35%;
 	text-align: center;
 	text-decoration: none;
 	font: 20px 'open Sans', sans serif;
@@ -92,9 +99,8 @@ a.gubutton{
 	border-radius: 20px;
 	padding: 30px;
 	max-width: 300px;
-	
+
 	color: black;
-	outline: medium solid white;
 	background-color: white;
 }
 
@@ -181,8 +187,6 @@ span.psw{
 	to {-webkit-transform: scale(1)}
 }
 
-@media (max-width: 600px) {
-    .right {
-        width: 100%;
-    }
+#centd{
+	position: absolute;
 }

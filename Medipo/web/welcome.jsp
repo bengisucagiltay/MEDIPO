@@ -19,19 +19,19 @@
 	<a href="welcome.jsp">Home</a>
 	<a href="guestupload.jsp">Upload</a>
 	<a href="login.jsp">Login</a>
-	<a href="#">About</a>
+	<a href="about.jsp">About</a>
 	<a href="#">Contact</a>
 </div>
 
 <div class="row">
-	<div class="centerp" style="background-image:url(pulse1.png)">
+	<div class="centerclmn">
 		<a class= "gubutton" onclick="document.getElementById('id01').style.display='block'" style="width:auto" class="gubutton">Upload</a>
 		<div id="id01" class="modal">
 
 			<form class="modal-content animate" action="login.jsp">
+                <span onclick="document.getElementById('id01').style.display='none'"
+                      class="close" title="Close Modal">&times;</span>
 				<div class="container">
-					<span onclick="document.getElementById('id01').style.display='none'"
-						  class="close" title="Close Modal">&times;</span>
 					<button type="submit">Login</button>
 					<button type="submit" formaction="register.jsp">Register</button><br>
 					<button type="submit" formaction="guestupload.jsp">Continue as a Guest</button>
@@ -41,7 +41,7 @@
 	</div>
 </div>
 
-	<div class="rightp">
+	<div class="rightclmn">
 		<h2>Server</h2>
 		<p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
@@ -52,6 +52,7 @@
 		<p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
 	</div>
+<img src="pulse1.png" width="80%"  alt="backg" >
 </div>
 </body>
 </html>

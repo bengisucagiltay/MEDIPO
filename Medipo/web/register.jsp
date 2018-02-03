@@ -19,7 +19,7 @@
 	<a href="welcome.jsp">Home</a>
 	<a href="guestupload.jsp">Upload</a>
 	<a href="login.jsp">Login</a>
-	<a href="#">About</a>
+	<a href="about.jsp">About</a>
 	<a href="#">Contact</a>
 </div>
 
@@ -62,5 +62,6 @@
 		</div>
 	</form>
 </div>
+<img src="pulse1.png" width="100%"  alt="backg" >
 </body>
 </html>
