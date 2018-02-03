@@ -25,8 +25,21 @@
 
 <div class="row">
 	<div class="centerp" style="background-image:url(pulse1.png)">
-		<a class= "gubutton" href="guestupload.jsp" class="gubutton">Upload</a>
+		<a class= "gubutton" onclick="document.getElementById('id01').style.display='block'" style="width:auto" class="gubutton">Upload</a>
+		<div id="id01" class="modal">
+
+			<form class="modal-content animate" action="login.jsp">
+				<div class="container">
+					<span onclick="document.getElementById('id01').style.display='none'"
+						  class="close" title="Close Modal">&times;</span>
+					<button type="submit">Login</button>
+					<button type="submit" formaction="register.jsp">Register</button><br>
+					<button type="submit" formaction="guestupload.jsp">Continue as a Guest</button>
+			</form>
+		</div>
+
 	</div>
+</div>
 
 	<div class="rightp">
 		<h2>Server</h2>
