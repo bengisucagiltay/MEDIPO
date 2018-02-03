@@ -4,7 +4,7 @@
 <html lang="java">
 
 <head>
-    <link href="welcome.css" type="text/css" rel="stylesheet">
+    <link href="about.css" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
           rel="stylesheet">
     <title>..::Welcome to Medipo::..</title>
@@ -24,8 +24,8 @@
 </div>
 
 <div class="row">
-    <div class="centerclmn">
-        <div class="modal-content" >
+    <div class="centerclmn" id="centd" align="center">
+        <div class="modal-content">
             <br><h3>CS491/492</h3><br>
             <h2>Senior Design Project<br>-Bilkent University-</h2><br><br>
             <h3>Medical Image Processing Online<br>(Medipo)</h3><br>
@@ -51,7 +51,6 @@
     <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
 </div>
-<img src="pulse1.png" width="80%"  alt="backg" >
 </div>
 </body>
 </html>
