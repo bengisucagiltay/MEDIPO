@@ -26,31 +26,35 @@
 <div class="row">
     <div class="centerclmn" id="centd" align="center">
         <div class="modal-content">
-            <br><h3>CS491/492</h3><br>
-            <h2>Senior Design Project<br>-Bilkent University-</h2><br><br>
-            <h3>Medical Image Processing Online<br>(Medipo)</h3><br><br>
-            <h2>Mert Ege Can</h2><br>
-            <h2>Bengisu Çağıltay</h2><br>
-            <h2>İmge Gökalp</h2><br>
-            <h2>Caner Sezginer</h2><br><br>
-            <h2>Supervisor: Çiğdem Gündüz Demir</h2><br>
-            <h2>Jury Members: Selim Aksoy, Özgür Ulusoy</h2><br>
-            <h2>Innovation Expert: Deniz Katırcıoğlu-Öztürk</h2><br>
+            <br>
+            <h3>Medical Image Processing Online<br>(Medipo)</h3><br>
+            <h3><u>Contact us</u></h3><br>
+
+            <h2>Mert Ege Can</h2>
+            <h4>m.egecan@gmail.com</h4><br>
+
+            <h2>Bengisu Çağıltay</h2>
+            <h4>bengisucagiltay@gmail.com</h4><br>
+
+            <h2>İmge Gökalp</h2>
+            <h4>imge.gokalp@gmail.com</h4><br>
+
+            <h2>Caner Sezginer</h2>
+            <h4>csezginer66@gmail.com</h4><br>
         </div>
     </div>
 </div>
 
 <div class="rightclmn">
     <h2>Server</h2>
-    <h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
+    <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
     <h2>Update 1.2</h2>
-    <h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
+    <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
     <h2 class="updatc" >Maintenance on 21.12.22</h2><br>
-    <h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</>
+    <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
-</div>
 </div>
 </body>
 </html>

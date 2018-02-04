@@ -20,7 +20,7 @@
 	<a href="guestupload.jsp">Upload</a>
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
-	<a href="#">Contact</a>
+	<a href="contact.jsp">Contact</a>
 </div>
 
 <div class="container">

@@ -4,26 +4,34 @@ body{
 	background-color: #cdeffe;
 }
 
+h4{
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	font-size: 13px;
+}
 
 h1{
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
 	margin: 0;
+	font-size: 20px;
 }
 
 h2{
 	margin:0;
-	font-family: 'Open Sans', sans-serif bold;
-	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
 	font-weight: 600;
 }
 
 h3{
 	margin:0;
-	font-family: 'Open Sans', sans-serif bold;
+	font-family: 'Open Sans', sans-serif italic;
 	font-size: 30px;
 	font-weight: 600;
 }
 p{
-	font-family: 'Open Sans', sans-serif bold;
+	font-family: 'Open Sans', sans-serif;
 	font-size: 12px;
 	font-weight: 400;
 }
@@ -33,9 +41,12 @@ p{
 	font-family: 'Cinzel Decorative', cursive;
 	font-size: 80px;
 	background-color: #d2f1ff;
+	background: url("headerhead.png") right no-repeat;
+	background-size: contain;
 	text-align: left;
 	padding: 20px;
 }
+
 
 .topnav{
 	overflow: hidden;
@@ -89,7 +100,7 @@ p{
 
 a.gubutton{
 	top: 52%;
-	left: 35%;
+	left: 32%;
 	text-align: center;
 	text-decoration: none;
 	font: 20px 'open Sans', sans serif;
@@ -110,18 +121,20 @@ a.gubutton:hover {
 }
 
 button{
-	background-color: royalblue;
+	font-size: 20px;
+	background-color: #0094e2;
 	color: ghostwhite;
 	padding: 14px 20px;
 	margin: 8px 0;
 	border: none;
+	border-radius: 5px;
 	cursor: pointer;
 	width: auto;
 }
 
 button:hover{
 	opacity: 0.8;
-	background-color: steelblue;
+	background-color: royalblue;
 }
 
 .container{
@@ -158,8 +171,9 @@ span.psw{
 }
 
 .close{
-	position: absolute;
-	right: 25px;
+	position: relative;
+	text-align: right;
+	left: 40%;
 	top: 0;
 	color: #000;
 	font-size: 35px;
