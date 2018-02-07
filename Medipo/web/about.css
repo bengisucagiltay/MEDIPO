@@ -1,12 +1,14 @@
+
 body{
     margin: 0;
-    background-color: #cdeffe;
+    background: linear-gradient( #0094e2, #cdeffe) no-repeat;
+    height: 1000px;
 }
 
 h4{
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 
@@ -20,23 +22,29 @@ h1{
 h2{
     margin:0;
     font-family: 'Open Sans', sans-serif bold;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
 }
 
+h3{
+    margin:0;
+    font-family: 'Open Sans', sans-serif bold;
+    font-size: 30px;
+    font-weight: 600;
+}
 p{
     font-family: 'Open Sans', sans-serif bold;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
 }
 
 .header{
     position: center;
     font-family: 'Cinzel Decorative', cursive;
-    background: url("headerhead.png") right no-repeat;
-    background-size: contain;
     font-size: 80px;
     background-color: #d2f1ff;
+    background: url("headerhead.png") right no-repeat;
+    background-size: contain;
     text-align: left;
     padding: 20px;
 }
@@ -65,67 +73,44 @@ p{
     color: aliceblue;
 }
 
-input[type=text],input[type=password], select, textarea{
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    resize: vertical;
+.centerclmn {
+    width: 80%;
+    text-align: center;
 }
-
-label{
-    padding: 12px 12px 12px 0;
-    display: inline-block;
-}
-
-input[type=submit]{
-    background-color: #91deff;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    float: right;
-}
-
-input[type=submit]:hover{
-    background-color: royalblue;
-    color: ghostwhite;
-}
-
-.container{
-    width: 40%;
-    left: 32%;
-    top: 50%;
+.rightclmn {
+    right: 0;
     position: absolute;
-    border-radius: 5px;
+    float:right;
+    height: 100%;
+    width: 20%;
+    padding: 10px;
     background-color: #cdeffe;
-    padding: 20px;
+    border-left: solid 4px;
 }
-
-.col-25{
-    float: left;
-    width: 25%;
-    margin-top: 6px;
-}
-
-.col-75{
-    float: left;
-    width: 75%;
-    margin-top: 6px;
-}
-
-/*clears float value after */
 .row:after{
+    height: 100%;
     content: "";
     display: table;
     clear: both;
 }
 
-@media (max-width: 600px) {
-    .col-75, .col-25, input[type=submit]{
-        width: 100%;
-        margin-top: 0;
-    }
-    
+.updatec{
+    padding: 10px;
+    border-bottom: double black;
+}
+.modal-content{
+    padding: 20px;
+    text-align: center;
+    background-color: ghostwhite;
+    margin: 5% auto 15% auto;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+
+#centd{
+
+    text-align: center;
+    position: absolute;
 }

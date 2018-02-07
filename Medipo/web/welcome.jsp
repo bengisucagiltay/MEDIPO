@@ -19,39 +19,39 @@
 	<a href="welcome.jsp">Home</a>
 	<a href="guestupload.jsp">Upload</a>
 	<a href="login.jsp">Login</a>
-	<a href="#">About</a>
-	<a href="#">Contact</a>
+	<a href="about.jsp">About</a>
+	<a href="contact.jsp">Contact</a>
 </div>
 
 <div class="row">
-	<div class="centerp" style="background-image:url(pulse1.png)">
-		<a class= "gubutton" onclick="document.getElementById('id01').style.display='block'" style="width:auto" class="gubutton">Upload</a>
+	<div class="centerclmn">
+		<a class= "gubutton" onclick="document.getElementById('id01').style.display='block'" style="width:auto" class="gubutton">Get Started</a>
 		<div id="id01" class="modal">
 
 			<form class="modal-content animate" action="login.jsp">
+                <span onclick="document.getElementById('id01').style.display='none'"
+                      class="close" title="Close Modal" >&times</span>
 				<div class="container">
-					<span onclick="document.getElementById('id01').style.display='none'"
-						  class="close" title="Close Modal">&times;</span>
 					<button type="submit">Login</button>
 					<button type="submit" formaction="register.jsp">Register</button><br>
 					<button type="submit" formaction="guestupload.jsp">Continue as a Guest</button>
+				</div>
 			</form>
 		</div>
 
 	</div>
-</div>
+	<div class="rightclmn">
+		<h2 align="center">Server ver.1</h2>
+		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
 
-	<div class="rightp">
-		<h2>Server</h2>
-		<p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
+		<h2 align="center">Update 1.2</h2>
+		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
 
-		<h2>Update 1.2</h2>
-		<p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
-
-		<h2 class="updatc" >Maintenance on 21.12.22</h2><br>
-		<p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
+		<h2 align="center" >Maintenance on 21.12.22</h2><br>
+		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
 
 	</div>
+<img src="pulse1.png" width="80%"  alt="backg" >
 </div>
 </body>
 </html>
