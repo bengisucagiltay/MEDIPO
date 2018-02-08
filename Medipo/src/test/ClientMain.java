@@ -10,8 +10,8 @@ import java.io.IOException;
 public class ClientMain {
 	
 	public static void main(String args[]) {
-		Client c = new Client("localhost", 6789);
-		c.connect();
+		Client c = new Client();
+		c.connect("localhost", 6789);
 		BufferedImage image;
 		try {
 			image = ImageIO.read(new File("./resource/ba/im1.bmp"));

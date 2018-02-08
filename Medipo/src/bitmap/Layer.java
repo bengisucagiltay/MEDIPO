@@ -1,6 +1,5 @@
 package bitmap;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Layer extends BufferedImage{
