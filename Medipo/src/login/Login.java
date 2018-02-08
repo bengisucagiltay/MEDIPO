@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        //String fname = request.getParameter("firstname");
+        //String fname = request.getParameter("firstname"); //null
         String mail = request.getParameter("email");
         String pword = request.getParameter("password");
 
@@ -43,7 +43,8 @@ public class Login extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
         else{   //user exists check password match
-            int loc = checkUserExists(mail);   //mail location
+            int loc = checkUserExists(mail);
+
             if(checkPasswordMatch(pword, loc)){
                 System.out.println("Login Succesful");
 
@@ -52,13 +53,15 @@ public class Login extends HttpServlet {
                 //TODO: PRINT WELCOME username INFO IN WELCOME PAGE
                 response.sendRedirect("welcome.jsp");
             }
-            //scan the file until this location
+            else{
+                System.out.println("Login Unsuccesful");
+                response.sendRedirect("login.jsp");
+            }
         }
-
 	}
 
 	public int checkUserExists(String mail){   //TODO: return the line if the user exists
-        int uid = 0;   //0?????
+        int uid = 0;
             try {
                 Scanner scanner = new Scanner(EMAILS);
                 while (scanner.hasNextLine()) {
@@ -75,19 +78,21 @@ public class Login extends HttpServlet {
         }
 
     public boolean checkPasswordMatch(String pword, int uid){ //TODO: check if password matches
-        int i = 0;
-        Scanner scanner = null;
+        int i;
+        Scanner scanner;
         try {
             scanner = new Scanner(PASSWORDS);
-        while (scanner.hasNextLine()){
-            i++;
-            if(i == uid)
-                break;
-        }
-        System.out.println("CHECK Loop break at line:" + i);
-        if(pword.equals(scanner.nextLine())) {
-            System.out.println("Match");
-            return true;
+            for(i=1;i!=uid;i++) //go to the line
+                scanner.nextLine();
+            if(i == uid){
+                if(pword.equals(scanner.nextLine())) {
+                    System.out.println("Match");
+                    return true;
+                }
+                else{
+                    System.out.println("No Match");
+                    return false;
+                }
         }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
