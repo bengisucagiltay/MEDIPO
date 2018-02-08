@@ -24,7 +24,7 @@
 </div>
 
 <div class="container">
-	<form action="welcome.jsp">
+	<form action="Register">
 		<div class="row">
 			<div class="col-25">
 				<label for="fname"><h2>First Name</h2></label>
