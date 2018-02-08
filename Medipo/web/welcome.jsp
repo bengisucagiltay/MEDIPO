@@ -21,6 +21,7 @@
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
+	<b>Welcome, Guest</b>
 </div>
 
 <div class="row">
