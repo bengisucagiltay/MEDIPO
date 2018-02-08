@@ -39,8 +39,9 @@ public class Register extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("fname", fname);   //TODO: use this session attribute for WELCOME $fname message
 
-        if(checkIfExists(mail) == true){
+        if(checkUserExists(mail) == true){
             //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
+            //TODO: PUT MINIMUM LENGTH AND NONZERO REQUIREMENTS
             response.sendRedirect("register.jsp");
         }
         else{
@@ -55,7 +56,7 @@ public class Register extends HttpServlet {
 	* scans the email file and checks if an email already is registered
 	* returns true if already registered
 	* */
-	private boolean checkIfExists(String mail){
+	private boolean checkUserExists(String mail){
         try {
             Scanner scanner = new Scanner(EMAILS);
             while (scanner.hasNextLine()) {
@@ -64,8 +65,8 @@ public class Register extends HttpServlet {
                     return true;
                 }
             }
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -81,11 +82,11 @@ public class Register extends HttpServlet {
 
         try{
             wr1 = new BufferedWriter(new FileWriter(USER_INFO,true));
-            wr1.write(fname + "," + lname +"," + mail +"," + pword +"\n");
+            wr1.write(fname + "," + lname +"\n");
             wr2 = new BufferedWriter(new FileWriter(EMAILS,true));
             wr2.write(mail +"\n");
             wr3 = new BufferedWriter(new FileWriter(PASSWORDS,true));
-            wr3.write(mail +"\n");
+            wr3.write(pword +"\n");
 
         }catch (IOException e){
             e.printStackTrace();

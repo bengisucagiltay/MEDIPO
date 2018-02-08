@@ -24,7 +24,7 @@
 </div>
 
 <div class="container">
-	<form action="welcome.jsp">
+	<form action="Login">
 		<div class="row">
 			<div class="col-25">
 				<label for="mail"><h2>E- Mail</h2></label>
