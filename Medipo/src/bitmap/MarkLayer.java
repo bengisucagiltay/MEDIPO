@@ -3,6 +3,7 @@ package bitmap;
 import java.awt.*;
 
 public class MarkLayer extends Layer {
+
     public MarkLayer(int w, int h) {
         super(w, h);
     }

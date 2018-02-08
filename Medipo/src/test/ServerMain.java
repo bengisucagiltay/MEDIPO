@@ -7,7 +7,7 @@ public class ServerMain {
 	public static void main(String args[]) {
 		Server s = new Server(6789);
 		s.acceptConnection();
-		s.recieveImage();
-		s.recieveImage();
+		s.receiveImage();
+		s.receiveImage();
 	}
 }

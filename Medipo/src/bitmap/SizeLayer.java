@@ -3,6 +3,7 @@ package bitmap;
 import java.awt.*;
 
 public class SizeLayer extends Layer {
+
     public SizeLayer(int w, int h) {
         super(w, h);
     }

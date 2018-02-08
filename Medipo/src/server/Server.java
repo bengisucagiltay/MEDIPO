@@ -10,8 +10,8 @@ public class Server {
 
 	private Socket clientSocket;
 	private ServerSocket serverSocket;
-	private DataInputStream is;
-	private DataOutputStream os;
+	private DataInputStream inputStream;
+	private DataOutputStream outputStream;
 
 	public Server(int port) {
 		try {
@@ -25,20 +25,19 @@ public class Server {
 	public void acceptConnection() {
 		try {
 			clientSocket = serverSocket.accept();
-			is = new DataInputStream(clientSocket.getInputStream());
-			os = new DataOutputStream(clientSocket.getOutputStream());
+			inputStream = new DataInputStream(clientSocket.getInputStream());
+			outputStream = new DataOutputStream(clientSocket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void recieveImage() {
-
+	public void receiveImage() {
 		try {
-			int length = is.readInt();
+			int length = inputStream.readInt();
 			if(length > 0) {
 				byte[] byteImage = new byte[length];
-				is.readFully(byteImage);
+				inputStream.readFully(byteImage);
 				InputStream in = new ByteArrayInputStream(byteImage);
 				BufferedImage bImageFromConvert = ImageIO.read(in);
 				ImageIO.write(bImageFromConvert, "bmp", new File("./resource/server_data/test.bmp"));
