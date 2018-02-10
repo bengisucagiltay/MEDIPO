@@ -1,5 +1,6 @@
 package login;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
@@ -38,9 +39,20 @@ public class Login extends HttpServlet {
         String mail = request.getParameter("email");
         String pword = request.getParameter("password");
 
+        PrintWriter out = response.getWriter();
+
         if(checkUserExists(mail) == -1){
             System.out.println("This user does not exist");
-            response.sendRedirect("login.jsp");
+            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+            out.println("<script>");
+            out.println("$(document).ready(function(){");
+            out.println("swal ( 'Oops' ,  'This user does not exist! Please try again..' ,  'error' )");
+            out.println("});");
+            out.println("</script>");
+            //response.sendRedirect("login.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+            rd.include(request,response);
         }
         else{   //user exists check password match
             int loc = checkUserExists(mail);
@@ -48,14 +60,24 @@ public class Login extends HttpServlet {
             if(checkPasswordMatch(pword, loc)){
                 System.out.println("Login Succesful");
 
+                //TODO: PRINT WELCOME username INFO IN WELCOME PAGE
                 HttpSession session = request.getSession();
                 session.setAttribute("mail", mail);
-                //TODO: PRINT WELCOME username INFO IN WELCOME PAGE
                 response.sendRedirect("welcome.jsp");
+                //response.sendRedirect("welcome.jsp?mail="+mail);
             }
             else{
                 System.out.println("Login Unsuccesful");
-                response.sendRedirect("login.jsp");
+                out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+                out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+                out.println("<script>");
+                out.println("$(document).ready(function(){");
+                out.println("swal ( 'Oops' ,  'Your password is incorrect! Please try again..' ,  'error' )");
+                out.println("});");
+                out.println("</script>");
+                //response.sendRedirect("login.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                rd.include(request,response);
             }
         }
 	}
@@ -85,14 +107,10 @@ public class Login extends HttpServlet {
             for(i=1;i!=uid;i++) //go to the line
                 scanner.nextLine();
             if(i == uid){
-                if(pword.equals(scanner.nextLine())) {
-                    System.out.println("Match");
+                if(pword.equals(scanner.nextLine()))
                     return true;
-                }
-                else{
-                    System.out.println("No Match");
+                else
                     return false;
-                }
         }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

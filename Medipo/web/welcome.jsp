@@ -21,7 +21,17 @@
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
-	<b>Welcome, Guest</b>
+
+	<b>Welcome,${sessionScope.mail}	</b>
+		<!-- test code
+		if(request.getParameter("mail") == null) {
+			session.setAttribute("mail", "guest");
+			request.getParameter("mail");
+		}
+		else
+		request.getParameter("mail");
+		-->
+
 </div>
 
 <div class="row">
@@ -48,7 +58,7 @@
 		<h2 align="center">Update 1.2</h2>
 		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
 
-		<h2 align="center" >Maintenance on 21.12.22</h2><br>
+		<h2 align="center" >Maintenance on 21.12.22</h2>
 		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
 
 	</div>

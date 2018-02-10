@@ -1,5 +1,6 @@
 package register;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,18 +37,38 @@ public class Register extends HttpServlet {
         String mail = request.getParameter("email");
         String pword = request.getParameter("password");
 
-        HttpSession session = request.getSession();
-        session.setAttribute("fname", fname);   //TODO: use this session attribute for WELCOME $fname message
+        PrintWriter out = response.getWriter();
+
+        //HttpSession session = request.getSession();
+        //session.setAttribute("fname", fname);   //TODO: use this session attribute for WELCOME $fname message
 
         if(checkUserExists(mail) == true){
-            //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
-            //TODO: PUT MINIMUM LENGTH AND NONZERO REQUIREMENTS
-            response.sendRedirect("register.jsp");
+            System.out.println("A user with this e-mail already exists!");
+            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+            out.println("<script>");
+            out.println("$(document).ready(function(){");
+            out.println("swal ( 'Oops' ,  'A user with this e-mail already exists! Please try again..' ,  'error' )");
+            out.println("});");
+            out.println("</script>");
+            //response.sendRedirect("register.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+            rd.include(request,response);
         }
         else{
             writeUserInfo(fname, lname, mail, pword);
-            //TODO: print a success message on the webpage
-            response.sendRedirect("login.jsp");
+            //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
+            //TODO: PUT MINIMUM LENGTH AND NONZERO REQUIREMENTS
+            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+            out.println("<script>");
+            out.println("$(document).ready(function(){");
+            out.println("swal ( 'Success' ,  'Register Complete! Please log in..' ,  'success' )");
+            out.println("});");
+            out.println("</script>");
+            //response.sendRedirect("login.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+            rd.include(request,response);
         }
 	}
 
@@ -60,10 +81,8 @@ public class Register extends HttpServlet {
         try {
             Scanner scanner = new Scanner(EMAILS);
             while (scanner.hasNextLine()) {
-                if(mail.equals(scanner.nextLine())){
-                    System.out.println("A user with this e-mail already exists!");
+                if(mail.equals(scanner.nextLine()))
                     return true;
-                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
