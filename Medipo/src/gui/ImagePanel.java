@@ -20,8 +20,9 @@ public class ImagePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(image, 0, 0, null);
-        for(int i = 0; i < image.getLayers().size(); i++)
-            g.drawImage(image.getLayers().get(i), 0,0,null);
+        g.drawImage(image.getBorderLayer(), 0,0,null);
+        g.drawImage(image.getSizeLayer(), 0,0,null);
+        g.drawImage(image.getMarkLayer(), 0,0,null);
         repaint();
     }
 
