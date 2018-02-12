@@ -12,7 +12,7 @@
 
 
 <script>
-
+    var jssor_1_slider;
 </script>
 
 <script>
@@ -76,7 +76,7 @@
             }
         };
 
-        var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+        jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
 
         /*#region responsive code begin*/
 
@@ -276,7 +276,14 @@
 <p id="demo"></p>
 <script>
     // Initiate zoom effect:
-    imageZoom("myimage", "myresult");
+    function SliderParkEventHandler(slideIndex, slideIndex) {
+        var slidesCount = jssor_1_slider.$CurrentPosition();
+        slidesCount++;
+        var slideElement = document.getElementById("myimage" + slidesCount);
+        imageZoom(slideElement.id, "myresult");
+    }
+
+    jssor_1_slider.$On($JssorSlider$.$EVT_PARK, SliderParkEventHandler);
 </script>
 </body>
 </html>
