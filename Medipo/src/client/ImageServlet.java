@@ -1,10 +1,12 @@
 package client;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,8 +46,9 @@ public class ImageServlet extends HttpServlet {
         }
 
         response.reset();
-        response.setContentType(contentType);
         response.setHeader("Content-Length", String.valueOf(image.length()));
-        Files.copy(image.toPath(), response.getOutputStream());
+        response.setContentType("image/bmp");
+        BufferedImage bufferedImage = ImageIO.read(new File(imagePath + requestedImage));
+        ImageIO.write(bufferedImage, "bmp", response.getOutputStream());
     }
 }

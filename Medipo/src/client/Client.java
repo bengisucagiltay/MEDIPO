@@ -8,53 +8,64 @@ import java.util.ArrayList;
 
 public class Client {
 
+	private String name;
 	private Socket socket;
-	private DataInputStream inputStream;
-	private DataOutputStream outputStream;
-
+	private DataInputStream dataInputStream;
+	private DataOutputStream dataOutputStream;
 	private ArrayList<BufferedImage> images;
 
 	public Client() {
 		socket = null;
-		inputStream = null;
-		outputStream = null;
+		dataInputStream = null;
+		dataOutputStream = null;
 
 		images = new ArrayList<>();
-		fillImages();
 	}
 
-	public void connect(String address, int port) {
+	public void connect(String address, int port, String name) {
+		this.name = name;
 		try {
 			socket = new Socket(address, port);
-			inputStream = new DataInputStream(socket.getInputStream());
-			outputStream = new DataOutputStream(socket.getOutputStream());
+			dataInputStream = new DataInputStream(socket.getInputStream());
+			dataOutputStream = new DataOutputStream(socket.getOutputStream());
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void sendImage(BufferedImage image) {
-		ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-		byte[] output;
+	public void sendImages() {
+
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		byte[] byteArray;
 
 		try {
-			ImageIO.write(image, "bmp", byteArray);
-			output = byteArray.toByteArray();
-			outputStream.writeInt(output.length);
-			outputStream.write(output);
+			dataOutputStream.writeInt(Integer.parseInt(name));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+
+		for(int i = 0; i < images.size(); i++) {
+			try {
+				ImageIO.write(images.get(i), "bmp", byteArrayOutputStream);
+				byteArray = byteArrayOutputStream.toByteArray();
+				dataOutputStream.writeInt(byteArray.length);
+				dataOutputStream.write(byteArray);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println(i);
+			}
 		}
 	}
 
 	public void fillImages(){
-		for(int i = 0; i < 177; i++){
+		//for(int i = 1; i < 176; i++){
 			try {
-				images.add(ImageIO.read(new File("./resource/ba/im1.bmp")));
+
+				images.add(ImageIO.read(new File("./Medipo/resource/ba/im" + 1 + ".bmp")));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		//}
 	}
 }

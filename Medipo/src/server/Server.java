@@ -8,10 +8,10 @@ import java.net.Socket;
 
 public class Server {
 
-	private Socket clientSocket;
+	private Socket socket;
 	private ServerSocket serverSocket;
-	private DataInputStream inputStream;
-	private DataOutputStream outputStream;
+	private DataInputStream dataInputStream;
+	private DataOutputStream dataOutputStream;
 
 	public Server(int port) {
 		try {
@@ -24,23 +24,46 @@ public class Server {
 
 	public void acceptConnection() {
 		try {
-			clientSocket = serverSocket.accept();
-			inputStream = new DataInputStream(clientSocket.getInputStream());
-			outputStream = new DataOutputStream(clientSocket.getOutputStream());
+			socket = serverSocket.accept();
+			dataInputStream = new DataInputStream(socket.getInputStream());
+			dataOutputStream = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void receiveImage() {
+	public void receiveImages() {
+
+		File theDir = null;
 		try {
-			int length = inputStream.readInt();
+			theDir = new File("./Medipo/resource/server_data/" +dataInputStream.readInt());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (!theDir.exists()) {
+			boolean result = false;
+
+			try{
+				theDir.mkdir();
+				result = true;
+			}
+			catch(SecurityException se){
+				//handle it
+			}
+		}
+
+		try {
+			int count = 1;
+			int length = dataInputStream.readInt();
 			if(length > 0) {
-				byte[] byteImage = new byte[length];
-				inputStream.readFully(byteImage);
-				InputStream in = new ByteArrayInputStream(byteImage);
-				BufferedImage bImageFromConvert = ImageIO.read(in);
-				ImageIO.write(bImageFromConvert, "bmp", new File("./resource/server_data/test.bmp"));
+				byte[] byteArray = new byte[length];
+				dataInputStream.read(byteArray, 0, length);
+				InputStream inputStream = new ByteArrayInputStream(byteArray);
+				BufferedImage bufferedImage = ImageIO.read(inputStream);
+				ImageIO.write(bufferedImage, "bmp", new File(theDir + "/" + count + ".bmp"));
+				length = dataInputStream.readInt();
+				count++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

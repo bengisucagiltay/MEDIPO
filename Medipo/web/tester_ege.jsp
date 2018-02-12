@@ -9,11 +9,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
-    <img src="${pageContext.request.contextPath}/im100.bmp" />
+
 </head>
 <body>
+
+<% for(int i = 1; i <  100; i++) { %>
+<div data-p="170.00">
+    <img data-u="image" id="myimage<%=i%>" src="/resource/ba/im<%=i%>.bmp" />
+</div>
+<%}%>
 
 </body>
 </html>
