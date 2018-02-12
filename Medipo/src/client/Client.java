@@ -8,22 +8,18 @@ import java.util.ArrayList;
 
 public class Client {
 
-	private String name;
 	private Socket socket;
 	private DataInputStream dataInputStream;
 	private DataOutputStream dataOutputStream;
+
+	private String name;
 	private ArrayList<BufferedImage> images;
 
-	public Client() {
-		socket = null;
-		dataInputStream = null;
-		dataOutputStream = null;
-
-		images = new ArrayList<>();
+	public Client(String name) {
+		this.name = name;
 	}
 
-	public void connect(String address, int port, String name) {
-		this.name = name;
+	public void connect(String address, int port) {
 		try {
 			socket = new Socket(address, port);
 			dataInputStream = new DataInputStream(socket.getInputStream());
@@ -34,38 +30,39 @@ public class Client {
 		}
 	}
 
-	public void sendImages() {
-
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		byte[] byteArray;
-
+	public void sendInformation() {
 		try {
-			dataOutputStream.writeInt(Integer.parseInt(name));
+			dataOutputStream.writeUTF(name);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public void sendImages() {
 		for(int i = 0; i < images.size(); i++) {
 			try {
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 				ImageIO.write(images.get(i), "bmp", byteArrayOutputStream);
-				byteArray = byteArrayOutputStream.toByteArray();
+				byte[] byteArray = byteArrayOutputStream.toByteArray();
 				dataOutputStream.writeInt(byteArray.length);
 				dataOutputStream.write(byteArray);
 			} catch (IOException e) {
 				e.printStackTrace();
-				System.out.println(i);
 			}
 		}
 	}
 
 	public void fillImages(){
-		//for(int i = 1; i < 176; i++){
-			try {
 
-				images.add(ImageIO.read(new File("./Medipo/resource/ba/im" + 1 + ".bmp")));
+		images = new ArrayList<>();
+		File directory = new File("./Medipo/resource/ba");
+
+		for(File f: directory.listFiles()){
+			try {
+				images.add(ImageIO.read(f));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		//}
+		}
 	}
 }

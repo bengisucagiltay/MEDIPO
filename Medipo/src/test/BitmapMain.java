@@ -1,6 +1,6 @@
 package test;
 
-import bitmap.ImageEditor;
+import managers.ImageManager;
 import gui.TestFrame;
 import utils.MyTimer;
 
@@ -11,15 +11,16 @@ public class BitmapMain {
 	public static void main(String args[]) {
 		timer = new MyTimer();
 
-		ImageEditor ie = new ImageEditor();
+		ImageManager imageManager = new ImageManager();
 
 		timer.start();
-		ie.createImages(1, 176);
+		imageManager.createImages(1, 176);
+		imageManager.segmentImages();
 		timer.end();
 		System.out.println("Scan Images: " + timer.getTotalTime());
 
 		timer.start();
-		TestFrame tf = new TestFrame(ie.getImages());
+		TestFrame tf = new TestFrame(imageManager.getImages());
 		timer.end();
 		System.out.println("GUI: " + timer.getTotalTime());
 

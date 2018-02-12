@@ -13,6 +13,9 @@ public class Server {
 	private DataInputStream dataInputStream;
 	private DataOutputStream dataOutputStream;
 
+	private String clientName;
+	private String directoryName;
+
 	public Server(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
@@ -32,36 +35,31 @@ public class Server {
 		}
 	}
 
-	public void receiveImages() {
-
-		File theDir = null;
+	public void receiveInformation(){
 		try {
-			theDir = new File("./Medipo/resource/server_data/" +dataInputStream.readInt());
+			clientName = dataInputStream.readUTF();
+			directoryName = "./Medipo/resource/server_data/" + clientName;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
-		if (!theDir.exists()) {
-			boolean result = false;
+	public void checkDirectory() {
+		File directory = new File(directoryName);
+		if (!directory.exists())
+            directory.mkdir();
+	}
 
-			try{
-				theDir.mkdir();
-				result = true;
-			}
-			catch(SecurityException se){
-				//handle it
-			}
-		}
-
+	public void receiveImages() {
 		try {
 			int count = 1;
 			int length = dataInputStream.readInt();
-			if(length > 0) {
+			while(length > 0) {
 				byte[] byteArray = new byte[length];
-				dataInputStream.read(byteArray, 0, length);
+				dataInputStream.readFully(byteArray, 0, length);
 				InputStream inputStream = new ByteArrayInputStream(byteArray);
 				BufferedImage bufferedImage = ImageIO.read(inputStream);
-				ImageIO.write(bufferedImage, "bmp", new File(theDir + "/" + count + ".bmp"));
+				ImageIO.write(bufferedImage, "bmp", new File(directoryName + "/" + count + ".bmp"));
 				length = dataInputStream.readInt();
 				count++;
 			}
