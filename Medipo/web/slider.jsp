@@ -62,6 +62,7 @@
             $AutoPlay: 0,
             $Cols: 1,
             $Align: 0,
+            $DragOrientation:0,
             $SlideshowOptions: {
                 $Class: $JssorSlideshowRunner$,
                 $Transitions: jssor_1_SlideshowTransitions,
@@ -75,6 +76,7 @@
                 $Cols: 5,
                 $SpacingX: 5,
                 $SpacingY: 5,
+                $DragOrientation:0,
                 $Align: 390
             }
         };
@@ -157,8 +159,8 @@
         position: absolute;
         border: 1px solid #d4d4d4;
         /*set the size of the lens:*/
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 80px;
     }
     .img-zoom-result {
         border: 1px solid #d4d4d4;
@@ -225,11 +227,9 @@
         }
     }
 </script>
-<h3>selam</h3>
 
 
-
-<div id="jssor_1" onclick="showCoords(event)" style="position:relative;left:40px;top:0px;width:650px;height:512px;overflow:hidden;visibility:hidden;">
+<div id="jssor_1" onclick="showCoords(event)" style="position:relative;left:40px;top:0px;width:650px;height:600px;overflow:hidden;visibility:hidden;float:left;">
     <!-- Loading Screen -->
     <div data-u="loading" class="jssorl-009-spin" style="position:absolute;top:0px;left:0px;width:100%;height:100%;text-align:center;background-color:rgba(0,0,0,0.7);">
         <img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="img/spin.svg" />
@@ -249,9 +249,7 @@
             <div data-u="prototype" class="p" style="width:190px;height:90px;">
                 <div data-u="thumbnailtemplate" class="t"></div>
                 <svg viewbox="0 0 16000 16000" class="cv">
-                    <circle class="a" cx="8000" cy="8000" r="3238.1"></circle>
-                    <line class="a" x1="6190.5" y1="8000" x2="9809.5" y2="8000"></line>
-                    <line class="a" x1="8000" y1="9809.5" x2="8000" y2="6190.5"></line>
+
                 </svg>
             </div>
         </div>
@@ -275,8 +273,8 @@
 <script type="text/javascript">jssor_1_slider_init();</script>
 <!-- #endregion Jssor Slider End -->
 
-<div id="myresult" class="img-zoom-result" ></div>
-<p id="demo"></p>
+<div id="myresult" class="img-zoom-result" style="position:absolute;float:right;right:250px;top:50px;"></div>
+<p id="demo" style="position:absolute;float:right;right:320px;top:350px;"></p>
 
 <script>
     // Initiate zoom effect:
@@ -289,7 +287,7 @@
 
     jssor_1_slider.$On($JssorSlider$.$EVT_PARK, SliderParkEventHandler);
 </script>
-
+<%--
 <script type="text/javascript">
     var canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
@@ -338,6 +336,6 @@
 
         ctx.stroke(); // draw it!
     }
-</script>
+</script>--%>
 </body>
 </html>
