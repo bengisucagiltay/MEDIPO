@@ -22,16 +22,15 @@
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
 
-	<b>Welcome,${sessionScope.mail}	</b>
-		<!-- test code
-		if(request.getParameter("mail") == null) {
-			session.setAttribute("mail", "guest");
-			request.getParameter("mail");
+	<b>Welcome,
+	<%
+		if(session.getAttribute("mail")== null){	//user not registered (guest)
+			out.println(" Guest");
 		}
 		else
-		request.getParameter("mail");
-		-->
-
+		    out.println(session.getAttribute("mail"));
+	%>
+	</b>
 </div>
 
 <div class="row">
