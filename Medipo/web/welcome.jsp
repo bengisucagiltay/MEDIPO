@@ -24,11 +24,11 @@
 
 	<b>Welcome,
 	<%
-		if(session.getAttribute("mail")== null){	//user not registered (guest)
+		if(session.getAttribute("fname")== null){	//user not registered (guest)
 			out.println(" Guest");
 		}
 		else
-		    out.println(session.getAttribute("mail"));
+		    out.println(session.getAttribute("fname"));
 	%>
 	</b>
 </div>
