@@ -18,15 +18,15 @@ import java.util.Scanner;
 @WebServlet("/Register")
 public class Register extends HttpServlet {
     private static final String USER_INFO = FileManager.getResourcesDicrectory() +
-            "/server_data" +
-            "/user_info.txt";
+            "/server" +
+            "/users.txt";
 
     private static final String PASSWORDS  = FileManager.getResourcesDicrectory() +
-            "/server_data" +
+            "/server" +
             "/passwords.txt";
 
     private File EMAILS = new File(FileManager.getResourcesDicrectory() +
-            "/server_data" +
+            "/server" +
             "/emails.txt");
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

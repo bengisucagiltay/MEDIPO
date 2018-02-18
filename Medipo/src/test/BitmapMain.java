@@ -6,23 +6,20 @@ import utils.MyTimer;
 
 public class BitmapMain {
 
-	private static MyTimer timer;
-
 	public static void main(String args[]) {
-		timer = new MyTimer();
 
 		ImageManager imageManager = new ImageManager();
 
-		timer.start();
+		MyTimer.start();
 		imageManager.createImages(1, 176);
 		imageManager.segmentImages();
-		timer.end();
-		System.out.println("Scan Images: " + timer.getTotalTime());
+		MyTimer.end();
+		System.out.println("Scan Images: " + MyTimer.getTotalTime());
 
-		timer.start();
+		MyTimer.start();
 		TestFrame tf = new TestFrame(imageManager.getImages());
-		timer.end();
-		System.out.println("GUI: " + timer.getTotalTime());
+		MyTimer.end();
+		System.out.println("GUI: " + MyTimer.getTotalTime());
 
 	}
 }

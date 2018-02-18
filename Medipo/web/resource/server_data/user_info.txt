@@ -1,7 +1,0 @@
-123,123
-234,234
-345,345
-asd,asd
-qwe,qwe
-q,q
-ahmet,mehmet

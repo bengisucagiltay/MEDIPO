@@ -4,7 +4,7 @@ import java.io.File;
 
 public class FileManager {
 
-    public static String[] resourcesCandidates = {"C:\\Users\\Ege\\IdeaProjects\\CS491\\Medipo\\web\\resource", "../webapps/Medipo_war/resource"};
+    public static String[] resourcesCandidates = {"C:\\Users\\Ege\\IdeaProjects\\CS491\\Medipo\\web\\resources", "../webapps/Medipo_war/resources"};
 
     public static String getResourcesDicrectory(){
         for (String path: resourcesCandidates

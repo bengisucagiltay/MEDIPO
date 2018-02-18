@@ -23,7 +23,7 @@ public class ImageManager {
 
 		for(int i = start; i <= end; i++) {
 			try {
-				BufferedImage image = ImageIO.read(new File("./Medipo/resource/ba/im" + i + ".bmp"));
+				BufferedImage image = ImageIO.read(new File("./Medipo/web/resources/"));
 				images.add(new EditableImage(image));
 			} catch (IOException e) {
 				e.printStackTrace();

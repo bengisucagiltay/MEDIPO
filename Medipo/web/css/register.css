@@ -33,7 +33,7 @@ p{
 .header{
     position: center;
     font-family: 'Cinzel Decorative', cursive;
-    background: url("../headerhead.png") right no-repeat;
+    background: url("../images/headerhead.png") right no-repeat;
     background-size: contain;
     font-size: 80px;
     background-color: #d2f1ff;

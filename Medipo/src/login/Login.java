@@ -23,13 +23,13 @@ import java.util.StringTokenizer;
 public class Login extends HttpServlet {
 
     private File USER_INFO = new File( FileManager.getResourcesDicrectory() +
-            "/server_data" +
-            "/user_info.txt");
+            "/server" +
+            "/users.txt");
     private File PASSWORDS = new File( FileManager.getResourcesDicrectory() +
-            "/server_data" +
+            "/server" +
             "/passwords.txt");
     private File EMAILS = new File(FileManager.getResourcesDicrectory() +
-            "/server_data" +
+            "/server" +
             "/emails.txt");
 
 	/**
