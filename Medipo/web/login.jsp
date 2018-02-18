@@ -21,6 +21,18 @@
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
+
+	<b>Welcome,
+		<%
+			if(session.getAttribute("fname")== null){	//user not registered (guest)
+				out.println(" Guest");
+			}
+			else
+				out.println(session.getAttribute("fname")); //to do: logout based on guest or registered
+		%>
+	</b>
+
+	<a style="float: right" href="/Logout" ><u>Logout</u></a>
 </div>
 
 <div class="container">

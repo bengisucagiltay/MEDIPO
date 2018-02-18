@@ -1,7 +1,7 @@
 
 body{
 	margin: 0;
-	background-color: #cdeffe;
+	background-color: #d2f1ff;
 }
 
 h4{
@@ -135,6 +135,7 @@ a.gubutton:hover {
 	background-color: palegreen;
 	border-color: green;
 }
+
 
 button{
 	font-size: 20px;

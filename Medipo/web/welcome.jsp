@@ -28,9 +28,11 @@
 			out.println(" Guest");
 		}
 		else
-		    out.println(session.getAttribute("fname"));
+		    out.println(session.getAttribute("fname")); //to do: logout based on guest or registered
 	%>
 	</b>
+
+	<a style="float: right" href="/Logout" ><u>Logout</u></a>
 </div>
 
 <div class="row">

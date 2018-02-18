@@ -21,7 +21,18 @@
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
-	<b>Welcome, Guest</b>
+
+	<b>Welcome,
+		<%
+			if(session.getAttribute("fname")== null){	//user not registered (guest)
+				out.println(" Guest");
+			}
+			else
+				out.println(session.getAttribute("fname")); //to do: logout based on guest or registered
+		%>
+	</b>
+
+	<a style="float: right" href="/Logout" ><u>Logout</u></a>
 </div>
 
 <div class="row">
@@ -29,8 +40,8 @@
 
 		<form action="Upload" method="post" enctype="multipart/form-data" name="form1" id="form1">
 			<br>
-			<h2>Upload your files:
-			<input name="file" type="file" id="file" multiple></h2>
+			<h4 align="center" ><b>Upload your files:</b><br><br>
+			<input name="file" type="file" id="file" multiple></h4>
 			<input type="submit" name="Submit" value="Submit files"/>
 		</form>
 	</div>
