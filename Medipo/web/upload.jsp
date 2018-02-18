@@ -21,50 +21,32 @@
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
-	<b>Welcome, Guest</b>
+
+	<b>Welcome,
+		<%
+			if(session.getAttribute("fname")== null){	//user not registered (guest)
+				out.println(" Guest");
+			}
+			else
+				out.println(session.getAttribute("fname")); //to do: logout based on guest or registered
+		%>
+	</b>
+
+	<a style="float: right" href="/Logout" ><u>Logout</u></a>
 </div>
 
 <div class="row">
-	<div class="centerclmn">
+	<div class="container">
 
-		<h2>Upload here</h2><br><br>
 		<form action="Upload" method="post" enctype="multipart/form-data" name="form1" id="form1">
-			<center>
-				<table border="1">
-					<tr>
-						<td align="center"><b>Multipale file Uploade</td>
-					</tr>
-					<tr>
-						<td>
-							Specify file: <input name="file" type="file" id="file" multiple>
-						</td>
-					</tr>
-					<tr>
-						<td align="center">
-							<input type="submit" name="Submit" value="Submit files"/>
-						</td>
-					</tr>
-				</table>
-				<center>
+			<br>
+			<h4 align="center" ><b>Upload your files:</b><br><br>
+			<input name="file" type="file" id="file" multiple></h4>
+			<input type="submit" name="Submit" value="Submit files"/>
 		</form>
-		<br><form action = "Logout">
-		<input type = "submit" value = "Logout">
-	</form>
-
 	</div>
-	<div class="rightclmn">
-		<h2 align="center">Server ver.1</h2>
-		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
-
-		<h2 align="center">Update 1.2</h2>
-		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
-
-		<h2 align="center" >Maintenance on 21.12.22</h2><br>
-		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
-
-	</div>
-	<img src="images/pulse1.png" width="80%" alt="backg" >
 </div>
+<img src="images/pulse1.png" width="100%" alt="backg" >
 </body>
 </html>
 

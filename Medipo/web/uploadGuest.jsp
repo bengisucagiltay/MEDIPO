@@ -1,32 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+		 pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Medipo - Upload</title>
-</head>
-<body>
+<html lang="java">
 
-	<%
-		if(session.getAttribute("username")== null){	//user not registered (guest)
-		//TODO
-			//response.sendRedirect("login.jsp");
-		out.println("Welcome Guest");
-		}
-	%>
-	
-	<br><img alt="" src="https://d30y9cdsu7xlg0.cloudfront.net/png/1061782-200.png"><br><br>
-	
-	Upload here <br>
-	<form name = "uploadForm" action="GuestUpload" method="POST" enumtype = "multipart/form-data">
-		
-		<input type = "file" name = "file" value = "" width = 100 >
-		<input type = "submit" value = "Submit" name = "submit" >
-	
-	<%
-		//check if submit success
-		out.println("submitted");
-	%>
+<head>
+	<link href="css/login.css" type="text/css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
+		  rel="stylesheet">
+	<title>..::Welcome to Medipo::..</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<h1 class="header">Medipo</h1>
+
+<div class="topnav">
+	<a href="welcome.jsp">Home</a>
+	<a href="upload.jsp">Upload</a>
+	<a href="login.jsp">Login</a>
+	<a href="about.jsp">About</a>
+	<a href="contact.jsp">Contact</a>
+
+	<b>Welcome, Guest</b>
+</div>
+
+<div class="row">
+	<div class="container">
+
+		<form action="Upload" method="post" enctype="multipart/form-data" name="form1" id="form1">
+			<br>
+			<h4 align="center" ><b>Upload your files:</b><br><br>
+				<input name="file" type="file" id="file" multiple></h4>
+			<input type="submit" name="Submit" value="Submit files"/>
+		</form>
+	</div>
+</div>
+<img src="images/pulse1.png" width="100%" alt="backg" >
 </body>
 </html>
+
+
