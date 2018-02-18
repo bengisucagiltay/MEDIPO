@@ -109,6 +109,7 @@ p{
 }
 
 .updatec{
+	margin-top: 0;
 	padding: 10px;
 	border-bottom: double black;
 }
