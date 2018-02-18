@@ -17,7 +17,7 @@
 
 <div class="topnav">
     <a href="welcome.jsp">Home</a>
-    <a href="guestupload.jsp">Upload</a>
+    <a href="upload.jsp">Upload</a>
     <a href="login.jsp">Login</a>
     <a href="about.jsp">About</a>
     <a href="contact.jsp">Contact</a>
@@ -61,30 +61,3 @@
 </body>
 </html>
 
-
-<!-- Commented old version of jsp
-<html>
-<head>
-<link href="welcomehtml.html" type="text/html" rel="html">
-
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>..::Welcome to Medipo::..</title>
-
-</head>
-<body>
-
-<h1> Welcome to Medipo</h1><br>
-<img alt="" src="https://d30y9cdsu7xlg0.cloudfront.net/png/137469-200.png"><br><br>
-
-<form action = "Login.jsp">
-<input type="submit" value = "Login"></form>
-
-<form action="Register.jsp">
-<input type="submit" value = "Sign up"></form>
-
-<form action="UploadGuest.jsp">
-<input type="submit" value = "Guest"></form>
-</body>
-</html>
-
--->

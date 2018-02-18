@@ -17,7 +17,7 @@
 
 <div class="topnav">
 	<a href="welcome.jsp">Home</a>
-	<a href="guestupload.jsp">Upload</a>
+	<a href="upload.jsp">Upload</a>
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
@@ -44,7 +44,7 @@
 				<div class="container">
 					<button type="submit">Login</button>
 					<button type="submit" formaction="register.jsp">Register</button><br>
-					<button type="submit" formaction="guestupload.jsp">Continue as a Guest</button>
+					<button type="submit" formaction="uploadGuest.jsp">Continue as a Guest</button>
 				</div>
 			</form>
 		</div>

@@ -17,7 +17,7 @@
 
 <div class="topnav">
 	<a href="welcome.jsp">Home</a>
-	<a href="guestupload.jsp">Upload</a>
+	<a href="upload.jsp">Upload</a>
 	<a href="login.jsp">Login</a>
 	<a href="about.jsp">About</a>
 	<a href="contact.jsp">Contact</a>
