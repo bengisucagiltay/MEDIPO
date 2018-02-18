@@ -6,6 +6,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="Medipo" />
         </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/lib/commons-fileupload-1.3.3.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/commons-io-2.6.jar" />
+        </element>
       </element>
       <element id="javaee-facet-resources" facet="Medipo/web/Web" />
     </root>

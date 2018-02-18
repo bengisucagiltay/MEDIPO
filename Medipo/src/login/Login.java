@@ -1,5 +1,7 @@
 package login;
 
+import utils.FileManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,15 +22,15 @@ import java.util.StringTokenizer;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
-    private File USER_INFO = new File( "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\resource" +
-            "\\server_data" +
-            "\\user_info.txt");
-    private File PASSWORDS = new File( "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\resource" +
-            "\\server_data" +
-            "\\passwords.txt");
-    private File EMAILS = new File("C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\resource" +
-            "\\server_data" +
-            "\\emails.txt");
+    private File USER_INFO = new File( FileManager.getResourcesDicrectory() +
+            "/server_data" +
+            "/user_info.txt");
+    private File PASSWORDS = new File( FileManager.getResourcesDicrectory() +
+            "/server_data" +
+            "/passwords.txt");
+    private File EMAILS = new File(FileManager.getResourcesDicrectory() +
+            "/server_data" +
+            "/emails.txt");
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -73,8 +75,9 @@ public class Login extends HttpServlet {
             if(checkPasswordMatch(pword, uid)){
                 System.out.println("Login Succesful");
                 HttpSession session = request.getSession();
-                session.setAttribute("fname", getUserName(uid));
-                //session.setAttribute("mail", mail);
+                String uname = getUserName(uid);
+                session.setAttribute("fname", uname);
+                session.setAttribute("mail", mail);
                 response.sendRedirect("welcome.jsp");
             }
             else{
@@ -98,7 +101,12 @@ public class Login extends HttpServlet {
     * */
 	private int checkUserExists(String mail){
         int uid = 0;
+
+
+
             try {
+                System.out.println("Working Directory = " +
+                        System.getProperty("user.dir"));
                 Scanner scanner = new Scanner(EMAILS);
                 while (scanner.hasNextLine()) {
                     uid++;

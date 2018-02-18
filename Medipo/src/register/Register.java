@@ -1,12 +1,13 @@
 package register;
 
+import utils.FileManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.Scanner;
 
@@ -16,17 +17,17 @@ import java.util.Scanner;
  */
 @WebServlet("/Register")
 public class Register extends HttpServlet {
-    private static final String USER_INFO = "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\resource" +
-            "\\server_data" +
-            "\\user_info.txt";
+    private static final String USER_INFO = FileManager.getResourcesDicrectory() +
+            "/server_data" +
+            "/user_info.txt";
 
-    private static final String PASSWORDS  = "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\resource" +
-            "\\server_data" +
-            "\\passwords.txt";
+    private static final String PASSWORDS  = FileManager.getResourcesDicrectory() +
+            "/server_data" +
+            "/passwords.txt";
 
-    private File EMAILS = new File("C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\resource" +
-            "\\server_data" +
-            "\\emails.txt");
+    private File EMAILS = new File(FileManager.getResourcesDicrectory() +
+            "/server_data" +
+            "/emails.txt");
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -68,7 +69,7 @@ public class Register extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
         }
-        else if(pword.length()< 8){
+        else if(pword.length()< 1){
             System.out.println("Password should be at least 8 characters");
             out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
             out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
@@ -83,6 +84,7 @@ public class Register extends HttpServlet {
         }
         else{
             writeUserInfo(fname, lname, mail, pword);
+            createUserHomeFile(mail);
             //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
             out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
             out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
@@ -96,6 +98,14 @@ public class Register extends HttpServlet {
             rd.include(request,response);
         }
 	}
+
+
+    private void createUserHomeFile(String mail) {
+        String filePath = FileManager.getResourcesDicrectory() + "/users/" + mail.replace('@', '-');
+        File f = new File(filePath);
+        f.mkdirs();
+        return;
+    }
 
 	/*
 	* private method checkIfExists

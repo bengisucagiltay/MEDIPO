@@ -2,26 +2,26 @@ package utils;
 
 public class MyTimer {
 
-    private long startTime = 0;
-    private long endTime   = 0;
+    private static long startTime = 0;
+    private static long endTime   = 0;
 
-    public void start(){
-        this.startTime = System.currentTimeMillis();
+    public static void start(){
+        startTime = System.currentTimeMillis();
     }
 
-    public void end() {
-        this.endTime   = System.currentTimeMillis();
+    public static void end() {
+        endTime   = System.currentTimeMillis();
     }
 
-    public long getStartTime() {
-        return this.startTime;
+    public static long getStartTime() {
+        return startTime;
     }
 
-    public long getEndTime() {
-        return this.endTime;
+    public static long getEndTime() {
+        return endTime;
     }
 
-    public long getTotalTime() {
-        return this.endTime - this.startTime;
+    public static long getTotalTime() {
+        return endTime - startTime;
     }
 }

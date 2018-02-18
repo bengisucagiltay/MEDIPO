@@ -1,6 +1,6 @@
 package test;
 
-import managers.ImageManager;
+import utils.ImageManager;
 import gui.TestFrame;
 import utils.MyTimer;
 
