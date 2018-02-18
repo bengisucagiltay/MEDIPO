@@ -101,13 +101,10 @@ public class Login extends HttpServlet {
     * */
 	private int checkUserExists(String mail){
         int uid = 0;
-
-
-
             try {
                 System.out.println("Working Directory = " +
                         System.getProperty("user.dir"));
-                Scanner scanner = new Scanner(EMAILS);
+                Scanner scanner = new Scanner(EMAILS,"UTF-8");
                 while (scanner.hasNextLine()) {
                     uid++;
                     if(mail.equals(scanner.nextLine())){
@@ -131,7 +128,7 @@ public class Login extends HttpServlet {
         int i;
         Scanner scanner;
         try {
-            scanner = new Scanner(PASSWORDS);
+            scanner = new Scanner(PASSWORDS,"UTF-8");
             for(i=1;i!=uid;i++) //go to the line
                 scanner.nextLine();
             if(i == uid){
@@ -154,7 +151,7 @@ public class Login extends HttpServlet {
         Scanner scanner;
         String uname = "";
         try {
-            scanner = new Scanner(USER_INFO);
+            scanner = new Scanner(USER_INFO,"UTF-8");
             for(i=1;i!=uid;i++) //go to the line
                 scanner.nextLine();
             if(i == uid){

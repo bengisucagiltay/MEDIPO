@@ -30,7 +30,7 @@ public class Logout extends HttpServlet {
 		out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
 		out.println("<script>");
 		out.println("$(document).ready(function(){");
-		out.println("swal ( 'Oops' ,  'A user with this e-mail already exists! Please try again..' ,  'error' )");
+		out.println("swal ( 'Success' ,  'Logout Successful!' ,  'success' )");
 		out.println("});");
 		out.println("</script>");
 		//response.sendRedirect("welcome.jsp");
