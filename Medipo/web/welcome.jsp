@@ -63,7 +63,9 @@
 		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
 
 	</div>
+
 <img src="images/pulse1.png" width="80%" alt="backg" >
+
 </div>
 </body>
 </html>
