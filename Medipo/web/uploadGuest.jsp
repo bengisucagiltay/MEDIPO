@@ -4,6 +4,7 @@
 <html lang="java">
 
 <head>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<link href="css/login.css" type="text/css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
 		  rel="stylesheet">
@@ -15,15 +16,14 @@
 <body>
 <h1 class="header">Medipo</h1>
 
-<div class="topnav">
-	<a href="welcome.jsp">Home</a>
-	<a href="upload.jsp">Upload</a>
-	<a href="login.jsp">Login</a>
-	<a href="about.jsp">About</a>
-	<a href="contact.jsp">Contact</a>
 
-	<b>Welcome, Guest</b>
+<div id="navbar1">
 </div>
+<script>
+    $(function () {
+        $("#navbar1").load("navigationbar.jsp");
+    });
+</script>
 
 <div class="row">
 	<div class="container">
