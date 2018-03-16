@@ -22,13 +22,13 @@ import java.util.StringTokenizer;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
-    private File USER_INFO = new File( FileManager.getResourcesDicrectory() +
+    private File USER_INFO = new File( FileManager.getResourcesDirectory() +
             "/server" +
             "/users.txt");
-    private File PASSWORDS = new File( FileManager.getResourcesDicrectory() +
+    private File PASSWORDS = new File( FileManager.getResourcesDirectory() +
             "/server" +
             "/passwords.txt");
-    private File EMAILS = new File(FileManager.getResourcesDicrectory() +
+    private File EMAILS = new File(FileManager.getResourcesDirectory() +
             "/server" +
             "/emails.txt");
 
@@ -78,6 +78,7 @@ public class Login extends HttpServlet {
                 String uname = getUserName(uid);
                 session.setAttribute("fname", uname);
                 session.setAttribute("mail", mail);
+                session.setAttribute("dirPath", mail.replace('@','-'));
                 response.sendRedirect("welcome.jsp");
             }
             else{

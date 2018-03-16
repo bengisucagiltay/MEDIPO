@@ -1,5 +1,6 @@
 package upload;
 
+import org.apache.commons.io.FileUtils;
 import utils.FileManager;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -23,37 +24,49 @@ import java.util.List;
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-		String userFolder = FileManager.getResourcesDicrectory() + "/users/" + ((String)request.getSession().getAttribute("mail")).replace('@','-');
-		if (!isMultipart) {
-		} else {
-			FileItemFactory factory = new DiskFileItemFactory();
-			ServletFileUpload upload = new ServletFileUpload(factory);
-			List items = null;
-			try {
-				items = upload.parseRequest(request);
-			} catch (FileUploadException e) {
-				e.printStackTrace();
-			}
-			Iterator itr = items.iterator();
-			while (itr.hasNext()) {
-				FileItem item = (FileItem) itr.next();
-				if (item.isFormField()) {
-				} else {
-					try {
-						String itemName = item.getName();
-						File savedFile = new File(userFolder + System.getProperty("file.separator") + itemName);
-						item.write(savedFile);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        String userFolder = FileManager.getResourcesDirectory() + "/users/" + ((String) request.getSession().getAttribute("dirPath"));
+
+        FileUtils.cleanDirectory(new File(userFolder));
+
+
+        if (!isMultipart) {
+        } else {
+            FileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            List items = null;
+            try {
+                items = upload.parseRequest(request);
+            } catch (FileUploadException e) {
+                e.printStackTrace();
+            }
+            Iterator itr = items.iterator();
+            int count = 1;
+            while (itr.hasNext()) {
+                FileItem item = (FileItem) itr.next();
+                if (item.isFormField()) {
+                } else {
+                    try {
+                        String itemName = item.getName();
+                        File savedFile = new File(userFolder + System.getProperty("file.separator") + count + itemName.substring(itemName.length() - 4));
+                        item.write(savedFile);
+                        count++;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        //FileManager.zipDirectory((String) request.getAttribute("dirPath"), (String) request.getAttribute("fname"));
+
+        response.sendRedirect("welcome.jsp");
+
+    }
 }
