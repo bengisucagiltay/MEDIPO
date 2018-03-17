@@ -25,10 +25,15 @@
     });
 </script>
 
+	<%
+		if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest")
+			session.setAttribute("fname", "Guest");
+	%>
+
 <div class="row">
 	<div class="container">
 
-		<form action="Upload" method="post" enctype="multipart/form-data" name="form1" id="form1">
+		<form action="UploadGuest" method="post" enctype="multipart/form-data" name="form1" id="form1">
 			<br>
 			<h4 align="center" ><b>Upload your files:</b><br><br>
 				<input name="file" type="file" id="file" multiple></h4>

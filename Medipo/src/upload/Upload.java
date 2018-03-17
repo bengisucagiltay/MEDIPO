@@ -24,6 +24,9 @@ import java.util.List;
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
 
+    private static final String USERS  = FileManager.getResourcesDirectory() +
+            "/users/";
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
@@ -31,7 +34,7 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        String userFolder = FileManager.getResourcesDirectory() + "/users/" + ((String) request.getSession().getAttribute("dirPath"));
+        String userFolder = USERS + ((String) request.getSession().getAttribute("dirPath"));
 
         FileUtils.cleanDirectory(new File(userFolder));
 
@@ -66,7 +69,7 @@ public class Upload extends HttpServlet {
 
         //FileManager.zipDirectory((String) request.getAttribute("dirPath"), (String) request.getAttribute("fname"));
 
-        response.sendRedirect("welcome.jsp");
+        response.sendRedirect("slider.jsp");
 
     }
 }

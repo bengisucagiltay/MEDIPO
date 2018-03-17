@@ -7,12 +7,18 @@ import java.util.zip.ZipOutputStream;
 public class FileManager {
 
     private static String[] rootCandidates =
-            {"C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
-                    "apache-tomcat-9.0.5/webapps/Medipo_war", "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded"};
+            {
+                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
+                    "apache-tomcat-9.0.5/webapps/Medipo_war",
+                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded",
+            };
+
     private static String[] resourcesCandidates =
-            {"C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded\\resources",
+            {
+                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded\\resources",
                     "apache-tomcat-9.0.5/webapps/Medipo_war/resources",
-                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded\\resources"};
+                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded\\resources",
+            };
 
     public static String getResourcesDirectory() {
         for (String path : resourcesCandidates) {

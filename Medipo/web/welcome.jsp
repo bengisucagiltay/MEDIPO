@@ -18,19 +18,32 @@
 
 <div id="navbar1">
 </div>
-<script>
-	$(function () {
-		$("#navbar1").load("navigationbar.jsp");
-    });
-</script>
+	<script>
+		$(function () {
+			$("#navbar1").load("navigationbar.jsp");
+		});
+	</script>
 
 <div class="row">
 	<div class="centerclmn">
-		<a class= "gubutton" onclick="document.getElementById('id01').style.display='block'" style="width:auto" class="gubutton">Get Started</a>
-		<div id="id01" class="modal">
 
+		<%
+			if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
+				session.setAttribute("fname", "Guest");
+		%>
+				<a class= "gubutton" onclick="document.getElementById('Guest').style.display='block'" style="width:auto" class="gubutton">
+					<%out.println("Get Started");%>
+				</a>
+		<%} else {%>
+				<a class= "gubutton" onclick="document.getElementById('User').style.display='block'" style="width:auto" class="gubutton">
+					<%out.println("View / Update Your Images"); //to do: logout based on guest or registered%>
+				</a>
+		<%}%>
+
+
+		<div id="Guest" class="modal">
 			<form class="modal-content animate" action="login.jsp">
-                <span onclick="document.getElementById('id01').style.display='none'"
+                <span onclick="document.getElementById('Guest').style.display='none'"
                       class="close" title="Close Modal" >&times</span>
 				<div class="container">
 					<button type="submit">Login</button>
@@ -40,16 +53,29 @@
 			</form>
 		</div>
 
+		<div id="User" class="modal">
+			<form class="modal-content animate" action="upload.jsp">
+                <span onclick="document.getElementById('User').style.display='none'"
+					  class="close" title="Close Modal" >&times</span>
+				<div class="container">
+					<button type="submit">Upload Images</button>
+					<button type="submit" formaction="slider.jsp">View Uploaded Images</button>
+					<button type="submit" formaction="sliderOld.jsp">View Slider Old</button>
+				</div>
+			</form>
+		</div>
+
 	</div>
 	<div class="rightclmn">
-		<h2 align="center">Server ver.1</h2>
-		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
+		<h4 class="updatec"> </h4>
+		<h2 align="center">Latest News</h2>
+		<h4 class="updatec">These are the latest news</h4>
 
 		<h2 align="center">Update 1.2</h2>
-		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
+		<h4 class="updatec">These are the update news</h4>
 
 		<h2 align="center" >Maintenance on 21.12.22</h2>
-		<h4 class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</h4>
+		<h4 class="updatec">These are the maintenance news</h4>
 
 	</div>
 
@@ -58,31 +84,3 @@
 </div>
 </body>
 </html>
-
-
-<!-- Commented old version of jsp
-<html>
-<head>
-<link href="welcomehtml.html" type="text/html" rel="html">
-
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>..::Welcome to Medipo::..</title>
-
-</head>
-<body>
-
-	<h1> Welcome to Medipo</h1><br>
-	<img alt="" src="https://d30y9cdsu7xlg0.cloudfront.net/png/137469-200.png"><br><br>
-
-	<form action = "Login.jsp">
-		<input type="submit" value = "Login"></form>
-
-	<form action="Register.jsp">
-		<input type="submit" value = "Sign up"></form>
-
-	<form action="UploadGuest.jsp">
-		<input type="submit" value = "Guest"></form>
-</body>
-</html>
-
--->
