@@ -1,4 +1,9 @@
+<h2 class="header">Medipo</h2>
+<h1>Medical Image Processing Online</h1><br>
+
 <div class="topnav">
+
+
     <a href="welcome.jsp">Home</a>
     <a href="
 			<%
@@ -13,8 +18,8 @@
 
     Upload
     </a>
-    <a href="login.jsp">Login</a>
-    <a href="about.jsp">About</a>
+    <a href="slider.jsp">Image History</a>
+    <a href="about.jsp">About Us</a>
     <a href="contact.jsp">Contact</a>
 
     <b>Welcome,
@@ -28,5 +33,12 @@
         %>
     </b>
 
-    <a style="float: right" href="/Logout" ><u>Logout</u></a>
+    <%
+        if(session.getAttribute("fname") != null && session.getAttribute("fname") != "Guest"){%>
+            <a style="float: right" href="/Logout" ><u>Logout</u></a>
+    <%}else if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){%>
+            <a style="float: right" href="login.jsp" ><u>Login</u></a>
+
+    <%}%>
+
 </div>

@@ -1,18 +1,45 @@
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
 
-<%
-    int slideCount = 10;
+    <%
+        if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest")
+            session.setAttribute("dirPath", "Guest");
 
-    File imagesDir = new File(FileManager.getResourcesDirectory() + "/users/" + session.getAttribute("dirPath"));
-    File[] images = imagesDir.listFiles();
-    String extension = images[0].getName().substring(images[0].getName().length() - 4);
-%>
+        int slideCount = 10;
+        File imagesDir = new File(FileManager.getResourcesDirectory() + "/users/" + session.getAttribute("dirPath"));
+        File[] images = imagesDir.listFiles();
+
+        if(images.length == 0) {
+            System.out.println("No image");
+            //JspWriter jout = pageContext.getOut();
+            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+            out.println("<script>");
+            out.println("$(document).ready(function(){");
+            out.println("swal ( 'Oops' ,  'There is no image history for this user..' ,  'error' )");
+            out.println("});");
+            out.println("</script>");
+
+            if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest") {
+                RequestDispatcher rd = request.getRequestDispatcher("uploadGuest.jsp");
+                rd.include(request, response);
+            }
+            else {
+                RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
+                rd.include(request, response);
+            }
+        }
+        else{
+            String extension = images[0].getName().substring(images[0].getName().length() - 4);
+
+    %>
+
 
 <html>
 <title>Slider</title>
 
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         * {box-sizing: border-box;}
@@ -206,3 +233,5 @@
 
 </body>
 </html>
+
+<%}%>

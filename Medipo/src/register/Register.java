@@ -47,54 +47,26 @@ public class Register extends HttpServlet {
 
         if(checkUserExists(mail) == true){
             System.out.println("A user with this e-mail already exists!");
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'A user with this e-mail already exists! Please try again..' ,  'error' )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("register.jsp");
+            alerts(out, "Oops",  "A user with this e-mail already exists! Please try again..", "error" );
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request,response);
         }
         else if(mail.equals("") || pword.equals("") || fname.equals("") || lname.equals("")){
             System.out.println("Entry cannot be empty");
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'Entry cannot be empty! Please try again..' ,  'error' )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("register.jsp");
+            alerts(out, "Oops",  "Entry cannot be empty! Please try again..", "error" );
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
         }
         else if(pword.length()< 1){
             System.out.println("Password should be at least 8 characters");
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'Password should have at least 8 characters! Please try again..' ,  'error'" +" )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("register.jsp");
+            alerts(out, "Oops",  "Password should have at least 8 characters! Please try again..", "error" );
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
         }
         //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
         else if(validateMail(mail) == false){
             System.out.println("Incorrect mail form (NAME@EMAIL.COM)");
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'Incorrect mail form (NAME@EMAIL.COM)' ,  'error'" +" )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("register.jsp");
+            alerts(out, "Oops",  "Incorrect mail form (NAME@EMAIL.COM)", "error" );
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
 
@@ -102,14 +74,7 @@ public class Register extends HttpServlet {
         else{
             writeUserInfo(fname, lname, mail, pword);
             createUserHomeFile(mail);
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Success' ,  'Register Complete! Please log in..' ,  'success' )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("login.jsp");
+            alerts(out, "Success",  "Register Complete! Please log in..", "success" );
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request,response);
         }
@@ -215,5 +180,17 @@ public class Register extends HttpServlet {
             }
         }
         System.out.println("Registration complete");
+    }
+    private void alerts(PrintWriter out, String alert,  String message, String type ){
+
+        out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+        out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+        out.println("<script>");
+        out.println("$(document).ready(function(){");
+        out.println("swal ( '"+alert+"' ,  '"+message+"' ,  '"+type+"' )");
+        out.println("});");
+        out.println("</script>");
+        //response.sendRedirect("register.jsp");
+
     }
 }

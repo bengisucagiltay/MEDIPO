@@ -14,7 +14,6 @@
 </head>
 
 <body>
-<h1 class="header">Medipo</h1>
 
 <div id="navbar1">
 </div>
@@ -25,13 +24,17 @@
 </script>
 
 <div class="row">
-	<div class="container">
+	<div class="container" >
 
 		<form action="Upload" method="post" enctype="multipart/form-data" name="form1" id="form1">
 			<br>
-			<h4 align="center" ><b>Upload your files:</b><br><br>
-			<input name="file" type="file" id="file" multiple></h4>
+			<h3 align="center" ><b>Upload your files:</b><br><br>
+			<input name="file" type="file" id="file" multiple></h3><br>
 			<input type="submit" name="Submit" value="Submit files"/>
+		</form>
+
+		<form action="slider.jsp" method="post" >
+			<input type="submit" name="Submit" value="Image History"/>
 		</form>
 	</div>
 </div>

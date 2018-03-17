@@ -14,7 +14,6 @@
 </head>
 
 <body>
-<h1 class="header">Medipo</h1>
 
 <div id="navbar1">
 </div>
@@ -24,7 +23,7 @@
     });
 </script>
 
-<div class="container" style="top:30%">
+<div class="container" style="top:50%">
     <h2 style="font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 30px;

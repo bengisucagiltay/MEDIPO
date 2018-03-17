@@ -14,7 +14,6 @@
 </head>
 
 <body>
-<h1 class="header">Medipo</h1>
 
 <div id="navbar1">
 </div>

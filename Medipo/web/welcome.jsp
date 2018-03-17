@@ -14,7 +14,6 @@
 </head>
 
 <body>
-<h1 class="header">Medipo</h1>
 
 <div id="navbar1">
 </div>
@@ -36,7 +35,7 @@
 				</a>
 		<%} else {%>
 				<a class= "gubutton" onclick="document.getElementById('User').style.display='block'" style="width:auto" class="gubutton">
-					<%out.println("View / Update Your Images"); //to do: logout based on guest or registered%>
+					<%out.println("View Images");%>
 				</a>
 		<%}%>
 
@@ -54,13 +53,12 @@
 		</div>
 
 		<div id="User" class="modal">
-			<form class="modal-content animate" action="upload.jsp">
+			<form class="modal-content animate">
                 <span onclick="document.getElementById('User').style.display='none'"
 					  class="close" title="Close Modal" >&times</span>
 				<div class="container">
-					<button type="submit">Upload Images</button>
-					<button type="submit" formaction="slider.jsp">View Uploaded Images</button>
-					<button type="submit" formaction="sliderOld.jsp">View Slider Old</button>
+					<button type="submit" formaction="upload.jsp">Upload Images</button>
+					<button type="submit" formaction="slider.jsp">View Image History</button>
 				</div>
 			</form>
 		</div>
@@ -68,13 +66,13 @@
 	</div>
 	<div class="rightclmn">
 		<h4 class="updatec"> </h4>
-		<h2 align="center">Latest News</h2>
+		<h3 align="center">Latest News</h3>
 		<h4 class="updatec">These are the latest news</h4>
 
-		<h2 align="center">Update 1.2</h2>
+		<h3 align="center">Update 1.2</h3>
 		<h4 class="updatec">These are the update news</h4>
 
-		<h2 align="center" >Maintenance on 21.12.22</h2>
+		<h3 align="center" >Maintenance on 21.12.22</h3>
 		<h4 class="updatec">These are the maintenance news</h4>
 
 	</div>

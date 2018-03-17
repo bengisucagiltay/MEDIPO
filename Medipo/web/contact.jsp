@@ -14,7 +14,6 @@
 </head>
 
 <body>
-<h1 class="header">Medipo</h1>
 
 <div id="navbar1">
 </div>
@@ -24,7 +23,7 @@
     });
 </script>
 
-<div class="container" style="top:30%">
+<div class="container" style="top:40%">
     <h2 style="font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 30px;
@@ -36,7 +35,7 @@
     font-size: 14px;">Please use the Contact Form below</h4>
 </div>
 
-<div class="container">
+<div class="container" style="top:60%">
     <form action="Login">
         <div class="row">
             <div class="col-25">

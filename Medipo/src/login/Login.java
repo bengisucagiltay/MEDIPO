@@ -45,27 +45,13 @@ public class Login extends HttpServlet {
 
         if(checkUserExists(mail) == -1){
             System.out.println("This user does not exist");
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'This user does not exist! Please try again..' ,  'error' )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("login.jsp");
+            alerts(out, "Oops",  "This user does not exist! Please try again..", "error" );
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request,response);
         }
         else if (checkUserExists(mail) == -2){
             System.out.println("Your entry cannot be empty");
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'Your entry cannot be empty! Please try again..' ,  'error' )");
-            out.println("});");
-            out.println("</script>");
-            //response.sendRedirect("login.jsp");
+            alerts(out, "Oops",  "Your entry cannot be empty! Please try again..", "error" );
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request,response);
         }
@@ -83,14 +69,7 @@ public class Login extends HttpServlet {
             }
             else{
                 System.out.println("Login Unsuccesful");
-                out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-                out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-                out.println("<script>");
-                out.println("$(document).ready(function(){");
-                out.println("swal ( 'Oops' ,  'Your password is incorrect! Please try again..' ,  'error' )");
-                out.println("});");
-                out.println("</script>");
-                //response.sendRedirect("login.jsp");
+                alerts(out, "Oops",  "Your password is incorrect! Please try again..", "error" );
                 RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
                 rd.include(request,response);
             }
@@ -164,6 +143,18 @@ public class Login extends HttpServlet {
             e.printStackTrace();
         }
         return uname;
+    }
+    private void alerts(PrintWriter out, String alert,  String message, String type ){
+
+        out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+        out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+        out.println("<script>");
+        out.println("$(document).ready(function(){");
+        out.println("swal ( '"+alert+"' ,  '"+message+"' ,  '"+type+"' )");
+        out.println("});");
+        out.println("</script>");
+        //response.sendRedirect("register.jsp");
+
     }
 }
 

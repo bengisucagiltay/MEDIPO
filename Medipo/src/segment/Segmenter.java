@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class Segmenter {
 
+
     private int threshold;
 
     public void calculateThreshold(EditableImage image){
