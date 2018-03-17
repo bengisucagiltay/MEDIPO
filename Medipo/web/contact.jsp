@@ -5,7 +5,7 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link href="css/welcome.css" type="text/css" rel="stylesheet">
+    <link href="css/login.css" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
           rel="stylesheet">
     <title>..::Welcome to Medipo::..</title>
@@ -24,43 +24,75 @@
     });
 </script>
 
-<div class="centerclmn">
+<div class="container" style="top:30%">
+    <h2 style="font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;">Contact Us</h2>
+    <h4> </h4>
+    <h4> </h4>
+    <h4 style=" text-align:center;font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;">Please use the Contact Form below</h4>
+</div>
 
-        <h2>Contact Us</h2>
-
-    <div class="container">
-        <form action="#">
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" name="contactname" placeholder="Your full name...">
-
-            <label for="cmail">Your e-mail:</label>
-            <input type="text" id="cmail" name="contactmail" placeholder="Your e-mail...">
-
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subjectofmsg" placeholder="Subject of your message...">
-
-
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="msg" placeholder="..." style="height:200px"></textarea>
-
+<div class="container">
+    <form action="Login">
+        <div class="row">
+            <div class="col-25">
+                <label for="cname"><h2 style="font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;">Your full name:</h2></label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="cname" name="conname" placeholder="Your name...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="cmail"><h2 style="font-family: 'Open Sans', sans-serif;
+                    text-align: center;
+                    font-size: 14px;
+                    font-weight: 600;">Your e-mail:</h2></label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="cmail" name="conmail" placeholder="Your mail address...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="subject"><h2 style="font-family: 'Open Sans', sans-serif;
+                    text-align: center;
+                    font-size: 14px;
+                    font-weight: 600;">Subject:</h2></label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="subject" name="sbjct" placeholder="Subject...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="msg"><h2 style="font-family: 'Open Sans', sans-serif;
+                    text-align: center;
+                    font-size: 14px;
+                    font-weight: 600;">Your Message:</h2></label>
+            </div>
+            <div class="col-75">
+                <input type="textarea" id="msg" name="mssg" placeholder="Write your message here..." style=" padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;height:200px; width:100%">
+            </div>
+        </div>
+        <div class="row">
             <input type="submit" value="Submit">
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
-    <div class="rightclmn">
-        <h2>Server ver.1</h2>
-        <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
 
-        <h2>Update 1.2</h2>
-        <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
-
-        <h2 class="updatc" >Maintenance on 21.12.22</h2><br>
-        <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
-
-    </div>
-
-    <img src="images/pulse1.png" alt="backg" width="80%">
-</div>
+    <img src="images/pulse1.png" alt="backg" width="100%">
 </body>
 </html>
 

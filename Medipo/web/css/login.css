@@ -6,7 +6,7 @@ body{
 h4{
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 13px;
 }
 
 
@@ -19,8 +19,9 @@ h1{
 
 h2{
     margin:0;
-    font-family: 'Open Sans', sans-serif bold;
-    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -78,7 +79,7 @@ p{
     color: aliceblue;
 }
 
-input[type=text], input[type=password], select, textarea{
+input[type=text],input[type=textarea], input[type=password], select, textarea{
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -108,19 +109,28 @@ input[type=submit]:hover, input[type=button]:hover{
 }
 
 .container{
-    width: 40%;
-    left: 32%;
-    top: 50%;
-    position: absolute;
-    border-radius: 5px;
-    background-color: #cdeffe;
-    padding: 20px;
-}
+     width: 40%;
+     left: 32%;
+     top: 50%;
+     position: absolute;
+     border-radius: 5px;
+     background-color: #cdeffe;
+     padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+ }
+
 
 .col-25{
     float: left;
     width: 25%;
     margin-top: 6px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .col-75{

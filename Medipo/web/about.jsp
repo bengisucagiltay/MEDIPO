@@ -26,7 +26,13 @@
 
 <div class="row">
     <div class="centerclmn" id="centd" align="center">
-        <div class="modal-content2">
+        <div class="modal-content2" style="padding: 20px;
+	text-align: center;
+	background-color: #d2f1ff;
+	margin: 5% auto 15% auto;
+	border: 1px solid #d2f1ff;
+	border-radius: 5px;
+	width: fit-content;">
             <br><h3>CS491/492</h3><br>
             <h2>Senior Design Project<br>-Bilkent University-</h2><br><br>
             <h3>Medical Image Processing Online<br>(Medipo)</h3><br><br>
