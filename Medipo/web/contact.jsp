@@ -24,26 +24,29 @@
     });
 </script>
 
-<div class="row">
-    <div class="centerclmn" id="centd" align="center">
-        <div class="modal-content2">
-            <br>
-            <h3>Medical Image Processing Online<br>(Medipo)</h3><br>
-            <h3><u>Contact us</u></h3><br>
+<div class="centerclmn">
 
-            <h2>Mert Ege Can</h2>
-            <h4>m.egecan@gmail.com</h4><br>
+        <h2>Contact Us</h2>
 
-            <h2>Bengisu Çağıltay</h2>
-            <h4>bengisucagiltay@gmail.com</h4><br>
+    <div class="container">
+        <form action="#">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="contactname" placeholder="Your full name...">
 
-            <h2>İmge Gökalp</h2>
-            <h4>imge.gokalp@gmail.com</h4><br>
+            <label for="cmail">Your e-mail:</label>
+            <input type="text" id="cmail" name="contactmail" placeholder="Your e-mail...">
 
-            <h2>Caner Sezginer</h2>
-            <h4>csezginer66@gmail.com</h4><br>
-        </div>
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subjectofmsg" placeholder="Subject of your message...">
+
+
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="msg" placeholder="..." style="height:200px"></textarea>
+
+            <input type="submit" value="Submit">
+        </form>
     </div>
+</div>
     <div class="rightclmn">
         <h2>Server ver.1</h2>
         <p class="updatec">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet ex ante. In at rhoncus ex. Nunc eu magna at turpis dapibus molestie. Sed ut mattis augue.</p>
