@@ -15,7 +15,7 @@ public class TestCV {
         try {
             int kernelSize = 9;
             //System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-            System.load("C:\\Users\\Bengisu\\Downloads\\opencv\\build\\java\\x64\\opencv_java340.dll");
+            System.load("C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\Medipo\\lib\\opencv_java340.dll");
 
 
             //TODO:: !!!! IMPLEMENT WITH ROI !!!!
