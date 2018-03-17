@@ -1,5 +1,7 @@
+<%@ page import="java.io.File" %>
+<%@ page import="utils.FileManager" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+         pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 
@@ -29,6 +31,10 @@
 		<%
 			if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
 				session.setAttribute("fname", "Guest");
+                File guestFolder = new File(FileManager.getResourcesDirectory() +
+                        "/users" +
+                        "/Guest");
+                guestFolder.mkdirs();
 		%>
 				<a class= "gubutton" onclick="document.getElementById('Guest').style.display='block'" style="width:auto" class="gubutton">
 					<%out.println("Get Started");%>
