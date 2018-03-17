@@ -2,11 +2,13 @@
     <a href="welcome.jsp">Home</a>
     <a href="
 			<%
-				if(session.getAttribute("fname")== null)
-    out.println("uploadGuest.jsp");
-    else
-    out.println("upload.jsp");
-    %>
+				if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
+				    session.setAttribute("fname", "Guest");
+                    out.println("uploadGuest.jsp");
+                }
+                 else
+                    out.println("upload.jsp");
+            %>
     ">
 
     Upload
@@ -17,8 +19,9 @@
 
     <b>Welcome,
         <%
-        if(session.getAttribute("fname")== null){	//user not registered (guest)
-        out.println(" Guest");
+        if(session.getAttribute("fname") == null){	//user not registered (guest)
+            session.setAttribute("fname", "Guest");
+            out.println(session.getAttribute("fname"));
         }
         else
         out.println(session.getAttribute("fname")); //to do: logout based on guest or registered
