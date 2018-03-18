@@ -36,7 +36,6 @@ public class UploadGuest extends HttpServlet {
 
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
-		//TODO:: buraya bir GUEST isimli dosya aç
 		File guestFolder = new File(GUEST);
 		guestFolder.mkdirs();
 

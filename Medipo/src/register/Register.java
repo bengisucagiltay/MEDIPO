@@ -18,15 +18,15 @@ import java.util.Scanner;
  */
 @WebServlet("/Register")
 public class Register extends HttpServlet {
-    private static final String USER_INFO = FileManager.getResourcesDirectory() +
+    private static final String USER_INFO = FileManager.getWebResourcesDirectory() +
             "/server" +
             "/users.txt";
 
-    private static final String PASSWORDS  = FileManager.getResourcesDirectory() +
+    private static final String PASSWORDS  = FileManager.getWebResourcesDirectory() +
             "/server" +
             "/passwords.txt";
 
-    private File EMAILS = new File(FileManager.getResourcesDirectory() +
+    private File EMAILS = new File(FileManager.getWebResourcesDirectory() +
             "/server" +
             "/emails.txt");
 	/**
@@ -48,12 +48,14 @@ public class Register extends HttpServlet {
         if(checkUserExists(mail) == true){
             System.out.println("A user with this e-mail already exists!");
             alerts(out, "Oops",  "A user with this e-mail already exists! Please try again..", "error" );
+            //response.sendRedirect("register.jsp");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request,response);
         }
         else if(mail.equals("") || pword.equals("") || fname.equals("") || lname.equals("")){
             System.out.println("Entry cannot be empty");
             alerts(out, "Oops",  "Entry cannot be empty! Please try again..", "error" );
+            //response.sendRedirect("register.jsp");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
         }
@@ -90,6 +92,7 @@ public class Register extends HttpServlet {
 
     private void createUserHomeFile(String mail) {
         String filePath = FileManager.getResourcesDirectory() + "/users/" + mail.replace('@', '-');
+        //String filePath = FileManager.getResourcesDirectory() + "/users/" + mail.replace('@', '-');
         File f = new File(filePath);
         f.mkdirs();
         return;
