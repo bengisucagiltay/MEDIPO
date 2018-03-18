@@ -1,7 +1,6 @@
 package upload;
 
 import org.apache.commons.io.FileUtils;
-import utils.FileManager;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -18,15 +17,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import static utils.FileManager.getGuestDirectoryPath;
+
 /**
  * Servlet implementation class UploadGuest
  */
 @WebServlet("/UploadGuest")
 public class UploadGuest extends HttpServlet {
-
-	private static final String GUEST  = FileManager.getResourcesDirectoryPath() +
-			"/users" +
-			"/Guest";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -36,7 +33,7 @@ public class UploadGuest extends HttpServlet {
 
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
-		File guestFolder = new File(GUEST);
+		File guestFolder = new File(getGuestDirectoryPath());
 		guestFolder.mkdirs();
 
 		FileUtils.cleanDirectory(guestFolder);
@@ -60,7 +57,7 @@ public class UploadGuest extends HttpServlet {
 				} else {
 					try {
 						String itemName = item.getName();
-						File savedFile = new File(GUEST + System.getProperty("file.separator") + count + itemName.substring(itemName.length() - 4));
+						File savedFile = new File(getGuestDirectoryPath() + System.getProperty("file.separator") + count + itemName.substring(itemName.length() - 4));
 						item.write(savedFile);
 						count++;
 					} catch (Exception e) {

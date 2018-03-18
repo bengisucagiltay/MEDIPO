@@ -1,7 +1,6 @@
 package register;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import utils.FileManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,17 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Scanner;
 
+import utils.FileManager;
+import static utils.FileManager.*;
+
 
 /**
  * Servlet implementation class Register
  */
 @WebServlet("/Register")
 public class Register extends HttpServlet {
-    private static final String USER_INFO = FileManager.getResourcesDirectoryPath();
+    private static final String USER_INFO = FileManager.getUsersFilePath();
 
-    private static final String PASSWORDS = FileManager.getResourcesDirectoryPath();
+    private static final String PASSWORDS = FileManager.getPasswordsFilePath();
 
-    private File EMAILS = new File(FileManager.getResourcesDirectoryPath());
+    private File EMAILS = new File(FileManager.getEmailsFilePath());
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +37,8 @@ public class Register extends HttpServlet {
         String pword = request.getParameter("password");
 
         PrintWriter out = response.getWriter();
-        checkFileExists();
+        //TODO::
+        //checkFileExists();
 
         //HttpSession session = request.getSession();
         //session.setAttribute("fname", fname);   //TODO: use this session attribute for WELCOME $fname message
@@ -67,7 +70,7 @@ public class Register extends HttpServlet {
 
         } else {
             writeUserInfo(fname, lname, mail, pword);
-            createUserHomeFile(mail);
+            getUserDirectoryPath(mail);
             alerts(out, "Success", "Register Complete! Please log in..", "success");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request, response);
@@ -83,14 +86,15 @@ public class Register extends HttpServlet {
             return false;
     }
 
-    private void createUserHomeFile(String mail) {
+    /*private void createUserHomeFile(String mail) {
         String filePath = FileManager.getResourcesDirectoryPath() + "/users/" + mail.replace('@', '-');
         File f = new File(filePath);
         f.mkdirs();
         return;
-    }
+    }*/
 
     private void checkFileExists() {
+
 
         File users = new File(USER_INFO);
         File passwords = new File(PASSWORDS);
