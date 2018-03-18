@@ -23,52 +23,75 @@
     });
 </script>
 
-<div class="container" style="top:50%">
-    <h2 style="font-family: 'Open Sans', sans-serif;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600;">About Us</h2>
-    <h4> </h4>
-    <h4> </h4>
-    <br><h3 style="text-align: center;font-family: 'Open Sans', sans-serif;font-size: 30px;font-weight: 600;">
-    CS491/492</h3><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">Senior Design Project<br>-Bilkent University-</h2><br><br>
-    <h3 style="font-family: 'Open Sans', sans-serif;
-    font-size: 30px;
-    font-weight: 600;
-text-align: center;">Medical Image Processing Online<br>(Medipo)</h3><br><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">Mert Ege Can</h2><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 600;">Bengisu Çağıltay</h2><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">İmge Gökalp</h2><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">Caner Sezginer</h2><br><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">Supervisor: Çiğdem Gündüz Demir</h2><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">Jury Members: Selim Aksoy, Özgür Ulusoy</h2><br>
-    <h2 style="font-family: 'Open Sans', sans-serif;
-	text-align: center;
-	font-size: 20px;
-	font-weight: 600;">Innovation Expert: Deniz Katırcıoğlu-Öztürk</h2><br>
+<div class="container" style="top:43%;">
+   <h3> About Us</h3>
 </div>
-<img src="images/pulse1.png" alt="backg" width="100%">
+
+<div class="container" style="top:55%; left:10%; width:80%; background: none;">
+<div class="card">
+    <br>
+    <img src="images/img_avatar.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+    <div class="avcontainer">
+        <h4>Mert Ege Can</h4>
+    </div>
+</div>
+<div class="card">
+    <br>
+    <img src="images/img_avatar2.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+    <div class="avcontainer">
+        <h4>Bengisu Çağıltay</h4>
+    </div>
+</div>
+<div class="card">
+    <br>
+    <img src="images/img_avatar2.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+    <div class="avcontainer">
+        <h4>İmge Gökalp</h4>
+    </div>
+</div>
+<div class="card">
+    <br>
+    <img src="images/img_avatar.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+    <div class="avcontainer">
+        <h4>Caner Sezginer</h4>
+    </div>
+</div>
+</div>
+<div class="container" style="top:90%; left:10%; width:80%; background: none;">
+    <div class="card">
+        <br>
+        <img src="images/img_avatar2.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+        <div class="avcontainer">
+            <h4>Çiğdem Gündüz Demir</h4>
+            <h2>Supervisor</h2><br>
+        </div>
+    </div>
+    <div class="card">
+        <br>
+        <img src="images/img_avatar.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+        <div class="avcontainer">
+            <h4>Selim Aksoy</h4>
+            <h2>Jury Member</h2><br>
+        </div>
+    </div>
+    <div class="card">
+        <br>
+        <img src="images/img_avatar.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+        <div class="avcontainer">
+            <h4>Özgür Ulusoy</h4>
+            <h2>Jury Member</h2><br>
+        </div>
+    </div>
+    <div class="card">
+        <br>
+        <img src="images/img_avatar2.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
+        <div class="avcontainer">
+            <h4>Deniz Katırcıoğlu Öztürk</h4>
+            <h2>Innovation Expert</h2><br>
+        </div>
+    </div>
+</div>
+
+<img src="images/pulse1.png" alt="backg" width="100%" >
 </body>
 </html>
