@@ -1,5 +1,13 @@
-<div class="header">
-
+<div class="header" style="background-size: 70% auto;">
+    <h2 style="
+    position: center;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 80px;
+    text-align: left;
+    padding: 0 20px 0 20px;">
+        Medipo
+    </h2>
+    <h1>Medical Image Processing Online<br></h1>
 </div>
 
 <div class="topnav">
