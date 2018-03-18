@@ -24,7 +24,7 @@ import java.util.List;
 @WebServlet("/UploadGuest")
 public class UploadGuest extends HttpServlet {
 
-	private static final String GUEST  = FileManager.getResourcesDirectory() +
+	private static final String GUEST  = FileManager.getResourcesDirectoryPath() +
 			"/users" +
 			"/Guest";
 

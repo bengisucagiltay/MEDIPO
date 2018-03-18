@@ -1,6 +1,11 @@
 package utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -9,115 +14,156 @@ public class FileManager {
     //TODO: USERS WEB-INF dışında olmalı, Server folderı WEB-INF içinde olmalı.
     private static String[] rootCandidates =
             {
-                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
-                    "apache-tomcat-9.0.5/webapps/Medipo_war",
-                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded",
+                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded\\",
+                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded\\",
+                    "apache-tomcat-9.0.5/webapps/Medipo_war/"
             };
 
-         private static String[] webRootCandidates =
-            {
-                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded\\WEB-INF",
-                    "apache-tomcat-9.0.5/webapps/Medipo_war/WEB-INF",
-                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded\\WEB-INF",
-            };
-    private static String[] resourcesCandidates =
-            {
-                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded\\resources",
-                    "apache-tomcat-9.0.5/webapps/Medipo_war/resources",
-                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded\\resources",
-            };
+    public static String getUserDirectoryPath(String userEmail){
+        String path = getUsersDirectoryPath() + "/" + userEmail.replace('@', '-');
+        File f = new File(path);
 
-         private static String[] webResourcesCandidates =
-            {
-                    "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded\\WEB-INF\\WebResources",
-                    "apache-tomcat-9.0.5/webapps/Medipo_war/WEB-INF/WebResources",
-                    "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded\\WEB-INF" +
-                            "\\WebResources",
-            };
-
-    public static String getResourcesDirectory() {
-        for (String path : resourcesCandidates) {
-            if (new File(path).exists()) {
-                return path;
-            }
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
         }
-        return createResourcesDirectory();
     }
 
-    public static String getWebResourcesDirectory() {
-        for (String path : webResourcesCandidates) {
-            if (new File(path).exists()) {
-                return path;
-            }
+    public static String getGuestDirectoryPath(){
+        String path = getUsersDirectoryPath() + "/Guest";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
         }
-        return createWebResourcesDirectory();
     }
 
-    private static String createResourcesDirectory() {
+    public static String getUsersDirectoryPath() {
+        String path = getResourcesDirectoryPath() + "/users";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
+        }
+    }
+
+    public static String getUsersFilePath(){
+        String path = getServerDirectoryPath() + "/users.txt";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return path;
+        }
+    }
+
+    public static String getPasswordsFilePath(){
+        String path = getServerDirectoryPath() + "/passwords.txt";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return path;
+        }
+    }
+
+    public static String getEmailsFilePath(){
+        String path = getServerDirectoryPath() + "/emails.txt";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return path;
+        }
+    }
+
+    public static String getServerDirectoryPath(){
+        String path = getResourcesDirectoryPath() + "/server";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
+        }
+    }
+
+    public static String getResourcesDirectoryPath() {
+        String path = getRootDirectoryPath() + "/resources";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
+        }
+    }
+
+    private static String getRootDirectoryPath() {
         for (String path : rootCandidates) {
             if (new File(path).exists()) {
-                String resourcesPath = path + "/resources";
-                File f = new File(resourcesPath);
-                f.mkdirs();
-                return resourcesPath;
+                return path;
             }
         }
         return null;
     }
 
-    private static String createWebResourcesDirectory() {
-        for (String path : webRootCandidates) {
-            if (new File(path).exists()) {
-                String webResourcesPath = path + "/WebResources";
-                File f = new File(webResourcesPath);
-                f.mkdirs();
-                return webResourcesPath;
+    public static File zip(String directoryPath, String userEmail, String userName) {
+        List<File> files = Arrays.asList(new File(directoryPath).listFiles());
+        File zipfile = new File(getUserDirectoryPath(userEmail) + "/" + userName + ".zip");
+        // Create a buffer for reading the files
+        byte[] buf = new byte[1024];
+        try {
+            // create the ZIP file
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipfile));
+            // compress the files
+            for(int i=0; i<files.size(); i++) {
+                FileInputStream in = new FileInputStream(files.get(i).getCanonicalPath());
+                // add ZIP entry to output stream
+                out.putNextEntry(new ZipEntry(files.get(i).getName()));
+                // transfer bytes from the file to the ZIP file
+                int len;
+                while((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                // complete the entry
+                out.closeEntry();
+                in.close();
             }
+            // complete the ZIP file
+            out.close();
+            return zipfile;
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
         }
         return null;
-    }
-
-    public static void zipDirectory(String userDirPath, String userName){
-        String sourceFile = getResourcesDirectory() + "/users/" + userDirPath;
-
-        try {
-            FileOutputStream fos = new FileOutputStream(userName + ".zip");
-            ZipOutputStream zipOut = new ZipOutputStream(fos);
-            File fileToZip = new File(sourceFile);
-
-            zipFile(fileToZip, fileToZip.getName(), zipOut);
-            zipOut.close();
-            fos.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
-        if (fileToZip.isHidden()) {
-            return;
-        }
-        if (fileToZip.isDirectory()) {
-            File[] children = fileToZip.listFiles();
-            for (File childFile : children) {
-                zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
-            }
-            return;
-        }
-
-        try {
-            FileInputStream fis = new FileInputStream(fileToZip);
-            ZipEntry zipEntry = new ZipEntry(fileName);
-            zipOut.putNextEntry(zipEntry);
-            byte[] bytes = new byte[1024];
-            int length;
-            while ((length = fis.read(bytes)) >= 0) {
-                zipOut.write(bytes, 0, length);
-            }
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 }

@@ -1,38 +1,36 @@
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
 
-    <%
-        if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest")
-            session.setAttribute("dirPath", "Guest");
+<%
+    if (session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest")
+        session.setAttribute("dirPath", "Guest");
 
-        int slideCount = 10;
-        File imagesDir = new File(FileManager.getResourcesDirectory() + "/users/" + session.getAttribute("dirPath"));
-        File[] images = imagesDir.listFiles();
+    int slideCount = 10;
+    File imagesDir = new File(FileManager.getResourcesDirectoryPath() + "/users/" + session.getAttribute("dirPath"));
+    File[] images = imagesDir.listFiles();
 
-        if(images.length == 0) {
-            System.out.println("No image");
-            //JspWriter jout = pageContext.getOut();
-            out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
-            out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
-            out.println("<script>");
-            out.println("$(document).ready(function(){");
-            out.println("swal ( 'Oops' ,  'There is no image history for this user..' ,  'error' )");
-            out.println("});");
-            out.println("</script>");
+    if (images.length == 0) {
+        System.out.println("No image");
+        //JspWriter jout = pageContext.getOut();
+        out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
+        out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
+        out.println("<script>");
+        out.println("$(document).ready(function(){");
+        out.println("swal ( 'Oops' ,  'There is no image history for this user..' ,  'error' )");
+        out.println("});");
+        out.println("</script>");
 
-            if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest") {
-                RequestDispatcher rd = request.getRequestDispatcher("uploadGuest.jsp");
-                rd.include(request, response);
-            }
-            else {
-                RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
-                rd.include(request, response);
-            }
+        if (session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest") {
+            RequestDispatcher rd = request.getRequestDispatcher("uploadGuest.jsp");
+            rd.include(request, response);
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
+            rd.include(request, response);
         }
-        else{
-            String extension = images[0].getName().substring(images[0].getName().length() - 4);
+    } else {
+        String extension = images[0].getName().substring(images[0].getName().length() - 4);
 
-    %>
+%>
 
 
 <html>
@@ -41,25 +39,7 @@
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {box-sizing: border-box;}
-        .img-zoom-container {
-            position: relative;
-        }
-        .img-zoom-lens {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            /*set the size of the lens:*/
-            width: 50px;
-            height: 50px;
-        }
-        .img-zoom-result {
-            /*border: 1px solid #d4d4d4;*/
-            /*set the size of the result div:*/
-            width: 300px;
-            height: 300px;
-        }
-    </style>
+    <%--<link rel="stylesheet" type="text/css" href="css/slider.css">--%>
 </head>
 
 <body>
@@ -71,17 +51,20 @@
     <button onclick="updateIndexButton(1)">&#10095;</button>
 </div>
 
-<div class="img-zoom-container">
-    <%
-        for (int i = 0; i < images.length; i++) {
-    %>
-    <img id="<%=i%>" class="image" src="resources/users/<%=session.getAttribute("dirPath")%>/<%=(i + 1)%><%=extension%>"
-         onclick="getPos(this, event)">
-    <%
-        }
-    %>
-
-    <div id="myresult" class="img-zoom-result" style="display: inline-block"></div>
+<div class="outsideWrapper">
+    <div class="insideWrapper">
+        <%
+            for (int i = 0; i < images.length; i++) {
+        %>
+        <img id="<%=i%>" class="image"
+             src="resources/users/<%=session.getAttribute("dirPath")%>/<%=(i + 1)%><%=extension%>"
+             onclick="getPos(this, event)">
+        <%
+            }
+        %>
+        <canvas id="canvas" class="coveringCanvas"></canvas>
+    </div>
+    <%--<div id="myresult" class="img-zoom-result" style="display: inline-block"></div>--%>
 </div>
 
 <div>
@@ -101,9 +84,55 @@
 </div>
 
 <script>
+    var clicks = 0;
+    var den = 0;
+    var lastClick = [0, 0];
+
+    document.getElementById('canvas').addEventListener('click', drawLine, false);
+
+    function getCursorPosition(e) {
+        var x;
+        var y;
+
+        if (e.pageX != undefined && e.pageY != undefined) {
+            x = e.pageX;
+            y = e.pageY;
+        } else {
+            x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+            y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        }
+
+        return [x, y];
+    }
+
+    function drawLine(e) {
+        context = this.getContext('2d');
+
+        x = getCursorPosition(e)[0] - this.offsetLeft;
+        y = getCursorPosition(e)[1] - this.offsetTop;
+        if (den == 0)
+            den = 1;
+        else if (clicks != 0) {
+            clicks++;
+        } else {
+            context.beginPath();
+            context.moveTo(lastClick[0], lastClick[1]);
+            context.lineTo(x, y, 6);
+
+            context.strokeStyle = '#ff0000';
+            context.stroke();
+
+            clicks = 0;
+        }
+
+        lastClick = [x, y];
+    }
+</script>
+
+<script>
     var index = 0;
 
-    imageZoom(index, "myresult");
+    //imageZoom(index, "myresult");
 
     refresh();
 

@@ -24,7 +24,7 @@ import java.util.List;
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
 
-    private static final String USERS  = FileManager.getResourcesDirectory() +
+    private static final String USERS  = FileManager.getResourcesDirectoryPath() +
             "/users/";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

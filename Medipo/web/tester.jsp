@@ -13,7 +13,7 @@
 </head>
 <body>
 <%
-    String userFolder = FileManager.getResourcesDirectory() + "/users/" + ((String)request.getSession().getAttribute("mail")).replace('@','-');
+    String userFolder = FileManager.getResourcesDirectoryPath() + "/users/" + ((String)request.getSession().getAttribute("mail")).replace('@','-');
     File f = new File(userFolder);
     for(int i = 1; i < f.list().length + 1; i++) {
 

@@ -31,7 +31,7 @@
 		<%
 			if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
 				session.setAttribute("fname", "Guest");
-                File guestFolder = new File(FileManager.getResourcesDirectory() +
+                File guestFolder = new File(FileManager.getResourcesDirectoryPath() +
                         "/users" +
                         "/Guest");
                 guestFolder.mkdirs();

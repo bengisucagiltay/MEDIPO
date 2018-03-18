@@ -22,20 +22,14 @@ import java.util.StringTokenizer;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
-    private File USER_INFO = new File( FileManager.getWebResourcesDirectory() +
-            "/server" +
-            "/users.txt");
-    private File PASSWORDS = new File( FileManager.getWebResourcesDirectory() +
-            "/server" +
-            "/passwords.txt");
-    private File EMAILS = new File(FileManager.getWebResourcesDirectory() +
-            "/server" +
-            "/emails.txt");
+    private File USERS = new File(FileManager.getUsersFilePath());
+    private File PASSWORDS = new File(FileManager.getPasswordsFilePath());
+    private File EMAILS = new File(FileManager.getEmailsFilePath());
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         String fname = request.getParameter("firstname"); //null
         String mail = request.getParameter("email");
@@ -43,80 +37,77 @@ public class Login extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        if(checkUserExists(mail) == -1){
+        if (checkUserExists(mail) == -1) {
             System.out.println("This user does not exist");
-            alerts(out, "Oops",  "This user does not exist! Please try again..", "error" );
+            alerts(out, "Oops", "This user does not exist! Please try again..", "error");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.include(request,response);
-        }
-        else if (checkUserExists(mail) == -2){
+            rd.include(request, response);
+        } else if (checkUserExists(mail) == -2) {
             System.out.println("Your entry cannot be empty");
-            alerts(out, "Oops",  "Your entry cannot be empty! Please try again..", "error" );
+            alerts(out, "Oops", "Your entry cannot be empty! Please try again..", "error");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.include(request,response);
-        }
-        else{   //user exists check password match
+            rd.include(request, response);
+        } else {   //user exists check password match
             int uid = checkUserExists(mail);
 
-            if(checkPasswordMatch(pword, uid)){
+            if (checkPasswordMatch(pword, uid)) {
                 System.out.println("Login Succesful");
                 HttpSession session = request.getSession();
                 String uname = getUserName(uid);
                 session.setAttribute("fname", uname);
                 session.setAttribute("mail", mail);
-                session.setAttribute("dirPath", mail.replace('@','-'));
+                session.setAttribute("dirPath", mail.replace('@', '-'));
                 response.sendRedirect("welcome.jsp");
-            }
-            else{
+            } else {
                 System.out.println("Login Unsuccesful");
-                alerts(out, "Oops",  "Your password is incorrect! Please try again..", "error" );
+                alerts(out, "Oops", "Your password is incorrect! Please try again..", "error");
                 RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-                rd.include(request,response);
+                rd.include(request, response);
             }
         }
-	}
+    }
 
     /*
-    * Method that checks if the user exists
-    * */
-	private int checkUserExists(String mail){
+     * Method that checks if the user exists
+     * */
+    private int checkUserExists(String mail) {
         int uid = 0;
-            try {
-                System.out.println("Working Directory = " +
-                        System.getProperty("user.dir"));
-                Scanner scanner = new Scanner(EMAILS,"UTF-8");
-                while (scanner.hasNextLine()) {
-                    uid++;
-                    if(mail.equals(scanner.nextLine())){
-                        System.out.println("A user with this e-mail exists in line " + uid);
-                        return uid;
-                    }
-                    else if(mail.equals("")) {
-                        System.out.println("Mail cannot be empty");
-                        return -2;
-                    }
+        try {
+            System.out.println("Working Directory = " +
+                    System.getProperty("user.dir"));
+            Scanner scanner = new Scanner(EMAILS, "UTF-8");
+            while (scanner.hasNextLine()) {
+                uid++;
+                if (mail.equals(scanner.nextLine())) {
+                    System.out.println("A user with this e-mail exists in line " + uid);
+                    return uid;
+                } else if (mail.equals("")) {
+                    System.out.println("Mail cannot be empty");
+                    return -2;
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             }
-            return -1;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        return -1;
+    }
+
     /*
      * Method that checks if the password matches
      * */
-    private boolean checkPasswordMatch(String pword, int uid){
+    private boolean checkPasswordMatch(String pword, int uid) {
         int i;
         Scanner scanner;
         try {
-            scanner = new Scanner(PASSWORDS,"UTF-8");
-            for(i=1;i!=uid;i++) //go to the line
+            scanner = new Scanner(PASSWORDS, "UTF-8");
+            for (i = 1; i != uid; i++) //go to the line
                 scanner.nextLine();
-            if(i == uid){
-                if(pword.equals(scanner.nextLine()))
+            if (i == uid) {
+                if (pword.equals(scanner.nextLine()))
                     return true;
                 else
                     return false;
-        }
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -131,10 +122,10 @@ public class Login extends HttpServlet {
         Scanner scanner;
         String uname = "";
         try {
-            scanner = new Scanner(USER_INFO,"UTF-8");
-            for(i=1;i!=uid;i++) //go to the line
+            scanner = new Scanner(USERS, "UTF-8");
+            for (i = 1; i != uid; i++) //go to the line
                 scanner.nextLine();
-            if(i == uid){
+            if (i == uid) {
                 uname = scanner.nextLine();
                 StringTokenizer tok = new StringTokenizer(uname, ",");
                 return tok.nextToken();
@@ -144,13 +135,14 @@ public class Login extends HttpServlet {
         }
         return uname;
     }
-    private void alerts(PrintWriter out, String alert,  String message, String type ){
+
+    private void alerts(PrintWriter out, String alert, String message, String type) {
 
         out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
         out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
         out.println("<script>");
         out.println("$(document).ready(function(){");
-        out.println("swal ( '"+alert+"' ,  '"+message+"' ,  '"+type+"' )");
+        out.println("swal ( '" + alert + "' ,  '" + message + "' ,  '" + type + "' )");
         out.println("});");
         out.println("</script>");
         //response.sendRedirect("register.jsp");

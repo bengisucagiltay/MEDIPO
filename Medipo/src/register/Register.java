@@ -18,17 +18,11 @@ import java.util.Scanner;
  */
 @WebServlet("/Register")
 public class Register extends HttpServlet {
-    private static final String USER_INFO = FileManager.getWebResourcesDirectory() +
-            "/server" +
-            "/users.txt";
+    private static final String USER_INFO = FileManager.getResourcesDirectoryPath();
 
-    private static final String PASSWORDS  = FileManager.getWebResourcesDirectory() +
-            "/server" +
-            "/passwords.txt";
+    private static final String PASSWORDS  = FileManager.getResourcesDirectoryPath();
 
-    private File EMAILS = new File(FileManager.getWebResourcesDirectory() +
-            "/server" +
-            "/emails.txt");
+    private File EMAILS = new File(FileManager.getResourcesDirectoryPath());
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -91,8 +85,7 @@ public class Register extends HttpServlet {
     }
 
     private void createUserHomeFile(String mail) {
-        String filePath = FileManager.getResourcesDirectory() + "/users/" + mail.replace('@', '-');
-        //String filePath = FileManager.getResourcesDirectory() + "/users/" + mail.replace('@', '-');
+        String filePath = FileManager.getResourcesDirectoryPath() + "/users/" + mail.replace('@', '-');
         File f = new File(filePath);
         f.mkdirs();
         return;
