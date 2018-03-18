@@ -23,6 +23,7 @@ public class ImageManager {
 
 		for(int i = start; i <= end; i++) {
 			try {
+				//TODO: PATH DEĞİŞMELİ - FileManager'dan alınmalı
 				BufferedImage image = ImageIO.read(new File("./Medipo/web/resources/"));
 				images.add(new EditableImage(image));
 			} catch (IOException e) {

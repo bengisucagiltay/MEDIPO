@@ -42,7 +42,7 @@
                 <label for="cname"><h2 style="font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 14px;
-    font-weight: 600;">Your full name:</h2></label>
+    font-weight: 600;">Your Full Name:</h2></label>
             </div>
             <div class="col-75">
                 <input type="text" id="cname" name="conname" placeholder="Your name...">
@@ -53,7 +53,7 @@
                 <label for="cmail"><h2 style="font-family: 'Open Sans', sans-serif;
                     text-align: center;
                     font-size: 14px;
-                    font-weight: 600;">Your e-mail:</h2></label>
+                    font-weight: 600;">Your E-Mail:</h2></label>
             </div>
             <div class="col-75">
                 <input type="text" id="cmail" name="conmail" placeholder="Your mail address...">
