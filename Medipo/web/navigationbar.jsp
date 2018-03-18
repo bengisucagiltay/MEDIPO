@@ -1,5 +1,6 @@
-<h2 class="header">Medipo</h2>
-<h1>Medical Image Processing Online</h1><br>
+<div class="header">
+
+</div>
 
 <div class="topnav">
 

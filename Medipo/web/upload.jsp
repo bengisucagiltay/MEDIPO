@@ -38,7 +38,7 @@
 		</form>
 	</div>
 </div>
-<img src="images/pulse1.png" width="100%" alt="backg" >
+<img src="images/pulse.png" width="100%" alt="backg" >
 </body>
 </html>
 
