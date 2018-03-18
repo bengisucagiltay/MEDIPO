@@ -20,13 +20,14 @@ import java.util.Scanner;
 public class Register extends HttpServlet {
     private static final String USER_INFO = FileManager.getResourcesDirectoryPath();
 
-    private static final String PASSWORDS  = FileManager.getResourcesDirectoryPath();
+    private static final String PASSWORDS = FileManager.getResourcesDirectoryPath();
 
     private File EMAILS = new File(FileManager.getResourcesDirectoryPath());
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         String fname = request.getParameter("firstname");
         String lname = request.getParameter("lastname");
@@ -39,46 +40,44 @@ public class Register extends HttpServlet {
         //HttpSession session = request.getSession();
         //session.setAttribute("fname", fname);   //TODO: use this session attribute for WELCOME $fname message
 
-        if(checkUserExists(mail) == true){
+        if (checkUserExists(mail) == true) {
             System.out.println("A user with this e-mail already exists!");
-            alerts(out, "Oops",  "A user with this e-mail already exists! Please try again..", "error" );
-            //response.sendRedirect("register.jsp");
-            RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
-            rd.include(request,response);
-        }
-        else if(mail.equals("") || pword.equals("") || fname.equals("") || lname.equals("")){
-            System.out.println("Entry cannot be empty");
-            alerts(out, "Oops",  "Entry cannot be empty! Please try again..", "error" );
+            alerts(out, "Oops", "A user with this e-mail already exists! Please try again..", "error");
             //response.sendRedirect("register.jsp");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
-        }
-        else if(pword.length()< 1){
+        } else if (mail.equals("") || pword.equals("") || fname.equals("") || lname.equals("")) {
+            System.out.println("Entry cannot be empty");
+            alerts(out, "Oops", "Entry cannot be empty! Please try again..", "error");
+            //response.sendRedirect("register.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+            rd.include(request, response);
+        } else if (pword.length() < 1) {
             System.out.println("Password should be at least 8 characters");
-            alerts(out, "Oops",  "Password should have at least 8 characters! Please try again..", "error" );
+            alerts(out, "Oops", "Password should have at least 8 characters! Please try again..", "error");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
         }
         //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
-        else if(validateMail(mail) == false){
+        else if (validateMail(mail) == false) {
             System.out.println("Incorrect mail form (NAME@EMAIL.COM)");
-            alerts(out, "Oops",  "Incorrect mail form (NAME@EMAIL.COM)", "error" );
+            alerts(out, "Oops", "Incorrect mail form (NAME@EMAIL.COM)", "error");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
 
-        }
-        else{
+        } else {
             writeUserInfo(fname, lname, mail, pword);
             createUserHomeFile(mail);
-            alerts(out, "Success",  "Register Complete! Please log in..", "success" );
+            alerts(out, "Success", "Register Complete! Please log in..", "success");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.include(request,response);
+            rd.include(request, response);
         }
-	}
-    private boolean validateMail(String mail){
+    }
+
+    private boolean validateMail(String mail) {
         EmailValidator emailValidator = EmailValidator.getInstance();
 
-        if(emailValidator.isValid(mail))
+        if (emailValidator.isValid(mail))
             return true;
         else
             return false;
@@ -116,16 +115,17 @@ public class Register extends HttpServlet {
             e.printStackTrace();
         }
     }
-	/*
-	* private method checkIfExists
-	* scans the email file and checks if an email already is registered
-	* returns true if already registered
-	* */
-	private boolean checkUserExists(String mail){
+
+    /*
+     * private method checkIfExists
+     * scans the email file and checks if an email already is registered
+     * returns true if already registered
+     * */
+    private boolean checkUserExists(String mail) {
         try {
-            Scanner scanner = new Scanner(EMAILS,"UTF-8");
+            Scanner scanner = new Scanner(EMAILS, "UTF-8");
             while (scanner.hasNextLine()) {
-                if(mail.equals(scanner.nextLine()))
+                if (mail.equals(scanner.nextLine()))
                     return true;
             }
         } catch (FileNotFoundException e) {
@@ -138,12 +138,12 @@ public class Register extends HttpServlet {
      * private method writeUserInfo
      * writes the user info to corresponded files
      * */
-    private void writeUserInfo(String fname, String lname, String mail, String pword){
+    private void writeUserInfo(String fname, String lname, String mail, String pword) {
         Writer wr1 = null;
         Writer wr2 = null;
         Writer wr3 = null;
 
-        try{
+        try {
             /*wr1 = new BufferedWriter(new FileWriter(USER_INFO,true));
             wr1.write(fname + "," + lname +"\n");
             wr2 = new BufferedWriter(new FileWriter(EMAILS,true));
@@ -151,39 +151,39 @@ public class Register extends HttpServlet {
             wr3 = new BufferedWriter(new FileWriter(PASSWORDS,true));
             wr3.write(pword +"\n");*/
             wr1 = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(USER_INFO,true), "UTF8"));
-            wr1.write(fname + "," + lname +"\n");
+                    new FileOutputStream(USER_INFO, true), "UTF8"));
+            wr1.write(fname + "," + lname + "\n");
             wr2 = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(EMAILS,true), "UTF8"));
-            wr2.write(mail +"\n");
+                    new FileOutputStream(EMAILS, true), "UTF8"));
+            wr2.write(mail + "\n");
             wr3 = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(PASSWORDS,true), "UTF8"));
-            wr3.write(pword +"\n");
+                    new FileOutputStream(PASSWORDS, true), "UTF8"));
+            wr3.write(pword + "\n");
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
-                if(wr1 != null)
+                if (wr1 != null)
                     wr1.close();
-                if(wr2 != null)
+                if (wr2 != null)
                     wr2.close();
-                if(wr3 != null)
+                if (wr3 != null)
                     wr3.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         System.out.println("Registration complete");
     }
-    private void alerts(PrintWriter out, String alert,  String message, String type ){
+
+    private void alerts(PrintWriter out, String alert, String message, String type) {
 
         out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
         out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
         out.println("<script>");
         out.println("$(document).ready(function(){");
-        out.println("swal ( '"+alert+"' ,  '"+message+"' ,  '"+type+"' )");
+        out.println("swal ( '" + alert + "' ,  '" + message + "' ,  '" + type + "' )");
         out.println("});");
         out.println("</script>");
         //response.sendRedirect("register.jsp");
