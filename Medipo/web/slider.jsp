@@ -34,21 +34,34 @@
 
 
 <html>
-<title>Slider</title>
-
 <head>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link href="css/slider.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
+          rel="stylesheet">
+
+    <title>Image Slider</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%--<link rel="stylesheet" type="text/css" href="css/slider.css">--%>
+
 </head>
 
 <body>
+<div id="navbar1">
+</div>
+<script>
+    $(function () {
+        $("#navbar1").load("navigationbar.jsp");
+    });
+</script>
+<div class="containerS">
 
-<p id="demo">Text</p>
+<h1 id="demo">Text</h1>
 
 <div>
-    <button onclick="updateIndexButton(-1)">&#10094;</button>
-    <button onclick="updateIndexButton(1)">&#10095;</button>
+    <button class="sbutton" onclick="updasteIndexButton(-1)">&#10094;</button>
+    <button class="sbutton" onclick="updateIndexButton(1)">&#10095;</button>
 </div>
 
 <div class="outsideWrapper">
@@ -68,8 +81,8 @@
 </div>
 
 <div>
-    <button onclick="updateIndexButton(-10)">&#10094;</button>
-    <button onclick="updateIndexButton(10)">&#10095;</button>
+    <button class="sbutton" onclick="updateIndexButton(-10)">&#10094;</button>
+    <button class="sbutton" onclick="updateIndexButton(10)">&#10095;</button>
 </div>
 
 <div>
@@ -259,7 +272,8 @@
         }
     }
 </script>
-
+</div>
+<img src="images/pulse.png" width="100%" alt="backg" >
 </body>
 </html>
 
