@@ -1,7 +1,6 @@
 package upload;
 
 import org.apache.commons.io.FileUtils;
-import utils.FileManager;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -18,14 +17,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import static utils.FileManager.getUserDirectoryPath;
+
 /**
  * Servlet implementation class Upload
  */
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
 
-    private static final String USERS  = FileManager.getResourcesDirectoryPath() +
-            "/users/";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -34,7 +33,7 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        String userFolder = USERS + ((String) request.getSession().getAttribute("dirPath"));
+        String userFolder = getUserDirectoryPath((String) request.getSession().getAttribute("mail"));
 
         FileUtils.cleanDirectory(new File(userFolder));
 

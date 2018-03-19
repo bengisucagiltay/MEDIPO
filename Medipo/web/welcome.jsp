@@ -1,5 +1,4 @@
-<%@ page import="java.io.File" %>
-<%@ page import="utils.FileManager" %>
+<%@ page import="static utils.FileManager.getUserDirectoryPath" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -31,10 +30,12 @@
 		<%
 			if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
 				session.setAttribute("fname", "Guest");
-                File guestFolder = new File(FileManager.getResourcesDirectoryPath() +
+				//session.setAttribute("email", "guest");
+				getUserDirectoryPath("guest");
+                /*File guestFolder = new File(FileManager.getResourcesDirectoryPath() +
                         "/users" +
                         "/Guest");
-                guestFolder.mkdirs();
+                guestFolder.mkdirs();*/
 		%>
 				<a class= "gubutton" onclick="document.getElementById('Guest').style.display='block'" style="width:auto" class="gubutton">
 					<%out.println("Get Started");%>

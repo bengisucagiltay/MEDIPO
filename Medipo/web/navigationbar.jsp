@@ -16,11 +16,11 @@
     <a href="welcome.jsp">Home</a>
     <a href="
 			<%
-				if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
+				/*if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
 				    session.setAttribute("fname", "Guest");
-                    out.println("uploadGuest.jsp");
+                    out.println("uploadGuest1.jsp");
                 }
-                 else
+                 else*/
                     out.println("upload.jsp");
             %>
     ">
@@ -33,8 +33,9 @@
 
     <b>Welcome,
         <%
-        if(session.getAttribute("fname") == null){	//user not registered (guest)
+        if(session.getAttribute("fname") == null && session.getAttribute("mail") == null){//user not registered (guest)
             session.setAttribute("fname", "Guest");
+            session.setAttribute("mail", "guest");
             out.println(session.getAttribute("fname"));
         }
         else

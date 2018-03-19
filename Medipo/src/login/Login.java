@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
                 String uname = getUserName(uid);
                 session.setAttribute("fname", uname);
                 session.setAttribute("mail", mail);
-                session.setAttribute("dirPath", mail.replace('@', '-'));
+                //session.setAttribute("dirPath", mail.replace('@', '-'));
                 response.sendRedirect("welcome.jsp");
             } else {
                 System.out.println("Login Unsuccesful");

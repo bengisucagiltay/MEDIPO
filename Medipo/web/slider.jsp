@@ -1,13 +1,43 @@
-<%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
+<%@ page import="static utils.FileManager.getUserDirectoryPath" %>
+
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link href="css/slider.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
+          rel="stylesheet">
+
+    <title>Image Slider</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+<div id="navbar1">
+</div>
+<script>
+    $(function () {
+        $("#navbar1").load("navigationbar.jsp");
+    });
+</script>
 
 <%
-    if (session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest")
-        session.setAttribute("dirPath", "Guest");
+    //Durması lazım bunun
+    if (session.getAttribute("mail") == null && session.getAttribute("fname") == null||
+    session.getAttribute("fname") == "Guest") {
+        session.setAttribute("mail", "guest");
+    }
 
     int slideCount = 10;
-    File imagesDir = new File(FileManager.getResourcesDirectoryPath() + "/users/" + session.getAttribute("dirPath"));
+    //TODO: Registered user Email görüyor? image basmıyor???
+    String mail = (String) session.getAttribute("mail");
+    String userDirectoryPath = getUserDirectoryPath(mail);
+
+    File imagesDir = new File(userDirectoryPath);
     File[] images = imagesDir.listFiles();
+
 
     if (images.length == 0) {
         System.out.println("No image");
@@ -20,41 +50,20 @@
         out.println("});");
         out.println("</script>");
 
-        if (session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest") {
+        RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
+        rd.include(request, response);
+        /*if (session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest") {
             RequestDispatcher rd = request.getRequestDispatcher("uploadGuest.jsp");
             rd.include(request, response);
         } else {
             RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
             rd.include(request, response);
-        }
+        }*/
     } else {
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
 
 %>
 
-
-<html>
-<head>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link href="css/slider.css" type="text/css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
-          rel="stylesheet">
-
-    <title>Image Slider</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%--<link rel="stylesheet" type="text/css" href="css/slider.css">--%>
-
-</head>
-
-<body>
-<div id="navbar1">
-</div>
-<script>
-    $(function () {
-        $("#navbar1").load("navigationbar.jsp");
-    });
-</script>
 <div class="containerS">
 
 <h1 id="demo">Text</h1>
@@ -70,14 +79,15 @@
             for (int i = 0; i < images.length; i++) {
         %>
         <img id="<%=i%>" class="image"
-             src="resources/users/<%=session.getAttribute("dirPath")%>/<%=(i + 1)%><%=extension%>"
-             onclick="getPos(this, event)">
-        <%
-            }
-        %>
-        <canvas id="canvas" class="coveringCanvas"></canvas>
-    </div>
-    <%--<div id="myresult" class="img-zoom-result" style="display: inline-block"></div>--%>
+             src="/<%=userDirectoryPath%>/<%=(i + 1)%><%=extension%>"
+            <%--src="resources/users/<%=session.getAttribute("mail")%>/<%=(i + 1)%><%=extension%>"--%>
+         onclick="getPos(this, event)">
+    <%
+        }
+    %>
+    <canvas id="canvas" class="coveringCanvas"></canvas>
+</div>
+<%--<div id="myresult" class="img-zoom-result" style="display: inline-block"></div>--%>
 </div>
 
 <div>
@@ -89,7 +99,8 @@
     <%
         for (int i = 0; i < images.length; i++) {
     %>
-    <img class="slide" src="resources/users/<%=session.getAttribute("dirPath")%>/<%=(i + 1)%><%=extension%>"
+    <img class="slide" src="/<%=userDirectoryPath%>/<%=(i + 1)%><%=extension%>"
+    <%--src="resources/users/<%=session.getAttribute("mail")%>/<%=(i + 1)%><%=extension%>"--%>
          onclick="updateIndexSlide(this)" width="<%=(100 / slideCount) - 1%>%">
     <%
         }

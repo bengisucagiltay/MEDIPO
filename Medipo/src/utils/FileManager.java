@@ -65,17 +65,6 @@ public class FileManager {
         }
     }
 
-    public static String getGuestDirectoryPath(){
-        String path = getUsersDirectoryPath() + "/Guest";
-        File f = new File(path);
-
-        if (f.exists()) {
-            return path;
-        } else {
-            f.mkdirs();
-            return path;
-        }
-    }
 
     public static String getServerDirectoryPath(){
         String path = getResourcesDirectoryPath() + "/server";
