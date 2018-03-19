@@ -33,6 +33,8 @@ public class Upload extends HttpServlet {
 
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         String email = (String) request.getSession().getAttribute("email");
+        String firstname = (String) request.getSession().getAttribute("firstname");
+
         System.out.println("Upload36 to:"+ email);
         String userDirectoryPath = FileManager.getUserDirectoryPath(email);
 
@@ -50,7 +52,7 @@ public class Upload extends HttpServlet {
                 e.printStackTrace();
             }
             Iterator itr = items.iterator();
-            int count = 1;
+            int count = 0;
             while (itr.hasNext()) {
                 FileItem item = (FileItem) itr.next();
                 if (item.isFormField()) {
@@ -66,6 +68,8 @@ public class Upload extends HttpServlet {
                 }
             }
         }
+
+        FileManager.zip(email, firstname);
 
         response.sendRedirect("slider.jsp");
 

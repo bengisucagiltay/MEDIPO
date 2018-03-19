@@ -164,9 +164,10 @@ public class FileManager {
         return path.substring(getRootDirectoryPath().length());
     }
 
-    public static File zip(String directoryPath, String userEmail, String userName) {
+    public static File zip(String userEmail, String userName) {
+        String directoryPath = getUserDirectoryPath(userEmail);
         List<File> files = Arrays.asList(new File(directoryPath).listFiles());
-        File zipfile = new File(getUserDirectoryPath(userEmail) + "/" + userName + ".zip");
+        File zipfile = new File(getUsersDirectoryPath() + "/" + userName + ".zip");
         // Create a buffer for reading the files
         byte[] buf = new byte[1024];
         try {

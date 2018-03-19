@@ -92,7 +92,7 @@
         for (int i = 0; i < images.length; i++) {
     %>
     <img id="<%=i%>" class="image"
-         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>">
+         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userDirectoryPath)%>/<%=i%><%=extension%>">
     <%
         }
     %>
@@ -115,15 +115,18 @@
 
 <div>
     <%
+        System.out.println(images.length);
         for (int i = 0; i < images.length; i++) {
     %>
     <img class="slide"
-         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
+         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userDirectoryPath)%>/<%=i%><%=extension%>"
          onclick="updateIndexSlide(this)" width="<%=(100 / slideCount) - 1%>%">
     <%
         }
     %>
 </div>
+
+<a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getUsersDirectoryPath()) + "/" + session.getAttribute("firstname")%>.zip">download</a>
 
 
 <%--<script>--%>
