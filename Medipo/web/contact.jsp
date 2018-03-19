@@ -50,13 +50,13 @@
         </div>
         <div class="row">
             <div class="col-25">
-                <label for="cmail"><h2 style="font-family: 'Open Sans', sans-serif;
+                <label for="email"><h2 style="font-family: 'Open Sans', sans-serif;
                     text-align: center;
                     font-size: 14px;
                     font-weight: 600;">Your E-Mail:</h2></label>
             </div>
             <div class="col-75">
-                <input type="text" id="cmail" name="conmail" placeholder="Your mail address...">
+                <input type="text" id="email" name="conmail" placeholder="Your mail address...">
             </div>
         </div>
         <div class="row">

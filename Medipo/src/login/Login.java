@@ -31,32 +31,32 @@ public class Login extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        String fname = request.getParameter("firstname"); //null
-        String mail = request.getParameter("email");
-        String pword = request.getParameter("password");
+        String firstname = request.getParameter("firstname"); //null
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         PrintWriter out = response.getWriter();
 
-        if (checkUserExists(mail) == -1) {
+        if (checkUserExists(email) == -1) {
             System.out.println("This user does not exist");
             alerts(out, "Oops", "This user does not exist! Please try again..", "error");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request, response);
-        } else if (checkUserExists(mail) == -2) {
+        } else if (checkUserExists(email) == -2) {
             System.out.println("Your entry cannot be empty");
             alerts(out, "Oops", "Your entry cannot be empty! Please try again..", "error");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request, response);
         } else {   //user exists check password match
-            int uid = checkUserExists(mail);
+            int uid = checkUserExists(email);
 
-            if (checkPasswordMatch(pword, uid)) {
+            if (checkPasswordMatch(password, uid)) {
                 System.out.println("Login Succesful");
                 HttpSession session = request.getSession();
-                String uname = getUserName(uid);
-                session.setAttribute("fname", uname);
-                session.setAttribute("mail", mail);
-                //session.setAttribute("dirPath", mail.replace('@', '-'));
+                String userName = getUserName(uid);
+                session.setAttribute("firstname", userName);
+                session.setAttribute("email", email);
+                //session.setAttribute("dirPath", email.replace('@', '-'));
                 response.sendRedirect("welcome.jsp");
             } else {
                 System.out.println("Login Unsuccesful");
@@ -70,7 +70,7 @@ public class Login extends HttpServlet {
     /*
      * Method that checks if the user exists
      * */
-    private int checkUserExists(String mail) {
+    private int checkUserExists(String email) {
         int uid = 0;
         try {
             System.out.println("Working Directory = " +
@@ -78,10 +78,10 @@ public class Login extends HttpServlet {
             Scanner scanner = new Scanner(EMAILS, "UTF-8");
             while (scanner.hasNextLine()) {
                 uid++;
-                if (mail.equals(scanner.nextLine())) {
+                if (email.equals(scanner.nextLine())) {
                     System.out.println("A user with this e-mail exists in line " + uid);
                     return uid;
-                } else if (mail.equals("")) {
+                } else if (email.equals("")) {
                     System.out.println("Mail cannot be empty");
                     return -2;
                 }
@@ -95,7 +95,7 @@ public class Login extends HttpServlet {
     /*
      * Method that checks if the password matches
      * */
-    private boolean checkPasswordMatch(String pword, int uid) {
+    private boolean checkPasswordMatch(String password, int uid) {
         int i;
         Scanner scanner;
         try {
@@ -103,7 +103,7 @@ public class Login extends HttpServlet {
             for (i = 1; i != uid; i++) //go to the line
                 scanner.nextLine();
             if (i == uid) {
-                if (pword.equals(scanner.nextLine()))
+                if (password.equals(scanner.nextLine()))
                     return true;
                 else
                     return false;

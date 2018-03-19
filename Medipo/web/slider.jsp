@@ -24,15 +24,14 @@
 </script>
 
 <%
-    //Durması lazım bunun
-    if (session.getAttribute("mail") == null && session.getAttribute("fname") == null||
-    session.getAttribute("fname") == "Guest") {
-        session.setAttribute("mail", "guest");
-    }
+    //Durması lazım bunun?
+    /*if ( session.getAttribute("firstname") == null|| session.getAttribute("firstname") == "Guest") {
+        //session.setAttribute("email", "guest@" + session.getId());
+    }*/
 
     int slideCount = 10;
-    String mail = (String) session.getAttribute("mail");
-    String userDirectoryPath = FileManager.getUserDirectoryPath(mail);
+    String email = (String) session.getAttribute("email");
+    String userDirectoryPath = FileManager.getUserDirectoryPath(email);
 
     File imagesDir = new File(userDirectoryPath);
     File[] images = imagesDir.listFiles();
@@ -51,13 +50,7 @@
 
         RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
         rd.include(request, response);
-        /*if (session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest") {
-            RequestDispatcher rd = request.getRequestDispatcher("uploadGuest.jsp");
-            rd.include(request, response);
-        } else {
-            RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
-            rd.include(request, response);
-        }*/
+
     } else {
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
 
@@ -79,7 +72,6 @@
         %>
         <img id="<%=i%>" class="image"
              src="<%=FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
-            <%--src="resources/users/<%=session.getAttribute("mail")%>/<%=(i + 1)%><%=extension%>"--%>
          onclick="getPos(this, event)" width="100%">
     <%
         }
@@ -99,7 +91,6 @@
         for (int i = 0; i < images.length; i++) {
     %>
     <img class="slide" src="<%=FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
-    <%--src="resources/users/<%=session.getAttribute("mail")%>/<%=(i + 1)%><%=extension%>"--%>
          onclick="updateIndexSlide(this)" width="<%=(100 / slideCount) - 1%>%">
     <%
         }

@@ -26,18 +26,18 @@
 	<form action="Login">
 		<div class="row">
 			<div class="col-25">
-				<label for="mail"><h2>E- Mail</h2></label>
+				<label for="email"><h2>E- Mail</h2></label>
 			</div>
 			<div class="col-75">
-				<input type="text" id="mail" name="email" placeholder="Your e-mail...">
+				<input type="text" id="email" name="email" placeholder="Your e-mail...">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-25">
-				<label for="pword"><h2>Password</h2></label>
+				<label for="password"><h2>Password</h2></label>
 			</div>
 			<div class="col-75">
-				<input type="password" id="pword" name="password" placeholder="Your password...">
+				<input type="password" id="password" name="password" placeholder="Your password...">
 			</div>
 		</div>
 		<div class="row">

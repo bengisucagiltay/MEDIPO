@@ -1,6 +1,6 @@
-<%@ page import="static utils.FileManager.getUserDirectoryPath" %>
+<%@ page import="utils.FileManager" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+		 pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 
@@ -28,14 +28,12 @@
 	<div class="centerclmn">
 
 		<%
-			if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){
-				session.setAttribute("fname", "Guest");
-				//session.setAttribute("email", "guest");
-				getUserDirectoryPath("guest");
-                /*File guestFolder = new File(FileManager.getResourcesDirectoryPath() +
-                        "/users" +
-                        "/Guest");
-                guestFolder.mkdirs();*/
+			if(session.getAttribute("firstname") == null || session.getAttribute("firstname") == "Guest"){
+				session.setAttribute("firstname", "Guest");
+				/*if( session.getAttribute("email") == null) {
+					session.setAttribute("email", "guest@" + session.getId());
+					FileManager.getUserDirectoryPath("guest@" + session.getId());
+				}*/
 		%>
 				<a class= "gubutton" onclick="document.getElementById('Guest').style.display='block'" style="width:auto" class="gubutton">
 					<%out.println("Get Started");%>
@@ -54,7 +52,7 @@
 				<div class="container">
 					<button type="submit" formaction="login.jsp" >Login</button>
 					<button type="submit" formaction="register.jsp">Register</button><br>
-					<button type="submit" formaction="slider.jsp">Continue as a Guest</button>
+					<button type="submit" formaction="upload.jsp">Continue as a Guest</button>
 				</div>
 			</form>
 		</div>

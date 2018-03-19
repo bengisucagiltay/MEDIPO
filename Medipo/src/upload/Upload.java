@@ -32,10 +32,11 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        String mail = (String) request.getSession().getAttribute("mail");
-        String userFolder = FileManager.getUserDirectoryPath(mail);
+        String email = (String) request.getSession().getAttribute("email");
+        System.out.println("Upload36 to:"+ email);
+        String userDirectoryPath = FileManager.getUserDirectoryPath(email);
 
-        FileUtils.cleanDirectory(new File(userFolder));
+        FileUtils.cleanDirectory(new File(userDirectoryPath));
 
 
         if (!isMultipart) {
@@ -56,7 +57,7 @@ public class Upload extends HttpServlet {
                 } else {
                     try {
                         String itemName = item.getName();
-                        File savedFile = new File(userFolder + System.getProperty("file.separator") + count + itemName.substring(itemName.length() - 4));
+                        File savedFile = new File(userDirectoryPath + System.getProperty("file.separator") + count + itemName.substring(itemName.length() - 4));
                         item.write(savedFile);
                         count++;
                     } catch (Exception e) {

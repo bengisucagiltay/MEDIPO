@@ -27,34 +27,34 @@
 	<form action="Register">
 		<div class="row">
 			<div class="col-25">
-				<label for="fname"><h2>First Name</h2></label>
+				<label for="firstname"><h2>First Name</h2></label>
 			</div>
 			<div class="col-75">
-				<input type="text" id="fname" name="firstname" placeholder="Your name...">
+				<input type="text" id="firstname" name="firstname" placeholder="Your name...">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-25">
-				<label for="lname"><h2>Last Name</h2></label>
+				<label for="lastname"><h2>Last Name</h2></label>
 			</div>
 			<div class="col-75">
-				<input type="text" id="lname" name="lastname" placeholder="Your surname...">
+				<input type="text" id="lastname" name="lastname" placeholder="Your surname...">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-25">
-				<label for="mail"><h2>E- Mail</h2></label>
+				<label for="email"><h2>E- Mail</h2></label>
 			</div>
 			<div class="col-75">
-				<input type="text" id="mail" name="email" placeholder="Your e-mail...">
+				<input type="text" id="email" name="email" placeholder="Your e-mail...">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-25">
-				<label for="pword"><h2>Your Password</h2></label>
+				<label for="password"><h2>Your Password</h2></label>
 			</div>
 			<div class="col-75">
-				<input type="password" id="pword" name="password" placeholder="Your password...">
+				<input type="password" id="password" name="password" placeholder="Your password...">
 			</div>
 		</div>
 		<div class="row">

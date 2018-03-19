@@ -1,5 +1,8 @@
 package logout;
 
+import org.apache.commons.io.FileUtils;
+import utils.FileManager;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,30 +27,21 @@ public class Logout extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 
-		System.out.print("user is:"+session.getId());
-
-		session.removeAttribute("fname");
-		session.removeAttribute("mail");
-
+		session.removeAttribute("firstname");
+		session.removeAttribute("email");
 
 		response.setHeader("Cache-Control","no-store");
 		response.setHeader("Pragma","no-cache");
 
 		response.setDateHeader("Expires",0);
+
+		String sessionID = session.getId();
+		//System.out.print("user is:"+sessionID);
+		String userDirectoryPath = FileManager.getUserDirectoryPath("guest@" + sessionID);
+		FileUtils.deleteDirectory(new File(userDirectoryPath));
+
 		session.invalidate();
-		System.out.print("user is:"+session.getId());
 
-		/*
-		System.out.print("user is:"+session.getId());
-
-		response.setHeader("Cache-Control","no-store");
-		response.setHeader("Pragma","no-cache");
-
-		response.setDateHeader("Expires",0);
-		request.getSession().invalidate();
-		System.out.print("user is:"+session.getId());
-		response.sendRedirect("Home.jsp");
-		*/
 		out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
 		out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
 		out.println("<script>");

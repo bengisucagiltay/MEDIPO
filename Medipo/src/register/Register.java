@@ -12,7 +12,6 @@ import java.io.*;
 import java.util.Scanner;
 
 import utils.FileManager;
-import static utils.FileManager.*;
 
 
 /**
@@ -31,93 +30,54 @@ public class Register extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        String fname = request.getParameter("firstname");
-        String lname = request.getParameter("lastname");
-        String mail = request.getParameter("email");
-        String pword = request.getParameter("password");
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         PrintWriter out = response.getWriter();
-        //TODO::
-        //checkFileExists();
 
-        //HttpSession session = request.getSession();
-        //session.setAttribute("fname", fname);   //TODO: use this session attribute for WELCOME $fname message
-
-        if (checkUserExists(mail) == true) {
+        if (checkUserExists(email) == true) {
             System.out.println("A user with this e-mail already exists!");
             alerts(out, "Oops", "A user with this e-mail already exists! Please try again..", "error");
             //response.sendRedirect("register.jsp");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
-        } else if (mail.equals("") || pword.equals("") || fname.equals("") || lname.equals("")) {
+        } else if (email.equals("") || password.equals("") || firstname.equals("") || lastname.equals("")) {
             System.out.println("Entry cannot be empty");
             alerts(out, "Oops", "Entry cannot be empty! Please try again..", "error");
             //response.sendRedirect("register.jsp");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
-        } else if (pword.length() < 1) {
+        } else if (password.length() < 1) {
             System.out.println("Password should be at least 8 characters");
             alerts(out, "Oops", "Password should have at least 8 characters! Please try again..", "error");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
         }
         //TODO: CHECK IF EMAIL IS WRITTEN IN NAME@EMAIL.COM
-        else if (validateMail(mail) == false) {
+        else if (validateMail(email) == false) {
             System.out.println("Incorrect mail form (NAME@EMAIL.COM)");
             alerts(out, "Oops", "Incorrect mail form (NAME@EMAIL.COM)", "error");
             RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
             rd.include(request, response);
 
         } else {
-            writeUserInfo(fname, lname, mail, pword);
-            getUserDirectoryPath(mail);
+            writeUserInfo(firstname, lastname, email, password);
+            FileManager.getUserDirectoryPath(email);
             alerts(out, "Success", "Register Complete! Please log in..", "success");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request, response);
         }
     }
 
-    private boolean validateMail(String mail) {
+    private boolean validateMail(String email) {
         EmailValidator emailValidator = EmailValidator.getInstance();
 
-        if (emailValidator.isValid(mail))
+        if (emailValidator.isValid(email))
             return true;
         else
             return false;
-    }
-
-    /*private void createUserHomeFile(String mail) {
-        String filePath = FileManager.getResourcesDirectoryPath() + "/users/" + mail.replace('@', '-');
-        File f = new File(filePath);
-        f.mkdirs();
-        return;
-    }*/
-
-    private void checkFileExists() {
-
-
-        File users = new File(USER_INFO);
-        File passwords = new File(PASSWORDS);
-        File emails = new File(String.valueOf(EMAILS));
-
-        try {
-            if (!users.exists()) {
-                users.getParentFile().mkdirs();
-                users.createNewFile();
-            }
-            if (!passwords.exists()) {
-                passwords.getParentFile().mkdirs();
-                passwords.createNewFile();
-            }
-            if (!emails.exists()) {
-                emails.getParentFile().mkdirs();
-                emails.createNewFile();
-            } else
-                System.out.println("File Status unknown!");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /*
@@ -125,11 +85,11 @@ public class Register extends HttpServlet {
      * scans the email file and checks if an email already is registered
      * returns true if already registered
      * */
-    private boolean checkUserExists(String mail) {
+    private boolean checkUserExists(String email) {
         try {
             Scanner scanner = new Scanner(EMAILS, "UTF-8");
             while (scanner.hasNextLine()) {
-                if (mail.equals(scanner.nextLine()))
+                if (email.equals(scanner.nextLine()))
                     return true;
             }
         } catch (FileNotFoundException e) {
@@ -142,27 +102,21 @@ public class Register extends HttpServlet {
      * private method writeUserInfo
      * writes the user info to corresponded files
      * */
-    private void writeUserInfo(String fname, String lname, String mail, String pword) {
+    private void writeUserInfo(String firstname, String lastname, String email, String password) {
         Writer wr1 = null;
         Writer wr2 = null;
         Writer wr3 = null;
 
         try {
-            /*wr1 = new BufferedWriter(new FileWriter(USER_INFO,true));
-            wr1.write(fname + "," + lname +"\n");
-            wr2 = new BufferedWriter(new FileWriter(EMAILS,true));
-            wr2.write(mail +"\n");
-            wr3 = new BufferedWriter(new FileWriter(PASSWORDS,true));
-            wr3.write(pword +"\n");*/
             wr1 = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(USER_INFO, true), "UTF8"));
-            wr1.write(fname + "," + lname + "\n");
+            wr1.write(firstname + "," + lastname + "\n");
             wr2 = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(EMAILS, true), "UTF8"));
-            wr2.write(mail + "\n");
+            wr2.write(email + "\n");
             wr3 = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(PASSWORDS, true), "UTF8"));
-            wr3.write(pword + "\n");
+            wr3.write(password + "\n");
 
         } catch (IOException e) {
             e.printStackTrace();

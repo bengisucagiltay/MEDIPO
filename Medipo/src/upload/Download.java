@@ -11,7 +11,7 @@ public class Download extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String zipPath = FileManager.getResourcesDirectoryPath() + "/" + request.getAttribute("dirPath") + "/" + request.getAttribute("fname") + ".zip";
+        String zipPath = FileManager.getResourcesDirectoryPath() + "/" + request.getAttribute("dirPath") + "/" + request.getAttribute("firstname") + ".zip";
 
         OutputStream out = response.getOutputStream();
         FileInputStream in = new FileInputStream(new File(zipPath));
