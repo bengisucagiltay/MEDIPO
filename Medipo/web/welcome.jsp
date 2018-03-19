@@ -48,13 +48,13 @@
 
 
 		<div id="Guest" class="modal">
-			<form class="modal-content animate" action="login.jsp">
+			<form class="modal-content animate">
                 <span onclick="document.getElementById('Guest').style.display='none'"
                       class="close" title="Close Modal" >&times</span>
 				<div class="container">
-					<button type="submit">Login</button>
+					<button type="submit" formaction="login.jsp" >Login</button>
 					<button type="submit" formaction="register.jsp">Register</button><br>
-					<button type="submit" formaction="uploadGuest.jsp">Continue as a Guest</button>
+					<button type="submit" formaction="slider.jsp">Continue as a Guest</button>
 				</div>
 			</form>
 		</div>

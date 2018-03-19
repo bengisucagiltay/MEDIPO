@@ -45,7 +45,7 @@
 
     <%
         if(session.getAttribute("fname") != null && session.getAttribute("fname") != "Guest"){%>
-            <a style="float: right" href="/Logout" ><u>Logout</u></a>
+            <a style="float: right" href="Logout" ><u>Logout</u></a>
     <%}else if(session.getAttribute("fname") == null || session.getAttribute("fname") == "Guest"){%>
             <a style="float: right" href="login.jsp" ><u>Login</u></a>
 

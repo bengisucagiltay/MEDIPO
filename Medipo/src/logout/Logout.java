@@ -21,12 +21,32 @@ public class Logout extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-
 		HttpSession session = request.getSession();
+
+		System.out.print("user is:"+session.getId());
+
 		session.removeAttribute("fname");
+		session.removeAttribute("mail");
+
+
+		response.setHeader("Cache-Control","no-store");
+		response.setHeader("Pragma","no-cache");
+
+		response.setDateHeader("Expires",0);
 		session.invalidate();
+		System.out.print("user is:"+session.getId());
 
+		/*
+		System.out.print("user is:"+session.getId());
 
+		response.setHeader("Cache-Control","no-store");
+		response.setHeader("Pragma","no-cache");
+
+		response.setDateHeader("Expires",0);
+		request.getSession().invalidate();
+		System.out.print("user is:"+session.getId());
+		response.sendRedirect("Home.jsp");
+		*/
 		out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
 		out.println("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>");
 		out.println("<script>");

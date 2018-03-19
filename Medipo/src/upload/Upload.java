@@ -32,7 +32,8 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        String userFolder = FileManager.getUserDirectoryPath((String) request.getSession().getAttribute("mail"));
+        String mail = (String) request.getSession().getAttribute("mail");
+        String userFolder = FileManager.getUserDirectoryPath(mail);
 
         FileUtils.cleanDirectory(new File(userFolder));
 

@@ -31,7 +31,6 @@
     }
 
     int slideCount = 10;
-    //TODO: Registered user Email görüyor? image basmıyor???
     String mail = (String) session.getAttribute("mail");
     String userDirectoryPath = FileManager.getUserDirectoryPath(mail);
 
