@@ -19,11 +19,10 @@ public class ImageManager {
 		images = new ArrayList<>();
 	}
 
-	public void createImages(int start, int end){
+	public void readImages(int start, int end){
 
-		for(int i = start; i <= end; i++) {
+		for(int i = 1; i <= end; i++) {
 			try {
-				//TODO: PATH DEĞİŞMELİ - FileManager'dan alınmalı
 				BufferedImage image = ImageIO.read(new File("./Medipo/web/resources/"));
 				images.add(new EditableImage(image));
 			} catch (IOException e) {
@@ -34,7 +33,6 @@ public class ImageManager {
 
 	public void segmentImages(){
 		for(int i = 0; i < images.size(); i++) {
-			segmenter.calculateThreshold(images.get(i));
 			segmenter.scanImage(images.get(i));
 		}
 	}

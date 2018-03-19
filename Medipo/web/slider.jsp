@@ -1,5 +1,5 @@
 <%@ page import="java.io.File" %>
-<%@ page import="static utils.FileManager.getUserDirectoryPath" %>
+<%@ page import="utils.FileManager" %>
 
 <html>
 <head>
@@ -33,7 +33,7 @@
     int slideCount = 10;
     //TODO: Registered user Email görüyor? image basmıyor???
     String mail = (String) session.getAttribute("mail");
-    String userDirectoryPath = getUserDirectoryPath(mail);
+    String userDirectoryPath = FileManager.getUserDirectoryPath(mail);
 
     File imagesDir = new File(userDirectoryPath);
     File[] images = imagesDir.listFiles();
@@ -69,7 +69,7 @@
 <h1 id="demo">Text</h1>
 
 <div>
-    <button class="sbutton" onclick="updasteIndexButton(-1)">&#10094;</button>
+    <button class="sbutton" onclick="updateIndexButton(-1)">&#10094;</button>
     <button class="sbutton" onclick="updateIndexButton(1)">&#10095;</button>
 </div>
 
@@ -79,9 +79,9 @@
             for (int i = 0; i < images.length; i++) {
         %>
         <img id="<%=i%>" class="image"
-             src="/<%=userDirectoryPath%>/<%=(i + 1)%><%=extension%>"
+             src="<%=FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
             <%--src="resources/users/<%=session.getAttribute("mail")%>/<%=(i + 1)%><%=extension%>"--%>
-         onclick="getPos(this, event)">
+         onclick="getPos(this, event)" width="100%">
     <%
         }
     %>
@@ -99,7 +99,7 @@
     <%
         for (int i = 0; i < images.length; i++) {
     %>
-    <img class="slide" src="/<%=userDirectoryPath%>/<%=(i + 1)%><%=extension%>"
+    <img class="slide" src="<%=FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
     <%--src="resources/users/<%=session.getAttribute("mail")%>/<%=(i + 1)%><%=extension%>"--%>
          onclick="updateIndexSlide(this)" width="<%=(100 / slideCount) - 1%>%">
     <%

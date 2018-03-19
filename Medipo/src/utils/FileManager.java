@@ -19,18 +19,8 @@ public class FileManager {
                     "apache-tomcat-9.0.5/webapps/Medipo_war/"
             };
 
-
-    private static String getRootDirectoryPath() {
-        for (String path : rootCandidates) {
-            if (new File(path).exists()) {
-                return path;
-            }
-        }
-        return null;
-    }
-
-    public static String getResourcesDirectoryPath() {
-        String path = getRootDirectoryPath() + "/resources";
+    public static String getMarkDirectoryPath(String userEmail) {
+        String path = getUserDirectoryPath(userEmail) + "/mark";
         File f = new File(path);
 
         if (f.exists()) {
@@ -41,8 +31,20 @@ public class FileManager {
         }
     }
 
-    public static String getUsersDirectoryPath() {
-        String path = getResourcesDirectoryPath() + "/users";
+    public static String getDownloadDirectoryPath(String userEmail) {
+        String path = getUserDirectoryPath(userEmail) + "/download";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
+        }
+    }
+
+    public static String getUploadDirectoryPath(String userEmail) {
+        String path = getUserDirectoryPath(userEmail) + "/upload";
         File f = new File(path);
 
         if (f.exists()) {
@@ -65,9 +67,8 @@ public class FileManager {
         }
     }
 
-
-    public static String getServerDirectoryPath(){
-        String path = getResourcesDirectoryPath() + "/server";
+    public static String getUsersDirectoryPath() {
+        String path = getResourcesDirectoryPath() + "/users";
         File f = new File(path);
 
         if (f.exists()) {
@@ -77,6 +78,7 @@ public class FileManager {
             return path;
         }
     }
+
     public static String getUsersFilePath(){
         String path = getServerDirectoryPath() + "/users.txt";
         File f = new File(path);
@@ -123,6 +125,43 @@ public class FileManager {
             }
             return path;
         }
+    }
+
+    public static String getServerDirectoryPath(){
+        String path = getResourcesDirectoryPath() + "/server";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
+        }
+    }
+
+    public static String getResourcesDirectoryPath() {
+        String path = getRootDirectoryPath() + "/resources";
+        File f = new File(path);
+
+        if (f.exists()) {
+            return path;
+        } else {
+            f.mkdirs();
+            return path;
+        }
+    }
+
+    private static String getRootDirectoryPath() {
+        for (String path : rootCandidates) {
+            if (new File(path).exists()) {
+                return path;
+            }
+        }
+        return null;
+    }
+
+    public static String convertPathForJSP(String path){
+        return path.substring(getRootDirectoryPath().length());
     }
 
     public static File zip(String directoryPath, String userEmail, String userName) {

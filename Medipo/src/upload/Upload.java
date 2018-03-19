@@ -1,11 +1,12 @@
 package upload;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
+import utils.FileManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-import static utils.FileManager.getUserDirectoryPath;
 
 /**
  * Servlet implementation class Upload
@@ -33,7 +32,7 @@ public class Upload extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        String userFolder = getUserDirectoryPath((String) request.getSession().getAttribute("mail"));
+        String userFolder = FileManager.getUserDirectoryPath((String) request.getSession().getAttribute("mail"));
 
         FileUtils.cleanDirectory(new File(userFolder));
 
@@ -65,8 +64,6 @@ public class Upload extends HttpServlet {
                 }
             }
         }
-
-        //FileManager.zipDirectory((String) request.getAttribute("dirPath"), (String) request.getAttribute("fname"));
 
         response.sendRedirect("slider.jsp");
 

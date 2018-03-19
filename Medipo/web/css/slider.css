@@ -105,9 +105,9 @@ p{
 
 .outsideWrapper {
     text-align: center;
-    width:125px;
-    height:125px;
-    margin:20px 60px;
+    /*width:125px;*/
+    /*height:125px;*/
+    /*margin:20px 60px;*/
     border:1px solid black;
 }
 .insideWrapper {
