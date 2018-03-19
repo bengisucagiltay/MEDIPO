@@ -3,25 +3,48 @@
 
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <link href="css/slider.css" type="text/css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
-          rel="stylesheet">
+    <%--<script src="https://code.jquery.com/jquery-1.10.2.js"></script>--%>
+    <%--<link href="css/slider.css" type="text/css" rel="stylesheet">--%>
+    <%--<link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"--%>
+    <%--rel="stylesheet">--%>
+    <%--<meta name="viewport" content="width=device-width, initial-scale=1.0">--%>
 
     <title>Image Slider</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        div {
+            position: relative;
+        }
 
+        .image {
+            position: relative;
+        }
+
+        .canvas {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        .img-zoom-result {
+            border: 1px solid #d4d4d4;
+            /*set the size of the result div:*/
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+    </style>
 </head>
 
 <body>
-<div id="navbar1">
-</div>
-<script>
-    $(function () {
-        $("#navbar1").load("navigationbar.jsp");
-    });
-</script>
+
+<%--<div id="navbar1">--%>
+<%--</div>--%>
+<%--<script>--%>
+<%--$(function () {--%>
+<%--$("#navbar1").load("navigationbar.jsp");--%>
+<%--});--%>
+<%--</script>--%>
 
 <%
     //Durması lazım bunun?
@@ -37,7 +60,7 @@
     File[] images = imagesDir.listFiles();
 
 
-    if (images.length == 0) {
+    if (images.length <= 0) {
         System.out.println("No image");
         //JspWriter jout = pageContext.getOut();
         out.println("<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js'></script>");
@@ -53,33 +76,37 @@
 
     } else {
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
-
 %>
 
-<div class="containerS">
+<%--<div class="containerS">--%>
 
-<h1 id="demo">Text</h1>
+<p id="demo">demo</p>
 
 <div>
     <button class="sbutton" onclick="updateIndexButton(-1)">&#10094;</button>
     <button class="sbutton" onclick="updateIndexButton(1)">&#10095;</button>
 </div>
 
-<div class="outsideWrapper">
-    <div class="insideWrapper">
-        <%
-            for (int i = 0; i < images.length; i++) {
-        %>
-        <img id="<%=i%>" class="image"
-             src="<%=FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
-         onclick="getPos(this, event)" width="100%">
+<div id="cnr">
+    <%
+        for (int i = 0; i < images.length; i++) {
+    %>
+    <img id="<%=i%>" class="image"
+         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>">
     <%
         }
     %>
-    <canvas id="canvas" class="coveringCanvas"></canvas>
+    <canvas id="canvas" class="canvas"></canvas>
+
+    <button id="stopDraw" onclick="stopDraw()">Stop Draw</button>
+    <button id="startDraw" onclick="startDraw()">Start Draw</button>
+    <button id="clearImage" onclick="clearImage()">Clear Image</button>
+
+
+
 </div>
-<%--<div id="myresult" class="img-zoom-result" style="display: inline-block"></div>--%>
-</div>
+
+<div id="myresult" class="img-zoom-result"></div>
 
 <div>
     <button class="sbutton" onclick="updateIndexButton(-10)">&#10094;</button>
@@ -90,24 +117,112 @@
     <%
         for (int i = 0; i < images.length; i++) {
     %>
-    <img class="slide" src="<%=FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
+    <img class="slide"
+         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userDirectoryPath)%>/<%=(i + 1)%><%=extension%>"
          onclick="updateIndexSlide(this)" width="<%=(100 / slideCount) - 1%>%">
     <%
         }
     %>
 </div>
 
+
+<%--<script>--%>
+
+<%--var c = document.getElementById("canvas2");--%>
+<%--var ctx = c.getContext("2d");--%>
+<%--ctx.beginPath();--%>
+<%--ctx.moveTo(15, 0);--%>
+<%--ctx.lineTo(15, 20);--%>
+<%--ctx.moveTo(0, 10);--%>
+<%--ctx.lineTo(30, 10);--%>
+<%--ctx.strokeStyle="#ff0000";--%>
+<%--ctx.stroke();--%>
+
+<%--function myFunction() {--%>
+<%--document.getElementById("canvas").removeEventListener('click', drawLine);--%>
+<%--}--%>
+<%--</script>--%>
+
+
 <script>
+    imageZoom("1", "myresult");
+
+    function imageZoom(imgID, resultID) {
+        var img, lens, result, cx, cy;
+        img = document.getElementById(imgID);
+        result = document.getElementById(resultID);
+        temp = document.getElementById("canvas");
+        /*create lens:*/
+
+        /*calculate the ratio between result DIV and lens:*/
+        cx = result.offsetWidth / 40;
+        cy = result.offsetHeight / 40;
+        /*set background properties for the result DIV:*/
+        result.style.backgroundImage = "url('" + img.src + "')";
+        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+        /*execute a function when someone moves the cursor over the image, or the lens:*/
+
+        temp.addEventListener("mousemove", moveLens);
+        /*and also for touch screens:*/
+        temp.addEventListener("touchmove", moveLens);
+
+        function moveLens(e) {
+            var pos, x, y;
+            /*prevent any other actions that may occur when moving over the image:*/
+            e.preventDefault();
+            /*get the cursor's x and y positions:*/
+            pos = getCursorPos(e);
+            /*calculate the position of the lens:*/
+            x = pos.x - 20;
+            y = pos.y - 20;
+            /*prevent the lens from being positioned outside the image:*/
+            if (x > img.width - 40) {
+                x = img.width - 40;
+            }
+            if (x < 0) {
+                x = 0;
+            }
+            if (y > img.height - 40) {
+                y = img.height - 40;
+            }
+            if (y < 0) {
+                y = 0;
+            }
+            /*set the position of the lens:*/
+
+            /*display what the lens "sees":*/
+            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+        }
+
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /*get the x and y positions of the image:*/
+            a = img.getBoundingClientRect();
+            /*calculate the cursor's x and y coordinates, relative to the image:*/
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /*consider any page scrolling:*/
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+
+            return {x: x, y: y};
+        }
+    }
+</script>
+
+<script>
+
+    setSize();
+
     var clicks = 0;
     var den = 0;
     var lastClick = [0, 0];
-
-    document.getElementById('canvas').addEventListener('click', drawLine, false);
+    document.getElementById('canvas').addEventListener('click', drawLine);
 
     function getCursorPosition(e) {
         var x;
         var y;
-
         if (e.pageX != undefined && e.pageY != undefined) {
             x = e.pageX;
             y = e.pageY;
@@ -116,14 +231,20 @@
             y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
         }
 
+        x = x - document.getElementById('cnr').offsetLeft;
+        y = y - document.getElementById('cnr').offsetTop;
+
         return [x, y];
     }
 
     function drawLine(e) {
-        context = this.getContext('2d');
+
+        var context = this.getContext('2d');
 
         x = getCursorPosition(e)[0] - this.offsetLeft;
         y = getCursorPosition(e)[1] - this.offsetTop;
+
+
         if (den == 0)
             den = 1;
         else if (clicks != 0) {
@@ -131,9 +252,12 @@
         } else {
             context.beginPath();
             context.moveTo(lastClick[0], lastClick[1]);
-            context.lineTo(x, y, 6);
+            context.lineTo(x, y);
 
-            context.strokeStyle = '#ff0000';
+            document.getElementById("demo").innerHTML = "x: " + x + " y: " + y;
+
+
+            context.strokeStyle = '#00ff00';
             context.stroke();
 
             clicks = 0;
@@ -141,22 +265,43 @@
 
         lastClick = [x, y];
     }
+
+    function setSize() {
+        var canvas = document.getElementById("canvas");
+        canvas.width = 512;
+        canvas.height = 512;
+    }
+
+    function stopDraw(){
+       document.getElementById("canvas").removeEventListener('click', drawLine);
+    }
+
+
+    function startDraw(){
+        document.getElementById("canvas").addEventListener('click', drawLine);
+    }
+
+    function clearImage(){
+        var canvas=document.getElementById("canvas");
+        var context=canvas.getContext("2d");
+        context.clearRect(0,0,canvas.width,canvas.height);
+
+        clicks = 0;
+        den = 0;
+        lastClick = [0, 0];
+    }
 </script>
 
 <script>
     var index = 0;
-
-    //imageZoom(index, "myresult");
 
     refresh();
 
     function refresh() {
         refreshImage();
         refreshSlides();
-
-        /*remove lens*/
-        document.getElementsByClassName("img-zoom-lens")[0].remove();
-        imageZoom(index, "myresult");
+        clearCanvas();
+        changeZoom();
     }
 
     function refreshImage() {
@@ -198,84 +343,29 @@
         refresh();
     }
 
+    function clearCanvas(){
+        var canvas=document.getElementById("canvas");
+        var context=canvas.getContext("2d");
+        context.clearRect(0,0,canvas.width,canvas.height);
+
+        clicks = 0;
+        den = 0;
+        lastClick = [0, 0];
+    }
+
+    function changeZoom(){
+        imageZoom(index, "myresult");
+    }
+
     function getPos(element, event) {
         var x = event.clientX;
         var y = event.clientY;
     }
-
-    function imageZoom(imgID, resultID) {
-        var img, lens, result, cx, cy;
-        img = document.getElementById(imgID);
-        result = document.getElementById(resultID);
-        /*create lens:*/
-        lens = document.createElement("DIV");
-        lens.setAttribute("class", "img-zoom-lens");
-
-        /*insert lens:*/
-        img.parentElement.insertBefore(lens, img);
-        /*calculate the ratio between result DIV and lens:*/
-        cx = result.offsetWidth / lens.offsetWidth;
-        cy = result.offsetHeight / lens.offsetHeight;
-        /*set background properties for the result DIV:*/
-        result.style.backgroundImage = "url('" + img.src + "')";
-        result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
-        /*execute a function when someone moves the cursor over the image, or the lens:*/
-        lens.addEventListener("mousemove", moveLens);
-        img.addEventListener("mousemove", moveLens);
-        /*and also for touch screens:*/
-        lens.addEventListener("touchmove", moveLens);
-        img.addEventListener("touchmove", moveLens);
-
-        function moveLens(e) {
-            var pos, x, y;
-            /*prevent any other actions that may occur when moving over the image:*/
-            e.preventDefault();
-            /*get the cursor's x and y positions:*/
-            pos = getCursorPos(e);
-            /*calculate the position of the lens:*/
-            x = pos.x - (lens.offsetWidth / 2);
-            y = pos.y - (lens.offsetHeight / 2);
-            /*prevent the lens from being positioned outside the image:*/
-            if (x > img.width - lens.offsetWidth) {
-                x = img.width - lens.offsetWidth;
-            }
-            if (x < 0) {
-                x = 0;
-            }
-            if (y > img.height - lens.offsetHeight) {
-                y = img.height - lens.offsetHeight;
-            }
-            if (y < 0) {
-                y = 0;
-            }
-            /*set the position of the lens:*/
-            lens.style.left = x + "px";
-            lens.style.top = y + "px";
-            /*display what the lens "sees":*/
-            result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
-        }
-
-        function getCursorPos(e) {
-            var a, x = 0, y = 0;
-            e = e || window.event;
-            /*get the x and y positions of the image:*/
-            a = img.getBoundingClientRect();
-            /*calculate the cursor's x and y coordinates, relative to the image:*/
-            x = e.pageX - a.left;
-            y = e.pageY - a.top;
-            /*consider any page scrolling:*/
-            x = x - window.pageXOffset;
-            y = y - window.pageYOffset;
-
-            document.getElementById("demo").innerHTML = "X coords: " + (x) + ", Y coords: " + (y);
-
-            return {x: x, y: y};
-        }
-    }
 </script>
 </div>
-<img src="images/pulse.png" width="100%" alt="backg" >
+
 </body>
+
 </html>
 
 <%}%>

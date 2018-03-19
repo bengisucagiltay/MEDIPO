@@ -1,6 +1,7 @@
 package register;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import utils.FileManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,17 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Scanner;
 
-import utils.FileManager;
-
 
 /**
  * Servlet implementation class Register
  */
 @WebServlet("/Register")
 public class Register extends HttpServlet {
-    private static final String USER_INFO = FileManager.getUsersFilePath();
+    private String USER_INFO = FileManager.getUsersFilePath();
 
-    private static final String PASSWORDS = FileManager.getPasswordsFilePath();
+    private String PASSWORDS = FileManager.getPasswordsFilePath();
 
     private File EMAILS = new File(FileManager.getEmailsFilePath());
 

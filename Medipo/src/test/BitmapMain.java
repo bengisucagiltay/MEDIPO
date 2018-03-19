@@ -6,6 +6,8 @@ public class BitmapMain {
 
 	public static void main(String args[]) throws IOException {
 
+		String a = "aaaa";
+		System.out.println(a.replace('@', '-'));
 //		ImageManager imageManager = new ImageManager();
 //
 //		MyTimer.start();
