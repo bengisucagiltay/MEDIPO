@@ -54,11 +54,11 @@
 
     int slideCount = 10;
     String email = (String) session.getAttribute("email");
-    String userDirectoryPath = FileManager.getUserDirectoryPath(email);
+    String userDirectoryPath = FileManager.getDirPath_UserUpload(email);
 
     File imagesDir = new File(userDirectoryPath);
     //File[] images = imagesDir.listFiles();
-    File[] images = imagesDir.listFiles((dir, i) -> i.toLowerCase().endsWith(".bmp"));
+    File[] images = imagesDir.listFiles((dir, i) -> i.toLowerCase().endsWith(".jpg"));
 
 
     if (images.length <= 0) {
@@ -104,7 +104,6 @@
     <button id="clearImage" onclick="clearImage()">Clear Image</button>
 
 
-
 </div>
 
 <div id="myresult" class="img-zoom-result"></div>
@@ -127,7 +126,7 @@
     %>
 </div>
 
-<a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getUsersDirectoryPath()) + "/" + session.getAttribute("firstname")%>.zip">download</a>
+<a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
 
 
 <%--<script>--%>
@@ -276,19 +275,19 @@
         canvas.height = 512;
     }
 
-    function stopDraw(){
-       document.getElementById("canvas").removeEventListener('click', drawLine);
+    function stopDraw() {
+        document.getElementById("canvas").removeEventListener('click', drawLine);
     }
 
 
-    function startDraw(){
+    function startDraw() {
         document.getElementById("canvas").addEventListener('click', drawLine);
     }
 
-    function clearImage(){
-        var canvas=document.getElementById("canvas");
-        var context=canvas.getContext("2d");
-        context.clearRect(0,0,canvas.width,canvas.height);
+    function clearImage() {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
         clicks = 0;
         den = 0;
@@ -347,17 +346,17 @@
         refresh();
     }
 
-    function clearCanvas(){
-        var canvas=document.getElementById("canvas");
-        var context=canvas.getContext("2d");
-        context.clearRect(0,0,canvas.width,canvas.height);
+    function clearCanvas() {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
         clicks = 0;
         den = 0;
         lastClick = [0, 0];
     }
 
-    function changeZoom(){
+    function changeZoom() {
         imageZoom(index, "myresult");
     }
 

@@ -36,7 +36,7 @@ public class Upload extends HttpServlet {
         String firstname = (String) request.getSession().getAttribute("firstname");
 
         System.out.println("Upload36 to:"+ email);
-        String userDirectoryPath = FileManager.getUserDirectoryPath(email);
+        String userDirectoryPath = FileManager.getDirPath_UserUpload(email);
 
         FileUtils.cleanDirectory(new File(userDirectoryPath));
 

@@ -34,7 +34,7 @@
         if(session.getAttribute("email") == null) {
             String sessionID = session.getId();
             session.setAttribute("email", "guest@" + sessionID);
-            FileManager.getUserDirectoryPath("guest@" + sessionID);
+            FileManager.getDirPath_User("guest@" + sessionID);
         }
         %>
 

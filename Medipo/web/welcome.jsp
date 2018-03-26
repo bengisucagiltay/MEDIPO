@@ -32,7 +32,7 @@
 				session.setAttribute("firstname", "Guest");
 				/*if( session.getAttribute("email") == null) {
 					session.setAttribute("email", "guest@" + session.getId());
-					FileManager.getUserDirectoryPath("guest@" + session.getId());
+					FileManager.getDirPath_User("guest@" + session.getId());
 				}*/
 		%>
 				<a class= "gubutton" onclick="document.getElementById('Guest').style.display='block'" style="width:auto" class="gubutton">

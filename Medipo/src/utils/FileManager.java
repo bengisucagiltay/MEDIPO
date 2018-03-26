@@ -19,8 +19,8 @@ public class FileManager {
                     "apache-tomcat-9.0.5/webapps/Medipo_war"
             };
 
-    public static String getMarkDirectoryPath(String userEmail) {
-        String path = getUserDirectoryPath(userEmail) + "/mark";
+    public static String getDirPath_UserMark(String userEmail) {
+        String path = getDirPath_User(userEmail) + "/mark";
         File f = new File(path);
 
         if (f.exists()) {
@@ -31,8 +31,8 @@ public class FileManager {
         }
     }
 
-    public static String getDownloadDirectoryPath(String userEmail) {
-        String path = getUserDirectoryPath(userEmail) + "/download";
+    public static String getDirPath_UserDownload(String userEmail) {
+        String path = getDirPath_User(userEmail) + "/download";
         File f = new File(path);
 
         if (f.exists()) {
@@ -43,8 +43,8 @@ public class FileManager {
         }
     }
 
-    public static String getUploadDirectoryPath(String userEmail) {
-        String path = getUserDirectoryPath(userEmail) + "/upload";
+    public static String getDirPath_UserUpload(String userEmail) {
+        String path = getDirPath_User(userEmail) + "/upload";
         File f = new File(path);
 
         if (f.exists()) {
@@ -55,8 +55,8 @@ public class FileManager {
         }
     }
 
-    public static String getUserDirectoryPath(String userEmail){
-        String path = getUsersDirectoryPath() + "/" + userEmail.replace('@', '-');
+    public static String getDirPath_User(String userEmail){
+        String path = getDirPath_Users() + "/" + userEmail.replace('@', '-');
         File f = new File(path);
 
         if (f.exists()) {
@@ -67,8 +67,8 @@ public class FileManager {
         }
     }
 
-    public static String getUsersDirectoryPath() {
-        String path = getResourcesDirectoryPath() + "/users";
+    public static String getDirPath_Users() {
+        String path = getDirPath_Resources() + "/users";
         File f = new File(path);
 
         if (f.exists()) {
@@ -79,8 +79,8 @@ public class FileManager {
         }
     }
 
-    public static String getUsersFilePath(){
-        String path = getServerDirectoryPath() + "/users.txt";
+    public static String getFilePath_Names(){
+        String path = getDirPath_Server() + "/names.txt";
         File f = new File(path);
 
         if (f.exists()) {
@@ -95,8 +95,8 @@ public class FileManager {
         }
     }
 
-    public static String getPasswordsFilePath(){
-        String path = getServerDirectoryPath() + "/passwords.txt";
+    public static String getFilePath_Passwords(){
+        String path = getDirPath_Server() + "/passwords.txt";
         File f = new File(path);
 
         if (f.exists()) {
@@ -111,8 +111,8 @@ public class FileManager {
         }
     }
 
-    public static String getEmailsFilePath(){
-        String path = getServerDirectoryPath() + "/emails.txt";
+    public static String getFilePath_Emails(){
+        String path = getDirPath_Server() + "/emails.txt";
         File f = new File(path);
 
         if (f.exists()) {
@@ -127,8 +127,8 @@ public class FileManager {
         }
     }
 
-    public static String getServerDirectoryPath(){
-        String path = getResourcesDirectoryPath() + "/server";
+    public static String getDirPath_Server(){
+        String path = getDirPath_Resources() + "/server";
         File f = new File(path);
 
         if (f.exists()) {
@@ -139,8 +139,8 @@ public class FileManager {
         }
     }
 
-    public static String getResourcesDirectoryPath() {
-        String path = getRootDirectoryPath() + "/resources";
+    public static String getDirPath_Resources() {
+        String path = getDirPath_Root() + "/resources";
         File f = new File(path);
 
         if (f.exists()) {
@@ -151,7 +151,7 @@ public class FileManager {
         }
     }
 
-    private static String getRootDirectoryPath() {
+    private static String getDirPath_Root() {
         for (String path : rootCandidates) {
             if (new File(path).exists()) {
                 return path;
@@ -161,13 +161,13 @@ public class FileManager {
     }
 
     public static String convertPathForJSP(String path){
-        return path.substring(getRootDirectoryPath().length());
+        return path.substring(getDirPath_Root().length());
     }
 
-    public static File zip(String userEmail, String userName) {
-        String directoryPath = getUserDirectoryPath(userEmail);
+    public static File zip(String email, String firstname) {
+        String directoryPath = getDirPath_User(email);
         List<File> files = Arrays.asList(new File(directoryPath).listFiles());
-        File zipfile = new File(getUsersDirectoryPath() + "/" + userName + ".zip");
+        File zipfile = new File(getDirPath_User(email) + "/" + firstname + ".zip");
         // Create a buffer for reading the files
         byte[] buf = new byte[1024];
         try {

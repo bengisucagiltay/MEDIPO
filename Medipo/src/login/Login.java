@@ -22,9 +22,9 @@ import java.util.StringTokenizer;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
-    private File USERS = new File(FileManager.getUsersFilePath());
-    private File PASSWORDS = new File(FileManager.getPasswordsFilePath());
-    private File EMAILS = new File(FileManager.getEmailsFilePath());
+    private File USERS = new File(FileManager.getFilePath_Names());
+    private File PASSWORDS = new File(FileManager.getFilePath_Passwords());
+    private File EMAILS = new File(FileManager.getFilePath_Emails());
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

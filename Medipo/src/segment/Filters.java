@@ -13,11 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @WebServlet("/Filters")
 public class Filters extends HttpServlet {
@@ -27,7 +24,7 @@ public class Filters extends HttpServlet {
 
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
-        String userDirectoryPath = FileManager.getUserDirectoryPath(email);
+        String userDirectoryPath = FileManager.getDirPath_User(email);
         String imgType = ".bmp";
 
         File imagesDir = new File(userDirectoryPath);
@@ -53,7 +50,7 @@ public class Filters extends HttpServlet {
                 //TODO:: !!!! IMPLEMENT WITH ROI !!!!
 
                 for (int i = 0; i < images.length; i++) {
-                    /*String out = FileManager.getResourcesDirectoryPath() + "\\out-canny\\canny-" + (i + 1) +
+                    /*String out = FileManager.getDirPath_Resources() + "\\out-canny\\canny-" + (i + 1) +
                             extension;*/
                     String path = "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts" +
                             "\\Medipo_war_exploded" +

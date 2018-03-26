@@ -37,7 +37,7 @@ public class Logout extends HttpServlet {
 
 		String sessionID = session.getId();
 		//System.out.print("user is:"+sessionID);
-		String userDirectoryPath = FileManager.getUserDirectoryPath("guest@" + sessionID);
+		String userDirectoryPath = FileManager.getDirPath_User("guest@" + sessionID);
 		FileUtils.deleteDirectory(new File(userDirectoryPath));
 
 		session.invalidate();

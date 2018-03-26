@@ -18,11 +18,11 @@ import java.util.Scanner;
  */
 @WebServlet("/Register")
 public class Register extends HttpServlet {
-    private String USER_INFO = FileManager.getUsersFilePath();
+    private String USER_INFO = FileManager.getFilePath_Names();
 
-    private String PASSWORDS = FileManager.getPasswordsFilePath();
+    private String PASSWORDS = FileManager.getFilePath_Passwords();
 
-    private File EMAILS = new File(FileManager.getEmailsFilePath());
+    private File EMAILS = new File(FileManager.getFilePath_Emails());
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -63,7 +63,7 @@ public class Register extends HttpServlet {
 
         } else {
             writeUserInfo(firstname, lastname, email, password);
-            FileManager.getUserDirectoryPath(email);
+            FileManager.getDirPath_User(email);
             alerts(out, "Success", "Register Complete! Please log in..", "success");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.include(request, response);
