@@ -1,3 +1,5 @@
+/*
+
 package segment;
 
 import org.opencv.core.*;
@@ -7,7 +9,7 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-/*
+
 
 public class TestCV {
 
@@ -88,4 +90,6 @@ public class TestCV {
         MatOfPoint points = new MatOfPoint(vertices);
         Imgproc.drawContours(image, Arrays.asList(points), -1, color, thickness);
     }
-}*/
+}
+
+*/
