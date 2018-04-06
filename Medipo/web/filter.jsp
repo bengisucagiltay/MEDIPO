@@ -34,8 +34,8 @@
     int slideCount = 10;
     session = request.getSession();
     String email = (String) session.getAttribute("email");
-    String userDirectoryPath = FileManager.getDirPath_User(email);
-    String filterDirectoryPath = FileManager.getDirPath_User(email+ "/out-sobel") ;
+    String userDirectoryPath = FileManager.getDirPath_UserUpload(email);
+    String filterDirectoryPath = FileManager.getDirPath_UserUpload(email+ "/out-sobel") ;
 
     File filterImagesDir = new File(filterDirectoryPath);
     File[] images = filterImagesDir.listFiles();

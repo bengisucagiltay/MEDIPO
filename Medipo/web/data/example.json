@@ -1,0 +1,50 @@
+{
+  "labels": [
+    "white",
+    "pink",
+    "brown",
+    "red",
+    "green",
+    "blue",
+    "purple"
+  ],
+
+  "imageURLs": [
+
+    "data/images/im10.bmp",
+    "data/images/im20.bmp",
+    "data/images/im30.bmp",
+    "data/images/im40.bmp",
+    "data/images/im50.bmp",
+    "data/images/im60.bmp",
+    "data/images/im70.bmp",
+    "data/images/im80.bmp",
+    "data/images/im90.bmp",
+    "data/images/im100.bmp",
+    "data/images/im110.bmp",
+    "data/images/im120.bmp",
+    "data/images/im130.bmp",
+    "data/images/im140.bmp",
+    "data/images/im150.bmp"
+  ],
+  "annotationURLs": [
+    "data/annotations/1.png",
+    "data/annotations/2.png",
+    "data/annotations/3.png",
+    "data/annotations/4.png",
+    "data/annotations/5.png",
+    "data/annotations/6.png",
+    "data/annotations/7.png",
+    "data/annotations/8.png",
+    "data/annotations/9.png",
+    "data/annotations/10.png",
+    "data/annotations/11.png",
+    "data/annotations/12.png",
+    "data/annotations/13.png",
+    "data/annotations/14.png",
+    "data/annotations/15.png",
+    "data/annotations/16.png"
+
+
+  ]
+}

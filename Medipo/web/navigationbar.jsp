@@ -20,6 +20,7 @@
     <a href="about.jsp">About Us</a>
     <a href="contact.jsp">Contact</a>
     <a href="filter.jsp">Filter</a>
+    <a href="index.html">Slic</a>
 
 
     <b>Welcome,

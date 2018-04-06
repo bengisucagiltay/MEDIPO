@@ -58,7 +58,7 @@
 
     File imagesDir = new File(userDirectoryPath);
     //File[] images = imagesDir.listFiles();
-    File[] images = imagesDir.listFiles((dir, i) -> i.toLowerCase().endsWith(".jpg"));
+    File[] images = imagesDir.listFiles((dir, i) -> i.toLowerCase().endsWith(".bmp"));
 
 
     if (images.length <= 0) {
