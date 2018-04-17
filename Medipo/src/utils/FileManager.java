@@ -11,7 +11,6 @@ import java.util.zip.ZipOutputStream;
 
 public class FileManager {
 
-    //TODO: USERS WEB-INF dışında olmalı, Server folderı WEB-INF içinde olmalı.
     private static String[] rootCandidates =
             {
                     "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
@@ -55,7 +54,7 @@ public class FileManager {
         }
     }
 
-    public static String getDirPath_User(String userEmail){
+    public static String getDirPath_User(String userEmail) {
         String path = getDirPath_Users() + "/" + userEmail.replace('@', '-');
         File f = new File(path);
 
@@ -79,7 +78,7 @@ public class FileManager {
         }
     }
 
-    public static String getFilePath_Names(){
+    public static String getFilePath_Names() {
         String path = getDirPath_Server() + "/names.txt";
         File f = new File(path);
 
@@ -95,7 +94,7 @@ public class FileManager {
         }
     }
 
-    public static String getFilePath_Passwords(){
+    public static String getFilePath_Passwords() {
         String path = getDirPath_Server() + "/passwords.txt";
         File f = new File(path);
 
@@ -111,7 +110,7 @@ public class FileManager {
         }
     }
 
-    public static String getFilePath_Emails(){
+    public static String getFilePath_Emails() {
         String path = getDirPath_Server() + "/emails.txt";
         File f = new File(path);
 
@@ -127,7 +126,7 @@ public class FileManager {
         }
     }
 
-    public static String getDirPath_Server(){
+    public static String getDirPath_Server() {
         String path = getDirPath_Resources() + "/server";
         File f = new File(path);
 
@@ -160,36 +159,36 @@ public class FileManager {
         return null;
     }
 
-    public static String convertPathForJSP(String path){
+    public static String convertPathForJSP(String path) {
         return path.substring(getDirPath_Root().length());
     }
 
     public static File zip(String email, String firstname) {
+
         String directoryPath = getDirPath_User(email);
         List<File> files = Arrays.asList(new File(directoryPath).listFiles());
-        File zipfile = new File(getDirPath_User(email) + "/" + firstname + ".zip");
-        // Create a buffer for reading the files
+        File zipFile = new File(directoryPath + "/" + firstname + ".zip");
+
         byte[] buf = new byte[1024];
         try {
-            // create the ZIP file
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipfile));
-            // compress the files
-            for(int i=0; i<files.size(); i++) {
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
+
+            for (int i = 0; i < files.size(); i++) {
                 FileInputStream in = new FileInputStream(files.get(i).getCanonicalPath());
-                // add ZIP entry to output stream
                 out.putNextEntry(new ZipEntry(files.get(i).getName()));
-                // transfer bytes from the file to the ZIP file
+
                 int len;
-                while((len = in.read(buf)) > 0) {
+                while ((len = in.read(buf)) > 0) {
                     out.write(buf, 0, len);
                 }
-                // complete the entry
+
                 out.closeEntry();
                 in.close();
             }
-            // complete the ZIP file
+
             out.close();
-            return zipfile;
+            return zipFile;
+
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }

@@ -4,7 +4,7 @@
 <html lang="java">
 
 <head>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="js/jquery-1.10.2.js"></script>
     <link href="css/login.css" type="text/css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
           rel="stylesheet">

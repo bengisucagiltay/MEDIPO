@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 
 <head>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="js/jquery-1.10.2.js"></script>
     <link href="css/login.css" type="text/css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative|Open+Sans:400,600i"
-          rel="stylesheet">
+    <link href="css/cinzeldecorative.css" rel="stylesheet">
     <title>..::Welcome to Medipo::..</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,8 +27,8 @@
     text-align: center;
     font-size: 30px;
     font-weight: 600;">Contact Us</h2>
-    <h4> </h4>
-    <h4> </h4>
+    <h4></h4>
+    <h4></h4>
     <h4 style=" text-align:center;font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 14px;">Please use the Contact Form below</h4>
@@ -91,7 +90,7 @@
     </form>
 </div>
 
-    <img src="images/pulse.png" alt="backg" width="100%">
+<img src="images/pulse.png" alt="backg" width="100%">
 </body>
 </html>
 
