@@ -94,15 +94,23 @@
         </div>
         <div class="col-25">
             <button onclick="semiAutomate(1)">PAINT</button>
+            <br>
             <button onclick="updateThreshold(-0.01)">-</button>
             <button onclick="updateThreshold(0.01)">+</button>
             <br>
             <button onclick="clearSelection()">CLEAR</button>
             <p id="threshold">0.02</p>
+            <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
+
         </div>
     </div>
     <br>
 
+    <div>
+        <button onclick="buttonUpdateIndex(-1)">PREV</button>
+        <button onclick="buttonUpdateIndex(1)">NEXT</button>
+    </div>
+    <br>
     <div>
         <%
             for (int i = 0; i < images.length; i++) {
@@ -114,12 +122,12 @@
             }
         %>
     </div>
+    <br>
     <div>
-        <button onclick="buttonUpdateIndex(-1)">PREV</button>
-        <button onclick="buttonUpdateIndex(1)">NEXT</button>
+        <button onclick="buttonUpdateIndex(-10)"> PREV 10</button>
+        <button onclick="buttonUpdateIndex(10)">NEXT 10</button>
     </div>
     <br>
-
     <div>
         <%
             for (int i = 0; i < images.length; i++) {
@@ -131,13 +139,7 @@
             }
         %>
     </div>
-    <div>
-        <button onclick="buttonUpdateIndex(-10)"> PREV 10</button>
-        <button onclick="buttonUpdateIndex(10)">NEXT 10</button>
-    </div>
-    <br>
 
-    <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
 
     <script>
         let index = 0;
