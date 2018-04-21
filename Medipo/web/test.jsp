@@ -18,9 +18,13 @@
         AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
     }
 %>
-
-<html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="java">
 <head>
+    <link href="css/login.css" type="text/css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Image Slider</title>
 
     <style>
@@ -53,12 +57,19 @@
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
 %>
 <body>
-<div>
-    <button onclick="buttonUpdateIndex(-1)">&#10094;</button>
-    <button onclick="buttonUpdateIndex(1)">&#10095;</button>
+<div id="navbar1">
 </div>
+<script>
+    $(function () {
+        $("#navbar1").load("navigationbar.jsp");
+    });
+</script>
 
-<p id="test">here</p>
+<div>
+    <br>
+    <h1 style="text-align: center;">MAGIC WAND</h1>
+    <br>
+</div>
 
 <div>
     <%
@@ -75,8 +86,12 @@
 </div>
 
 <div>
-    <button onclick="buttonUpdateIndex(-10)">&#10094;</button>
-    <button onclick="buttonUpdateIndex(10)">&#10095;</button>
+    <button onclick="buttonUpdateIndex(-1)">PREV</button>
+    <button onclick="buttonUpdateIndex(1)">NEXT</button>
+</div>
+<div>
+    <button onclick="buttonUpdateIndex(-10)"> PREV 10</button>
+    <button onclick="buttonUpdateIndex(10)">NEXT 10</button>
 </div>
 
 <div>
@@ -91,10 +106,11 @@
     %>
 </div>
 
-<button onclick="updateThreshold(-0.01)">&#10094;-</button>
-<button onclick="updateThreshold(0.01)">&#10095;+</button>
-<button onclick="semiAutomate(1)">MAHMUT</button>
-<button onclick="clearSelection()">MAHMUT</button>
+<button onclick="semiAutomate(1)">PAINT</button>
+<button onclick="updateThreshold(-0.01)">-</button>
+<button onclick="updateThreshold(0.01)">+</button>
+<br>
+<button onclick="clearSelection()">CLEAR</button>
 <p id="threshold">0.02</p>
 
 <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
