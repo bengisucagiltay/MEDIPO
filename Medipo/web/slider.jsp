@@ -16,6 +16,7 @@
         images = imagesDir.listFiles();
     } catch (Exception e) {
         AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
+        return;
     }
 %>
 

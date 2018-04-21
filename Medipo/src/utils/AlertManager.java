@@ -20,5 +20,9 @@ public class AlertManager {
 
         RequestDispatcher rd = request.getRequestDispatcher(dispatch);
         rd.include(request, response);
+        //response.sendRedirect(dispatch);
+
+        //sayfa redirect yaptığında problem var dispatcherda.
+        //alert css change
     }
 }

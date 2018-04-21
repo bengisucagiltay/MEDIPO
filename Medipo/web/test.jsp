@@ -51,7 +51,7 @@
         }
 
         .slide2 {
-            width: <%=(100 / slideCount) - 1%>%;
+            width: <%=(100 / slideCount) - 2%>%;
         }
     </style>
     <script src="js/jquery-1.10.2.js"></script>
@@ -106,7 +106,7 @@
                 <div class="cntr" id="range"></div>
                 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
                 <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
-                <script src="slider/index.js"></script>
+                <script id="scroll" src="slider/index.js"></script>
                 <br>
             </div>
             <!--rangeslider -->
@@ -181,6 +181,7 @@
             }
         %>
     </div>
+    <p id="index">0</p>
 </div>
 
     <script>
@@ -205,7 +206,8 @@
             if (typeof threshold[index] === 'undefined')
                 threshold[index] = 0.02;
 
-            document.getElementById("threshold").innerText = threshold[index];
+            document.getElementById("threshold").innerText = document.getElementById("scroll").innerHTML;
+            document.getElementById("index").innerText = index;
 
             refreshImage();
             refreshSlides();
@@ -235,8 +237,16 @@
             }
 
             for (let i = 0; i < slides2.length; i++) {
-                if (Math.floor(i / <%=slideCount%>) === divResult2)
+                if(i == index){
+                    slides2[i].style.border ="5px solid blue";
                     slides2[i].style.display = "inline-block";
+
+                }
+                else if (i <= index + 5 && i>= index - 5){
+                    slides2[i].style.display = "inline-block";
+                    slides2[i].style.border ="5px";
+
+                }
                 else
                     slides2[i].style.display = "none";
             }
