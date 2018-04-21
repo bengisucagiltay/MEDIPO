@@ -76,11 +76,10 @@
     <br>
     <h1 style="text-align: center;">MAGIC WAND</h1>
 </div>
-
 <div class="cBig">
 
     <div class="row">
-        <div class="col-75">
+        <div class="col-75" style="text-align: left;">
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -92,8 +91,10 @@
 
             <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
+
+            <div class="container" style="background-color: #0094e2; left: 520px; top:0;height: 40%; width:25%;"></div>
         </div>
-        <div class="col-25" style="padding-top: 2%">
+        <div class="col-25">
             <h2>Adjust Threshold:</h2><br>
 
             <!--rangeslider -->
@@ -172,7 +173,7 @@
             }
         %>
     </div>
-
+</div>
 
     <script>
         let index = 0;
@@ -384,7 +385,6 @@
         refresh();
     </script>
 
-</div>
 </body>
 <%}%>
 
