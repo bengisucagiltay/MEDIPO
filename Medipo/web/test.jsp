@@ -3,7 +3,7 @@
 <%@ page import="java.io.File" %>
 
 <%
-    int slideCount = 5;
+    int slideCount = 10;
 
     String email = (String) session.getAttribute("email");
     String userUpload = null;
@@ -44,7 +44,10 @@
             top: 0;
         }
 
-        .slide {
+        .slide1 {
+            width: <%=(200 / slideCount) - 1%>%;
+        }
+        .slide2 {
             width: <%=(100 / slideCount) - 1%>%;
         }
     </style>
@@ -100,14 +103,24 @@
     <%
         for (int i = 0; i < images.length; i++) {
     %>
-    <img id="slide<%=i%>" class="slide"
+    <img id="slide<%=i%>" class="slide1"
          src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=i%><%=extension%>"
          onclick="slideUpdateIndex(this)">
     <%
         }
     %>
 </div>
-
+<div>
+    <%
+        for (int i = 0; i < images.length; i++) {
+    %>
+    <img id="slide<%=i%>" class="slide2"
+         src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=i%><%=extension%>"
+         onclick="slideUpdateIndex(this)">
+    <%
+        }
+    %>
+</div>
 <button onclick="semiAutomate(1)">PAINT</button>
 <button onclick="updateThreshold(-0.01)">-</button>
 <button onclick="updateThreshold(0.01)">+</button>
@@ -156,14 +169,22 @@
     }
 
     function refreshSlides() {
-        const slides = document.getElementsByClassName("slide");
+        const slides1 = document.getElementsByClassName("slide1");
+        const slides2 = document.getElementsByClassName("slide2");
         const divResult = Math.floor(index / <%=slideCount%>);
 
-        for (let i = 0; i < slides.length; i++) {
-            if (Math.floor(i / <%=slideCount%>) === divResult)
-                slides[i].style.display = "inline-block";
+        for (let i = 0; i < slides1.length; i++) {
+            if (Math.floor(i / <%=slideCount/2%>) === divResult/2)
+                slides1[i].style.display = "inline-block";
             else
-                slides[i].style.display = "none";
+                slides1[i].style.display = "none";
+        }
+
+        for (let i = 0; i < slides2.length; i++) {
+            if (Math.floor(i / <%=slideCount%>) === divResult)
+                slides2[i].style.display = "inline-block";
+            else
+                slides2[i].style.display = "none";
         }
     }
 
