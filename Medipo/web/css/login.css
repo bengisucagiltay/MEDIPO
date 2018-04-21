@@ -268,3 +268,211 @@ button:hover{
     transform: translate(-50%, -50%);
 }
 
+/* carousel*/
+#carousel {
+    position: absolute;
+    height: 200px;
+    width: 100%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.arrow-right {
+    right:2%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #228291;
+    line-height: 30px;
+    margin-top: 85px;
+    z-index: 1000;
+}
+.arrow-right5 {
+    right:5%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #228291;
+    line-height: 30px;
+    margin-top: 85px;
+    z-index: 1000;
+}
+.arrow-left {
+    left:2%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #228291;
+    line-height: 30px;
+    margin-top: 85px;
+    z-index: 1000;
+}
+.arrow-left5 {
+    left:5%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #228291;
+    line-height: 30px;
+    margin-top: 85px;
+    z-index: 1000;
+}
+
+.item {
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    position: absolute;
+    transition: height 1s, width 1s, left 1s, margin-top 1s, line-height 1s, background-color 1s;
+}
+
+.level-2 {
+    height: 150px;
+    width: 150px;
+    line-height: 150px;
+    background-color: #228291;
+    left: 71%;
+    margin-top: 25px;
+}
+
+.level-1 {
+    height: 180px;
+    width: 180px;
+    line-height: 180px;
+    background-color: #6796e5;
+    left: 56.5%;
+    margin-top: 10px;
+}
+
+.level0 {
+    height: 200px;
+    width: 200px;
+    line-height: 200px;
+    background-color: #4ec9e1;
+    left: 40%;
+}
+
+.level1 {
+    height: 180px;
+    width: 180px;
+    line-height: 180px;
+    background-color: #6796e5;
+    margin-top: 10px;
+    left: 25%;
+}
+
+.level2 {
+    height: 150px;
+    width: 150px;
+    line-height: 150px;
+    background-color: #228291;
+    margin-top: 25px;
+    left: 12.9%;
+}
+
+.left-enter {
+    opacity: 0;
+    left: -60px;
+    height: 120px;
+    width: 120px;
+    line-height: 120px;
+    margin-top: 40px;
+}
+
+.left-enter.left-enter-active {
+    opacity: 1;
+    left: 50px;
+    height: 150px;
+    width: 150px;
+    line-height: 150px;
+    margin-top: 25px;
+    transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s, line-height 1s;
+}
+
+.left-leave {
+    opacity: 1;
+    left: 650px;
+    height: 150px;
+    width: 150px;
+    line-height: 150px;
+    margin-top: 25px;
+}
+
+.left-leave.left-leave-active {
+    left: 780px;
+    opacity: 0;
+    height: 120px;
+    line-height: 120px;
+    margin-top: 40px;
+    width: 120px;
+    transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s, line-height 1s;
+}
+
+.right-enter {
+    opacity: 0;
+    left: 760%;
+    height: 120px;
+    width: 120px;
+    line-height: 120px;
+    margin-top: 40px;
+}
+
+.right-enter.right-enter-active {
+    left: 71%;
+    opacity: 1;
+    height: 150px;
+    margin-top: 25px;
+    line-height: 150px;
+    width: 150px;
+    transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s, line-height 1s;
+}
+
+.right-leave {
+    left: 50px;
+    height: 150px;
+    opacity: 1;
+    margin-top: 25px;
+    line-height: 150px;
+    width: 150px;
+}
+
+.right-leave.right-leave-active {
+    left: -60px;
+    opacity: 0;
+    height: 120px;
+    width: 120px;
+    line-height: 120px;
+    margin-top: 40px;
+    transition: left 1s, opacity 1s, height 1s, width 1s, margin-top 1s, line-height 1s;
+}
+
+.noselect {
+    width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

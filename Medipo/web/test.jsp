@@ -155,8 +155,16 @@
         <%
             }
         %>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
+        <div id="app"></div>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
+        <script type="text/javascript" src="carousel.js"></script>
     </div>
     <br>
+    <link href="css/login.css" type="text/css" rel="stylesheet">
+    <link href="css/cinzeldecorative.css" rel="stylesheet">
     <div>
         <button onclick="buttonUpdateIndex(-10)"> PREV 10</button>
         <button onclick="buttonUpdateIndex(10)">NEXT 10</button>
