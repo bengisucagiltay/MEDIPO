@@ -3,7 +3,7 @@
 <%@ page import="java.io.File" %>
 
 <%
-    int slideCount = 10;
+    int slideCount = 5;
 
     String email = (String) session.getAttribute("email");
     String userUpload = null;
@@ -69,8 +69,9 @@
 <div>
     <br>
     <h1 style="text-align: center;">MAGIC WAND</h1>
-    <br>
 </div>
+
+<div class="container" style="top:50%">
 
 <div>
     <%
@@ -317,6 +318,7 @@
     refresh();
 </script>
 
+</div>
 </body>
 <%}%>
 
