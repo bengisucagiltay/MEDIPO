@@ -4,6 +4,7 @@
 
 <%
     int slideCount = 10;
+    int halfSlide = 5;
 
     String email = (String) session.getAttribute("email");
     String userUpload = null;
@@ -45,7 +46,7 @@
         }
 
         .slide1 {
-            width: <%=(200 / slideCount) - 1%>%;
+            width: <%=(100 / halfSlide) - 1%>%;
         }
 
         .slide2 {
@@ -179,17 +180,18 @@
         function refreshSlides() {
             const slides1 = document.getElementsByClassName("slide1");
             const slides2 = document.getElementsByClassName("slide2");
-            const divResult = Math.floor(index / <%=slideCount%>);
+            const divResult1 = Math.floor(index / <%=halfSlide%>);
+            const divResult2 = Math.floor(index / <%=slideCount%>);
 
             for (let i = 0; i < slides1.length; i++) {
-                if (Math.floor(i / <%=slideCount/2%>) === divResult / 2)
+                if (Math.floor(i / <%=halfSlide%>) === divResult1)
                     slides1[i].style.display = "inline-block";
                 else
                     slides1[i].style.display = "none";
             }
 
             for (let i = 0; i < slides2.length; i++) {
-                if (Math.floor(i / <%=slideCount%>) === divResult)
+                if (Math.floor(i / <%=slideCount%>) === divResult2)
                     slides2[i].style.display = "inline-block";
                 else
                     slides2[i].style.display = "none";
