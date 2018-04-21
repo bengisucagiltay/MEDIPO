@@ -24,6 +24,7 @@
 <html lang="java">
 <head>
     <link href="css/login.css" type="text/css" rel="stylesheet">
+    <link href="css/cinzeldecorative.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Image Slider</title>
 
