@@ -127,6 +127,28 @@ input[type=submit]:hover, input[type=button]:hover{
     font-weight: 600;
  }
 
+.cBig{
+    width: 80%;
+    left: 10%;
+    top: 50%;
+    position: absolute;
+    border-radius: 5px;
+    background-color: #cdeffe;
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.c2{
+    width: fit-content;
+    padding: 20px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
 
 .col-25{
     float: left;
