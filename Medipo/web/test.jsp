@@ -27,6 +27,7 @@
     <link href="css/login.css" type="text/css" rel="stylesheet">
     <link href="css/cinzeldecorative.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Image Slider</title>
 
     <style>
@@ -92,16 +93,48 @@
             <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
-        <div class="col-25">
+        <div class="col-25" style="padding-top: 2%">
+            <h2>Adjust Threshold:</h2><br>
+
+            <!--rangeslider -->
+            <div style="display: inline-block;">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+                <link rel='stylesheet prefetch'
+                      href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+                <br>
+                <div class="cntr" id="range"></div>
+                <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+                <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+                <script src="slider/index.js"></script>
+                <br>
+            </div>
+            <!--rangeslider -->
+
+            <link href="css/login.css" type="text/css" rel="stylesheet">
+            <link href="css/cinzeldecorative.css" rel="stylesheet">
+            <br>
+            <br>
+            <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <br>
-            <button onclick="updateThreshold(-0.01)">-</button>
-            <button onclick="updateThreshold(0.01)">+</button>
+            <button onclick="updateThreshold(-0.01)">DECREASE</button>
+            <button onclick="updateThreshold(0.01)">INCREASE</button>
             <br>
             <button onclick="clearSelection()">CLEAR</button>
+            <br>
             <p id="threshold">0.02</p>
+            <div>
+                <br>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: green"></h2>
+                <h2> : Current Slice</h2><br>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
+                <h2> : Edited Slices</h2><br>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: whitesmoke"></h2>
+                <h2> : Default Style</h2><br>
+            </div>
+            <br>
+            <br>
             <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
-
         </div>
     </div>
     <br>

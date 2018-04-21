@@ -228,3 +228,43 @@ button:hover{
     }
 
 }
+#range {
+    width: 180px;
+    height: 4px;
+    border: 0;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.2);
+    outline: none;
+}
+#range .ui-slider-handle {
+    position: absolute;
+    margin: -6px 0 0 -17px;
+    border-radius: 100px;
+    background: orange;
+    color: #fff;
+    border: 0;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    width: 34px;
+    outline: none;
+    cursor: pointer;
+    font-size: 8px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+}
+#range .ui-slider-handle:hover,
+#range .ui-slider-handle:focus {
+    transform: scale(1.1);
+}
+#range .ui-slider-range {
+    background: #0094e2;
+}
+.cntr {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
