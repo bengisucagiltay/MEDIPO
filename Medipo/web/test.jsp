@@ -231,20 +231,26 @@
 
             for (let i = 0; i < slides1.length; i++) {
                 if (Math.floor(i / <%=halfSlide%>) === divResult1)
-                    slides1[i].style.display = "inline-block";
+                    //slides1[i].style.display = "inline-block";
+                    slides1[i].style.display = "none";//invisible
+
                 else
                     slides1[i].style.display = "none";
             }
 
             for (let i = 0; i < slides2.length; i++) {
                 if(i == index){
-                    slides2[i].style.border ="5px solid blue";
-                    slides2[i].style.display = "inline-block";
+                    //slides2[i].style.border ="5px solid blue";
+                    //slides2[i].style.display = "inline-block";
+                    slides2[i].style.display = "none";//invisible
+
 
                 }
                 else if (i <= index + 5 && i>= index - 5){
-                    slides2[i].style.display = "inline-block";
-                    slides2[i].style.border ="5px";
+                    //slides2[i].style.display = "inline-block";
+                    //slides2[i].style.border ="5px";
+                    slides2[i].style.display = "none";//invisible
+
 
                 }
                 else
