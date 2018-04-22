@@ -97,19 +97,7 @@
         <div class="col-25">
             <h2>Adjust Threshold:</h2><br>
 
-            <!--rangeslider -->
-            <div style="display: inline-block;">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-                <link rel='stylesheet prefetch'
-                      href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
-                <br>
-                <div class="cntr" id="range"></div>
-                <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-                <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
-                <script id="scroll" src="rangeSlider.js"></script>
-                <br>
-            </div>
-            <!--rangeslider -->
+
 
             <link href="css/login.css" type="text/css" rel="stylesheet">
             <link href="css/cinzeldecorative.css" rel="stylesheet">
@@ -215,7 +203,6 @@
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
 
-        document.getElementById("threshold").innerText = document.getElementById("scroll").innerHTML;
         document.getElementById("index").innerText = index;
 
         refreshImage();
