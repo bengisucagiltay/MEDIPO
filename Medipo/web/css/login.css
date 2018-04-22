@@ -281,21 +281,6 @@ button:hover{
 }
 
 .arrow-right {
-    right:2%;
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    text-align: center;
-    font-size: 25px;
-    border-radius: 50%;
-    cursor: pointer;
-    color: #0094e2;
-    line-height: 30px;
-    margin-top: 85px;
-    z-index: 1000;
-}
-.fast-forward {
     right:5%;
     position: absolute;
     width: 30px;
@@ -310,8 +295,23 @@ button:hover{
     margin-top: 85px;
     z-index: 1000;
 }
+.fast-forward {
+    right:2%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #0094e2;
+    line-height: 30px;
+    margin-top: 85px;
+    z-index: 1000;
+}
 .arrow-left {
-    left:2%;
+    left:5%;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -326,7 +326,7 @@ button:hover{
     z-index: 1000;
 }
 .rewind {
-    left:5%;
+    left:2%;
     position: absolute;
     width: 30px;
     height: 30px;
