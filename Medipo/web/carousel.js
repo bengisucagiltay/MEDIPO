@@ -135,8 +135,8 @@ var Carousel = function (_React$Component) {
                 ),
                 React.createElement(
                     "div",
-                    {className: "arrow-left5", onClick: this.leftClick5},
-                    React.createElement("i", {className: "fi-arrow-left5"})
+                    {className: "rewind", onClick: this.leftClick5},
+                    React.createElement("i", {className: "fi-rewind"})
                 ),
                 React.createElement(
                     ReactCSSTransitionGroup,
@@ -145,8 +145,8 @@ var Carousel = function (_React$Component) {
                 ),
                 React.createElement(
                     "div",
-                    {className: "arrow-right5", onClick: this.rightClick5},
-                    React.createElement("i", {className: "fi-arrow-right5"})
+                    {className: "fast-forward", onClick: this.rightClick5},
+                    React.createElement("i", {className: "fi-fast-forward"})
                 ),
                 React.createElement(
                     "div",

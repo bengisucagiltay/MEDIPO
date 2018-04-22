@@ -290,12 +290,12 @@ button:hover{
     font-size: 25px;
     border-radius: 50%;
     cursor: pointer;
-    color: #228291;
+    color: #0094e2;
     line-height: 30px;
     margin-top: 85px;
     z-index: 1000;
 }
-.arrow-right5 {
+.fast-forward {
     right:5%;
     position: absolute;
     width: 30px;
@@ -305,7 +305,7 @@ button:hover{
     font-size: 25px;
     border-radius: 50%;
     cursor: pointer;
-    color: #228291;
+    color: #0094e2;
     line-height: 30px;
     margin-top: 85px;
     z-index: 1000;
@@ -320,12 +320,12 @@ button:hover{
     font-size: 25px;
     border-radius: 50%;
     cursor: pointer;
-    color: #228291;
+    color: #0094e2;
     line-height: 30px;
     margin-top: 85px;
     z-index: 1000;
 }
-.arrow-left5 {
+.rewind {
     left:5%;
     position: absolute;
     width: 30px;
@@ -335,7 +335,7 @@ button:hover{
     font-size: 25px;
     border-radius: 50%;
     cursor: pointer;
-    color: #228291;
+    color: #0094e2;
     line-height: 30px;
     margin-top: 85px;
     z-index: 1000;
