@@ -16,6 +16,7 @@ public class FileManager {
                     "C:\\Users\\Ege\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
                     "C:\\Users\\Bengisu\\IdeaProjects\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded",
                     "C:\\Users\\imgew\\git\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded",
+                    "C:\\Users\\PC\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
                     "apache-tomcat-9.0.5/webapps/Medipo_war"
             };
 
