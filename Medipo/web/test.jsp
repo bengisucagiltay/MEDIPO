@@ -54,6 +54,41 @@
             width: <%=(100 / slideCount) - 2%>%;
         }
     </style>
+
+    <style>
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ffffff;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: url('images/bb.png');
+            cursor: pointer;
+        }
+
+
+    </style>
+
     <script src="js/jquery-1.10.2.js"></script>
 </head>
 
@@ -96,8 +131,31 @@
         </div>
         <div class="col-25">
             <h2>Adjust Threshold:</h2><br>
+            <div class="slidecontainer">
+                <input type="range" min="2" max="10" value="2" class="slider" id="myRange">
+                <p>Value: <span id="demo"></span></p>
+            </div>
 
+            <script>
+                var slider = document.getElementById("myRange");
+                var output = document.getElementById("demo");
+                output.innerHTML = slider.value;
 
+                slider.oninput = function() {
+
+                   updateThreshold(this.value);
+                }
+                function increase() {
+                    updateThreshold(0.01);
+                    slider.value++;
+                    output.innerHTML = slider.value;
+                }
+                function decrease() {
+                    updateThreshold(-0.01);
+                    slider.value--;
+                    output.innerHTML = slider.value;
+                }
+            </script>
 
             <link href="css/login.css" type="text/css" rel="stylesheet">
             <link href="css/cinzeldecorative.css" rel="stylesheet">
@@ -106,8 +164,8 @@
             <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <br>
-            <button onclick="updateThreshold(-0.01)">DECREASE</button>
-            <button onclick="updateThreshold(0.01)">INCREASE</button>
+            <button onclick="decrease()">DECREASE</button>
+            <button onclick="increase()">INCREASE</button>
             <br>
             <button onclick="clearSelection()">CLEAR</button>
             <br>
