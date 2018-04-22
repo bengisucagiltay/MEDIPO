@@ -72,6 +72,47 @@
     });
 </script>
 
+
+<style>
+    .slidecontainer {
+        width: 100%;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 23px;
+        height: 24px;
+        border: 0;
+        background: url('images/aa.png');
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 23px;
+        height: 24px;
+        border: 0;
+        background: url('images/aa.png');
+        cursor: pointer;
+    }
+</style>
+
 <div>
     <br>
     <h1 style="text-align: center;">MAGIC WAND</h1>
@@ -98,16 +139,9 @@
             <h2>Adjust Threshold:</h2><br>
 
             <!--rangeslider -->
-            <div style="display: inline-block;">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-                <link rel='stylesheet prefetch'
-                      href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
-                <br>
-                <div class="cntr" id="range"></div>
-                <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-                <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
-                <script id="scroll" src="rangeSlider.js"></script>
-                <br>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                <p>Value: <span id="demo"></span></p>
             </div>
             <!--rangeslider -->
 
@@ -157,10 +191,19 @@
         %>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
-        <div id="app"></div>
+        <div id="carouselSlider"></div>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
         <script type="text/javascript" src="carousel.js"></script>
+        <script>
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = slider.value;
+
+            slider.oninput = function() {
+                output.innerHTML = this.value;
+            }
+        </script>
     </div>
     <br>
     <link href="css/login.css" type="text/css" rel="stylesheet">
