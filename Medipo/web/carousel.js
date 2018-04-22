@@ -71,7 +71,7 @@ var Carousel = function (_React$Component) {
         value: function generateItems() {
             var items = [];
             var level;
-            console.log(this.state.active);
+            //console.log(this.state.active);
             for (var i = this.state.active - 2; i < this.state.active + 3; i++) {
                 var index = i;
                 if (i < 0) {
@@ -178,16 +178,21 @@ var Item = function (_React$Component2) {
         key: "render",
         value: function render() {
             var className = "item level" + this.props.level;
+            var imgClass = "img-lvl" + this.props.level;
+            var imgSrc = this.props.id;
             return React.createElement(
                 "div",
                 {className: className},
-                this.props.id
+                React.createElement(
+                    "img",
+                    {className: imgClass, src: "images/" + imgSrc}
+                )
             );
         }
     }]);
 
     return Item;
 }(React.Component);
-
-var items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// 10 items
+var items = ["ff.png", "img_avatar.png", "img_avatar2.png", "pulse.png", "bb.png", "headerhead.png", "ff.png", "ff.png", "ff.png", "ff.png"];
 ReactDOM.render(React.createElement(Carousel, {items: items, active: 0}), document.getElementById("app"));

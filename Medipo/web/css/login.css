@@ -393,6 +393,27 @@ button:hover{
     left: 12.9%;
 }
 
+.img-lvl0{
+    max-height: 200px;
+    max-width: 200px;
+}
+.img-lvl1{
+    max-height: 180px;
+    max-width: 180px;
+}
+.img-lvl2{
+    max-height: 150px;
+    max-width: 150px;
+}
+.img-lvl-1{
+    max-height: 180px;
+    max-width: 180px;
+}
+.img-lvl-2{
+    max-height: 150px;
+    max-width: 150px;
+}
+
 .left-enter {
     opacity: 0;
     left: -60px;
