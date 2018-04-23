@@ -186,7 +186,8 @@
 
                 slider.oninput = function () {
 
-                    updateThreshold(this.value);
+                    updateThreshold2(this.value/100);
+                    output.innerHTML = slider.value;
                 }
 
                 function increase() {
@@ -470,6 +471,18 @@
         document.getElementById("threshold").innerText = threshold[index];
         sendClickOp()
     }
+
+    function updateThreshold2(n) {
+        threshold[index] =n;
+        if (threshold[index] >= 0.2)
+            threshold[index] = 0.2;
+        else if (threshold[index] < 0)
+            threshold[index] = 0;
+
+        document.getElementById("threshold").innerText = threshold[index];
+        sendClickOp()
+    }
+
 
     function semiAutomate(count) {
         if (typeof threshold[index] === 'undefined')
