@@ -373,6 +373,7 @@ button:hover{
     line-height: 200px;
     background-color: #4ec9e1;
     left: 40%;
+    border: solid #0094e2 thick;
 }
 
 .level1 {

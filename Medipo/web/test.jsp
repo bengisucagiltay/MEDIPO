@@ -46,6 +46,12 @@
             top: 0;
         }
 
+        .canvas3 {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
         .slide1 {
             width: <%=(100 / halfSlide) - 1%>%;
         }
@@ -89,6 +95,27 @@
 
     </style>
 
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .zoom {
+            padding: 50px;
+            background-color: green;
+            transition: transform .2s;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .zoom:hover {
+            -ms-transform: scale(1.5); /* IE 9 */
+            -webkit-transform: scale(1.5); /* Safari 3-8 */
+            transform: scale(1.5);
+        }
+    </style>
+
     <script src="js/jquery-1.10.2.js"></script>
 </head>
 
@@ -128,19 +155,28 @@
             <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
 
-            <div class="container" style="background-color: #0094e2; left: 520px; top:0;height: 40%; width:25%;"></div>
+            <div class="container" style="background-color: #0094e2; left: 520px; top:0;height: 40%; width:25%;">
+
+                <div class="zoom">
+                    <div>
+                        <canvas id="canvas1" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
+                        <canvas id="canvas0" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="col-25">
-            <h2>Adjust Threshold:</h2><br>
+            <h1>Adjust Threshold:</h1><br>
             <div class="slidecontainer">
                 <input type="range" min="2" max="10" value="2" class="slider" id="myRange">
                 <p>Value: <span id="demo"></span></p>
             </div>
 
             <script>
-                var ijk=0;
-                while(document.getElementById("image"+ijk)!=null){
-                    var a=document.getElementById("image"+ijk).src;
+                var ijk = 0;
+                while (document.getElementById("image" + ijk) != null) {
+                    var a = document.getElementById("image" + ijk).src;
                     cnrdeneme.push(a);
                     ijk++;
                 }
@@ -148,15 +184,17 @@
                 var output = document.getElementById("demo");
                 output.innerHTML = slider.value;
 
-                slider.oninput = function() {
+                slider.oninput = function () {
 
-                   updateThreshold(this.value);
+                    updateThreshold(this.value);
                 }
+
                 function increase() {
                     updateThreshold(0.01);
                     slider.value++;
                     output.innerHTML = slider.value;
                 }
+
                 function decrease() {
                     updateThreshold(-0.01);
                     slider.value--;
@@ -166,9 +204,7 @@
 
             <link href="css/login.css" type="text/css" rel="stylesheet">
             <link href="css/cinzeldecorative.css" rel="stylesheet">
-            <br>
-            <br>
-            <br>
+
             <button onclick="semiAutomate(1)">PAINT</button>
             <br>
             <button onclick="decrease()">DECREASE</button>
@@ -177,28 +213,33 @@
             <button onclick="clearSelection()">CLEAR</button>
             <br>
             <p id="threshold">0.02</p>
-            <div>
-                <br>
-                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: green"></h2>
-                <h2> : Current Slice</h2><br>
-                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
-                <h2> : Edited Slices</h2><br>
-                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: whitesmoke"></h2>
-                <h2 id="asd"> : Default Style</h2><br>
-            </div>
-            <br>
-            <br>
-            <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
-        </div>
-    </div>
-    <br>
 
-    <div>
-        <button onclick="buttonUpdateIndex(-1)">PREV</button>
-        <button onclick="buttonUpdateIndex(1)">NEXT</button>
+
+            <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
+
+        </div>
+
     </div>
-    <br>
+    <!--
+        <div>
+            <button onclick="buttonUpdateIndex(-1)">PREV</button>
+            <button onclick="buttonUpdateIndex(1)">NEXT</button>
+        </div>
+       -->
     <div>
+        <br>
+        <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
+        <h2 style="float: left"> : Current Slice</h2>
+
+        <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
+        <h2 style="float: left"> : Edited Slices</h2>
+        <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: whitesmoke"></h2>
+        <h2 style="float: left"> : Default Style</h2><br>
+    </div>
+
+    <h1 id="index">0</h1>
+    <div>
+
         <%
             for (int i = 0; i < images.length; i++) {
         %>
@@ -208,7 +249,8 @@
         <%
             }
         %>
-        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
+        <link rel='stylesheet prefetch'
+              href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
         <div id="app"></div>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
@@ -227,10 +269,12 @@
     <br>
     <br><br>
     <br>
+    <!--
     <div>
         <button onclick="buttonUpdateIndex(-10)"> PREV 10</button>
         <button onclick="buttonUpdateIndex(10)">NEXT 10</button>
     </div>
+    -->
     <br>
     <div>
         <%
@@ -243,7 +287,6 @@
             }
         %>
     </div>
-    <p id="index">0</p>
 </div>
 
 <script>
@@ -300,14 +343,14 @@
         }
 
         for (let i = 0; i < slides2.length; i++) {
-            if(i == index){
+            if (i == index) {
                 //slides2[i].style.border ="5px solid blue";
                 //slides2[i].style.display = "inline-block";
                 slides2[i].style.display = "none";//invisible
 
 
             }
-            else if (i <= index + 5 && i>= index - 5){
+            else if (i <= index + 5 && i >= index - 5) {
                 //slides2[i].style.display = "inline-block";
                 //slides2[i].style.border ="5px";
                 slides2[i].style.display = "none";//invisible

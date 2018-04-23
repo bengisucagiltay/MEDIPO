@@ -89,10 +89,10 @@ var Carousel = function (_React$Component) {
         key: "moveLeft",
         value: function moveLeft() {
             var newActive = this.state.active;
-            buttonUpdateIndex(-1);
-            newActive--;
+            //buttonUpdateIndex(-1);
+            newActive = newActive -1;
             this.setState({
-                active: newActive < 0 ? this.state.items.length - 1 : newActive,
+                active: newActive < 0 ?  this.state.items.length - 1 : newActive,
                 direction: "left"
             });
             buttonUpdateIndex(-1);
@@ -103,9 +103,10 @@ var Carousel = function (_React$Component) {
             var newActive = this.state.active;
             newActive= newActive-5;
             this.setState({
-                active: newActive < 0 ? this.state.items.length - 1 : newActive,
+                active: newActive < 0 ?  this.state.items.length - 1 : newActive,
                 direction: "left"
             });
+            buttonUpdateIndex(-5);
         }
     }, {
         key: "moveRight",
@@ -126,6 +127,7 @@ var Carousel = function (_React$Component) {
                 active: (newActive + 5) % this.state.items.length,
                 direction: "right"
             });
+            buttonUpdateIndex(5);
         }
     }, {
         key: "render",
