@@ -16,9 +16,9 @@
 
 </head>
 <body>
-<div id="app"></div>
+<div id="carouselSlider"></div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
-<script type="text/javascript" src="carousel.js"></script>
+<script type="text/javascript" src="js/carousel.js"></script>
 </body>
 </html>

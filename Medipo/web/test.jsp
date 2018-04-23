@@ -27,6 +27,9 @@
     <link href="css/login.css" type="text/css" rel="stylesheet">
     <link href="css/cinzeldecorative.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
+
 
     <title>Image Slider</title>
 
@@ -76,6 +79,7 @@
             opacity: 0.7;
             -webkit-transition: .2s;
             transition: opacity .2s;
+
         }
 
         .slider:hover {
@@ -97,21 +101,25 @@
 
     <style>
         * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         .zoom {
-            padding: 50px;
-            background-color: green;
-            transition: transform .2s;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #333;
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -ms-transition: all 1s ease;
+            transition: all 1s ease;
         }
 
         .zoom:hover {
-            -ms-transform: scale(1.5); /* IE 9 */
-            -webkit-transform: scale(1.5); /* Safari 3-8 */
+            -moz-transform: scale(1.5);
+            -webkit-transform: scale(1.5);
             transform: scale(1.5);
         }
     </style>
@@ -136,14 +144,11 @@
     var cnrdeneme = [];
 </script>
 
-<div>
-    <br>
-    <h1 style="text-align: center;">MAGIC WAND</h1>
-</div>
+
 <div class="cBig">
 
     <div class="row">
-        <div class="col-75" style="text-align: left;">
+        <div class="col-75" style="text-align: left;width:512px;position: sticky;">
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -154,18 +159,8 @@
             %>
             <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
-
-            <div class="container" style="background-color: #0094e2; left: 520px; top:0;height: 40%; width:25%;">
-
-                <div class="zoom">
-                    <div>
-                        <canvas id="canvas1" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
-                        <canvas id="canvas0" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
-                    </div>
-                </div>
-
-            </div>
         </div>
+
         <div class="col-25">
             <h1>Adjust Threshold:</h1><br>
             <div class="slidecontainer">
@@ -186,7 +181,7 @@
 
                 slider.oninput = function () {
 
-                    updateThreshold2(this.value/100);
+                    updateThreshold2(this.value / 100);
                     output.innerHTML = slider.value;
                 }
 
@@ -203,44 +198,51 @@
                 }
             </script>
 
-            <link href="css/login.css" type="text/css" rel="stylesheet">
-            <link href="css/cinzeldecorative.css" rel="stylesheet">
-
             <button onclick="semiAutomate(1)">PAINT</button>
-            <br>
+            <!--<br>
             <button onclick="decrease()">DECREASE</button>
             <button onclick="increase()">INCREASE</button>
-            <br>
+            <br>-->
             <button onclick="clearSelection()">CLEAR</button>
             <br>
-            <p id="threshold">0.02</p>
+            <p id="threshold">0.02</p><br><br>
 
-
+            <div>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
+                <h2 style="float: left"> : Current Slice</h2><br><br>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
+                <h2 style="float: left"> : Edited Slices</h2><br>
+                <!--<h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2);
+                background-color: whitesmoke"></h2>
+                <h2 style="float: left"> : Default Style</h2><br>-->
+            </div>
+            <br><br><br>
             <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
 
-        </div>
 
-    </div>
-    <!--
-        <div>
-            <button onclick="buttonUpdateIndex(-1)">PREV</button>
-            <button onclick="buttonUpdateIndex(1)">NEXT</button>
         </div>
-       -->
-    <div>
-        <br>
-        <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
-        <h2 style="float: left"> : Current Slice</h2>
+        <div class="zoom"style="text-align: right; top:0;height: 512px;width:512px;float: right; position: relative;">
 
-        <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
-        <h2 style="float: left"> : Edited Slices</h2>
-        <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: whitesmoke"></h2>
-        <h2 style="float: left"> : Default Style</h2><br>
+            <%
+                for (int j = 0; j < images.length; j++) {
+            %>
+            <img id="image<%=j%>" class="image"
+                 src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=j + extension%>"
+            >
+            <%
+                }
+            %>
+            <div class="col-75" >
+            <canvas id="canvas1" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
+            <canvas id="canvas0" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
+            </div>
+        </div>
     </div>
 
     <h1 id="index">0</h1>
-    <div>
 
+
+    <div>
         <%
             for (int i = 0; i < images.length; i++) {
         %>
@@ -250,33 +252,14 @@
         <%
             }
         %>
-        <link rel='stylesheet prefetch'
-              href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
-        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
-        <div id="app"></div>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
-        <script type="text/javascript" src="carousel.js"></script>
+
     </div>
-    <br>
-    <link href="css/login.css" type="text/css" rel="stylesheet">
-    <link href="css/cinzeldecorative.css" rel="stylesheet">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br><br>
-    <br>
-    <!--
-    <div>
-        <button onclick="buttonUpdateIndex(-10)"> PREV 10</button>
-        <button onclick="buttonUpdateIndex(10)">NEXT 10</button>
-    </div>
-    -->
-    <br>
+    <div id="carouselSlider"></div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
+    <script type="text/javascript" src="js/carousel.js"></script>
+    <br><br><br><br><br><br><br><br>
+
     <div>
         <%
             for (int i = 0; i < images.length; i++) {
@@ -289,6 +272,7 @@
         %>
     </div>
 </div>
+
 
 <script>
     let index = 0;
@@ -308,6 +292,26 @@
 </script>
 
 <script>
+    /*
+    // Zoom to specific resolution.
+    Annotator.prototype.zoom = function (scale) {
+        this.currentZoom = Math.max(Math.min(scale || 1.0, 10.0), 1.0);
+        this.innerContainer.style.zoom = this.currentZoom;
+        this.innerContainer.style.MozTransform =
+            "scale(" + this.currentZoom + ")";
+        return this;
+    };
+
+    // Zoom in.
+    Annotator.prototype.zoomIn = function (scale) {
+        return this.zoom(this.currentZoom + (scale || 0.25));
+    };
+
+    // Zoom out.
+    Annotator.prototype.zoomOut = function (scale) {
+        return this.zoom(this.currentZoom - (scale || 0.25));
+    };*/
+
     function refresh() {
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
@@ -473,7 +477,7 @@
     }
 
     function updateThreshold2(n) {
-        threshold[index] =n;
+        threshold[index] = n;
         if (threshold[index] >= 0.2)
             threshold[index] = 0.2;
         else if (threshold[index] < 0)
@@ -482,7 +486,6 @@
         document.getElementById("threshold").innerText = threshold[index];
         sendClickOp()
     }
-
 
     function semiAutomate(count) {
         if (typeof threshold[index] === 'undefined')
@@ -528,7 +531,4 @@
 
 </body>
 <%}%>
-
 </html>
-
-

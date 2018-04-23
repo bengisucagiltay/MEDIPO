@@ -211,4 +211,4 @@ while(tempi<cnrdeneme.length){
 }
 
 
-ReactDOM.render(React.createElement(Carousel, {items: items, active: 0}), document.getElementById("app"));
+ReactDOM.render(React.createElement(Carousel, {items: items, active: 0}), document.getElementById("carouselSlider"));

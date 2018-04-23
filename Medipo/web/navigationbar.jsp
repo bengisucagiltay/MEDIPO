@@ -16,11 +16,11 @@
 
     <a href="welcome.jsp">Home</a>
     <a href="upload.jsp">Upload</a>
-    <a href="magicwand.jsp">Image History</a>
+    <a href="test.jsp">Image History</a>
     <a href="about.jsp">About Us</a>
     <a href="contact.jsp">Contact</a>
     <a href="test.jsp">Magic Wand</a>
-    <a href="test.jsp">Slic</a>
+    <a href="superpixel.jsp">Slic</a>
 
     <b>Welcome,
         <%
