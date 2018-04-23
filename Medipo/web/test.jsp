@@ -105,6 +105,8 @@
     $(function () {
         $("#navbar1").load("navigationbar.jsp");
     });
+
+    var cnrdeneme = [];
 </script>
 
 <div>
@@ -123,7 +125,6 @@
             <%
                 }
             %>
-
             <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
 
@@ -137,6 +138,12 @@
             </div>
 
             <script>
+                var ijk=0;
+                while(document.getElementById("image"+ijk)!=null){
+                    var a=document.getElementById("image"+ijk).src;
+                    cnrdeneme.push(a);
+                    ijk++;
+                }
                 var slider = document.getElementById("myRange");
                 var output = document.getElementById("demo");
                 output.innerHTML = slider.value;
@@ -177,7 +184,7 @@
                 <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
                 <h2> : Edited Slices</h2><br>
                 <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: whitesmoke"></h2>
-                <h2> : Default Style</h2><br>
+                <h2 id="asd"> : Default Style</h2><br>
             </div>
             <br>
             <br>

@@ -85,14 +85,17 @@ var Carousel = function (_React$Component) {
             return items;
         }
     }, {
+
         key: "moveLeft",
         value: function moveLeft() {
             var newActive = this.state.active;
+            buttonUpdateIndex(-1);
             newActive--;
             this.setState({
                 active: newActive < 0 ? this.state.items.length - 1 : newActive,
                 direction: "left"
             });
+            buttonUpdateIndex(-1);
         }
     }, {
         key: "moveLeft5",
@@ -108,10 +111,12 @@ var Carousel = function (_React$Component) {
         key: "moveRight",
         value: function moveRight() {
             var newActive = this.state.active;
+
             this.setState({
                 active: (newActive + 1) % this.state.items.length,
                 direction: "right"
             });
+            buttonUpdateIndex(1);
         }
     }, {
         key: "moveRight5",
@@ -185,7 +190,7 @@ var Item = function (_React$Component2) {
                 {className: className},
                 React.createElement(
                     "img",
-                    {className: imgClass, src: "images/" + imgSrc}
+                    {className: imgClass, src:imgSrc}
                 )
             );
         }
@@ -194,5 +199,14 @@ var Item = function (_React$Component2) {
     return Item;
 }(React.Component);
 // 10 items
-var items = ["ff.png", "img_avatar.png", "img_avatar2.png", "pulse.png", "bb.png", "headerhead.png", "ff.png", "ff.png", "ff.png", "ff.png"];
+
+var items = [];
+
+var tempi=0;
+while(tempi<cnrdeneme.length){
+    items.push(cnrdeneme[tempi]);
+    tempi++;
+}
+
+
 ReactDOM.render(React.createElement(Carousel, {items: items, active: 0}), document.getElementById("app"));
