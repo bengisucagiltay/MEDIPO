@@ -10,27 +10,24 @@ public class Wand {
     private double centerX;
     private double centerY;
     private double average;
-    private double tolerance;
-    private Queue<Point> queue;
     private ArrayList<String> boundry;
     private ArrayList<String> selection;
 
-    public Wand(double tolerance) {
-        this.tolerance = tolerance;
-        centerX = 0;
-        centerY = 0;
-        average = 0;
-        queue = new LinkedList<>();
+    public Wand() {
+        centerX = -1;
+        centerY = -1;
+        average = -1;
         boundry = new ArrayList<>();
         selection = new ArrayList<>();
     }
 
     private int getPixelValue(BufferedImage image, int x, int y) {
-        Color clr = new Color(image.getRGB(x, y));
-        return (clr.getRed() + clr.getBlue() + clr.getGreen()) / 3;
+        Color color = new Color(image.getRGB(x, y));
+        return (color.getRed() + color.getBlue() + color.getGreen()) / 3;
     }
 
-    public void process(BufferedImage image, int x, int y) {
+    public void process(BufferedImage image, int x, int y, double tolerance) {
+        Queue<Point>queue = new LinkedList<>();
         boolean[][] boundryChecked = new boolean[image.getWidth()][image.getHeight()];
         boolean[][] selectionChecked = new boolean[image.getWidth()][image.getHeight()];
 

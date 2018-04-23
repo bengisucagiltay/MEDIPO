@@ -20,8 +20,8 @@ public class FileManager {
                     "apache-tomcat-9.0.5/webapps/Medipo_war"
             };
 
-    public static String getDirPath_UserMark(String userEmail) {
-        String path = getDirPath_User(userEmail) + "/mark";
+    public static String getDirPath_UserInfo(String userEmail) {
+        String path = getDirPath_User(userEmail) + "/info";
         File f = new File(path);
 
         if (f.exists()) {

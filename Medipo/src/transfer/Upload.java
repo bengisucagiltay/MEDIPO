@@ -59,6 +59,6 @@ public class Upload extends HttpServlet {
                 }
             }
         }
-        response.sendRedirect("slider.jsp");
+        response.sendRedirect("magicwand.jsp");
     }
 }

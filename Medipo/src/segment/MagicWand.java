@@ -15,23 +15,18 @@ import java.util.ArrayList;
 @WebServlet("/MagicWand")
 public class MagicWand extends HttpServlet {
 
-    private int imageID;
-    private int x, y;
-    private double tolerance;
-    private double average;
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        imageID = Integer.parseInt(request.getParameter("imageID"));
-        x = Integer.parseInt(request.getParameter("x"));
-        y = Integer.parseInt(request.getParameter("y"));
-        tolerance = Double.parseDouble(request.getParameter("tolerance"));
-        average = Double.parseDouble(request.getParameter("average"));
+        int imageID = Integer.parseInt(request.getParameter("imageID"));
+        int x = Integer.parseInt(request.getParameter("x"));
+        int y = Integer.parseInt(request.getParameter("y"));
+        double tolerance = Double.parseDouble(request.getParameter("tolerance"));
+        double average = Double.parseDouble(request.getParameter("average"));
 
-        Wand w = new Wand(tolerance);
+        Wand w = new Wand();
 
         BufferedImage img = null;
         try {
@@ -40,10 +35,10 @@ public class MagicWand extends HttpServlet {
             e.printStackTrace();
         }
 
-        w.process(img, x, y);
+        w.process(img, x, y, tolerance);
         String responseText = getResponseString(w.getSelection()) + "|" + getResponseString(w.getBoundry()) + "|" + w.getAverage() + "|" + (int) w.getCenter().getX() + "," + (int) w.getCenter().getY();
 
-        if (average != -1 && Math.abs(w.getAverage() - average) / 255 > 0.1) {
+        if (average != -1 && Math.abs(w.getAverage() - average) / 255 > 0.05) {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("||-1");
