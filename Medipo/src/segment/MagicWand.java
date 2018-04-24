@@ -20,6 +20,7 @@ public class MagicWand extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String extension = (String) request.getSession().getAttribute("extension");
         int imageID = Integer.parseInt(request.getParameter("imageID"));
         int x = Integer.parseInt(request.getParameter("x"));
         int y = Integer.parseInt(request.getParameter("y"));
@@ -30,14 +31,14 @@ public class MagicWand extends HttpServlet {
 
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload((String) request.getSession().getAttribute("email")) + "/" + imageID + ".bmp"));
+            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload((String) request.getSession().getAttribute("email")) + "/" + imageID + extension));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         w.process(img, x, y, tolerance);
-        String responseText = getResponseString(w.getSelection()) + "|" + getResponseString(w.getBoundry()) + "|" + w.getAverage() + "|" + (int) w.getCenter().getX() + "," + (int) w.getCenter().getY();
 
+        String responseText = getResponseString(w.getSelection()) + "|" + getResponseString(w.getBoundry()) + "|" + w.getAverage() + "|" + (int) w.getCenter().getX() + "," + (int) w.getCenter().getY();
         if (average != -1 && Math.abs(w.getAverage() - average) / 255 > 0.05) {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");

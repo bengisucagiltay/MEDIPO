@@ -17,12 +17,9 @@ import java.io.PrintWriter;
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
 
-	private PrintWriter out;
-	private HttpSession session;
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		out = response.getWriter();
-		session = request.getSession();
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
 
 		session.removeAttribute("firstname");
 		session.removeAttribute("email");

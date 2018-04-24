@@ -175,9 +175,9 @@ public class FileManager {
         try {
             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 
-            for (int i = 0; i < files.size(); i++) {
-                FileInputStream in = new FileInputStream(files.get(i).getCanonicalPath());
-                out.putNextEntry(new ZipEntry(files.get(i).getName()));
+            for (File file : files) {
+                FileInputStream in = new FileInputStream(file.getCanonicalPath());
+                out.putNextEntry(new ZipEntry(file.getName()));
 
                 int len;
                 while ((len = in.read(buf)) > 0) {

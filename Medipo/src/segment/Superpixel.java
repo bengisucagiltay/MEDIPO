@@ -10,54 +10,38 @@ import java.util.*;
  * @version 1
  * http://popscan.blogspot.com
  */
-public class Superpixel implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class Superpixel implements Serializable {
 
-    // arrays to store values during process
-    double[] distances;
-    int[] labels;
-    int[] reds;
-    int[] greens;
-    int[] blues;
+    private int[] reds;
+    private int[] greens;
+    private int[] blues;
+    private Cluster[] clusters;
 
-    Cluster[] clusters;
+    private ArrayList<String> centerList;
+    private ArrayList<String> averageList;
+    private ArrayList<String> boundryList;
+    private ArrayList<String> clusterLists;
 
-    int width;
-    int height;
-
-    ArrayList<String> boundry;
-    ArrayList<String> centerList;
-    ArrayList<String> averageList;
-    ArrayList<String> clusterLists;
-    //ArrayList<String> adjacency;
-    boolean[][] adjacencyArray;
-
-    // in case of instable clusters, max number of loops
-    int maxClusteringLoops = 50;
-
-
-    public Superpixel() {
-        boundry = new ArrayList<>();
+    Superpixel() {
         centerList = new ArrayList<>();
         averageList = new ArrayList<>();
+        boundryList = new ArrayList<>();
         clusterLists = new ArrayList<>();
     }
 
-    public BufferedImage calculate(BufferedImage image,
-                                   double S, double m) {
-        width = image.getWidth();
-        height = image.getHeight();
-        BufferedImage result = new BufferedImage(width, height,
-                BufferedImage.TYPE_INT_RGB);
+    public void calculate(BufferedImage image, double S, double m) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         long start = System.currentTimeMillis();
 
         // get the image pixels
         int[] pixels = image.getRGB(0, 0, width, height, null, 0, width);
 
         // create and fill lookup tables
-        distances = new double[width * height];
+        double[] distances = new double[width * height];
         Arrays.fill(distances, Integer.MAX_VALUE);
-        labels = new int[width * height];
+        int[] labels = new int[width * height];
         Arrays.fill(labels, -1);
 
         // split rgb-values to own arrays
@@ -70,7 +54,7 @@ public class Superpixel implements Serializable{
                 int color = pixels[pos];
                 reds[pos] = color >> 16 & 0x000000FF;
                 greens[pos] = color >> 8 & 0x000000FF;
-                blues[pos] = color >> 0 & 0x000000FF;
+                blues[pos] = color & 0x000000FF;
             }
         }
 
@@ -80,12 +64,12 @@ public class Superpixel implements Serializable{
         // loop until all clusters are stable!
         int loops = 0;
         boolean pixelChangedCluster = true;
+        int maxClusteringLoops = 50;
         while (pixelChangedCluster && loops < maxClusteringLoops) {
             pixelChangedCluster = false;
             loops++;
             // for each cluster center C
-            for (int i = 0; i < clusters.length; i++) {
-                Cluster c = clusters[i];
+            for (Cluster c : clusters) {
                 // for each pixel i in 2S region around
                 // cluster center
                 int xs = Math.max((int) (c.avg_x - S), 0);
@@ -98,8 +82,8 @@ public class Superpixel implements Serializable{
                         int pos = x + width * y;
                         double D = c.distance(x, y, reds[pos],
                                 greens[pos],
-                                blues[pos],
-                                S, m, width, height);
+                                blues[pos]
+                        );
                         if ((D < distances[pos]) && (labels[pos] != c.id)) {
                             distances[pos] = D;
                             labels[pos] = c.id;
@@ -110,8 +94,8 @@ public class Superpixel implements Serializable{
             } // end for clusters
 
             // reset clusters
-            for (int index = 0; index < clusters.length; index++) {
-                clusters[index].reset();
+            for (Cluster cluster : clusters) {
+                cluster.reset();
             }
 
             // add every pixel to cluster based on label
@@ -124,12 +108,13 @@ public class Superpixel implements Serializable{
             }
 
             // calculate centers
-            for (int index = 0; index < clusters.length; index++) {
-                clusters[index].calculateCenter();
+            for (Cluster cluster : clusters) {
+                cluster.calculateCenter();
             }
         }
 
-        adjacencyArray = new boolean[clusters.length][clusters.length];
+        // EXTRA
+        boolean[][] adjacencyArray = new boolean[clusters.length][clusters.length];
 
         // Create output image with pixel edges
         for (int y = 1; y < height - 1; y++) {
@@ -137,15 +122,14 @@ public class Superpixel implements Serializable{
                 int id1 = labels[x + y * width];
                 int id2 = labels[(x + 1) + y * width];
                 int id3 = labels[x + (y + 1) * width];
-                if(id1 != id2){
+                if (id1 != id2) {
                     adjacencyArray[id1][id2] = true;
                     adjacencyArray[id2][id1] = true;
-                    boundry.add(x + "," + y);
-                }
-                else if(id1 != id3){
+                    boundryList.add(x + "," + y);
+                } else if (id1 != id3) {
                     adjacencyArray[id1][id3] = true;
                     adjacencyArray[id3][id1] = true;
-                    boundry.add(x + "," + y);
+                    boundryList.add(x + "," + y);
                 } else {
                     result.setRGB(x, y, image.getRGB(x, y));
                 }
@@ -153,23 +137,22 @@ public class Superpixel implements Serializable{
         }
 
         // mark superpixel (cluster) centers with red pixel
-        for (int i = 0; i < clusters.length; i++) {
-            Cluster c = clusters[i];
+        for (Cluster c : clusters) {
             centerList.add((int) c.avg_x + "," + (int) c.avg_y);
             averageList.add("" + c.getAverageColor());
 
-            ArrayList<Point> clusterPixels = clusters[i].pixels;
+            ArrayList<Point> clusterPixels = c.pixels;
 
-            for(int j = 0; j < clusterPixels.size(); j++){
-                clusterLists.add((int)clusterPixels.get(j).getX() + "," + (int)clusterPixels.get(j).getY());
+            for (Point clusterPixel : clusterPixels) {
+                clusterLists.add((int) clusterPixel.getX() + "," + (int) clusterPixel.getY());
             }
 
             clusterLists.add("$");
         }
 
-        for(int i = 0; i < adjacencyArray.length; i++){
-            for(int j = 0; j < adjacencyArray.length; j++){
-                if(adjacencyArray[i][j]) {
+        for (int i = 0; i < adjacencyArray.length; i++) {
+            for (int j = 0; j < adjacencyArray.length; j++) {
+                if (adjacencyArray[i][j]) {
                     clusters[i].neighbours.add(clusters[j]);
                 }
             }
@@ -180,161 +163,14 @@ public class Superpixel implements Serializable{
                 + " superpixels in " + loops
                 + " loops in " + (end - start) + " ms.");
 
-        return result;
     }
 
-    /*
-    public void saveToInfoFile(String filePath){
-        try {
-            FileWriter fout = new FileWriter(filePath);
-            BufferedWriter bout = new BufferedWriter(fout);
-            PrintWriter output = new PrintWriter(bout);
-
-            /*
-            // arrays to store values during process
-
-
-
-            boolean[][] adjacencyArray;
-
-            // in case of instable clusters, max number of loops
-            int maxClusteringLoops = 50;
-
-
-
-            output.println(getStringForm(distances));
-            output.println(getStringForm(labels));
-            output.println(getStringForm(reds));
-            output.println(getStringForm(greens));
-            output.println(getStringForm(blues));
-
-
-
-            for(int i = 0; i < clusters.length; i++){
-                output.println(getStringForm(clusters[i]));
-            }
-
-            output.println("----");
-
-
-            output.println(width);
-            output.println(height);
-
-
-            output.println(getStringForm(boundry));
-            output.println(getStringForm(centerList));
-            output.println(getStringForm(averageList));
-            output.println(getStringForm(clusterLists));
-            output.println(getStringForm(boundry));
-            output.println(getStringForm(boundry));
-
-
-
-            output.println(getStringForm(adjacencyArray));
-
-
-
-            bout.close();
-            fout.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Superpixel readFromInfoFile(String filePath){
-        try {
-            FileInputStream fout = new FileInputStream(filePath);
-            ObjectInputStream oout = new ObjectInputStream(fout);
-            Superpixel superpixel = (Superpixel) oout.readObject();
-            oout.close();
-            fout.close();
-            return superpixel;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static String getStringForm(double[] in){
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < in.length - 1; i++)
-            str.append(in[i] + ",");
-
-        str.append(in[in.length - 1]);
-        return str.toString();
-    }
-
-    private static String getStringForm(int[] in){
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < in.length - 1; i++)
-            str.append(in[i] + ",");
-
-        str.append(in[in.length - 1]);
-        return str.toString();
-    }
-
-    private static String getStringForm(ArrayList<String> in){
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < in.size() - 1; i++)
-            str.append(in.get(i) + ",");
-
-        str.append(in.get(in.size() - 1));
-        return str.toString();
-    }
-
-    private static String getStringForm(Cluster cluster){
-        StringBuilder str = new StringBuilder();
-
-        str.append(cluster.id + ",");
-        str.append(cluster.inv + ",");
-        str.append(cluster.pixelCount + ",");
-        str.append(cluster.avg_red + ",");
-        str.append(cluster.avg_green + ",");
-        str.append(cluster.avg_blue + ",");
-        str.append(cluster.sum_red + ",");
-        str.append(cluster.sum_green + ",");
-        str.append(cluster.sum_blue + ",");
-        str.append(cluster.sum_x + ",");
-        str.append(cluster.sum_y + ",");
-        str.append(cluster.avg_x + ",");
-        str.append(cluster.avg_y + ",");
-
-        for(int i = 0; i < cluster.pixels.size() - 1; i++){
-            str.append(cluster.pixels.get(i).x + "," + cluster.pixels.get(i).y + ",");
-        }
-
-        str.append(cluster.pixels.get(cluster.pixels.size() - 1).x + "," + cluster.pixels.get(cluster.pixels.size() - 1).y);
-
-        return str.toString();
-    }
-
-    private static String getStringForm(boolean[][] array){
-        StringBuilder str = new StringBuilder();
-        for(int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array.length; j++) {
-                if (array[i][j])
-                    str.append("1");
-                else
-                    str.append("0");
-            }
-            str.append(System.getProperty("line.separator"));
-        }
-
-        return str.toString();
-    }
-    */
-
-    /*
-     * Create initial clusters.
-     */
-
-    public void createClusters(BufferedImage image,
-                               double S, double m) {
-        Vector<Cluster> temp = new Vector<Cluster>();
+    private void createClusters(BufferedImage image, double S, double m) {
+        Vector<Cluster> temp = new Vector<>();
         int w = image.getWidth();
         int h = image.getHeight();
         boolean even = false;
-        double xstart = 0;
+        double xstart;
         int id = 0;
         for (double y = S / 2; y < h; y += S) {
             // alternate clusters x-position
@@ -362,8 +198,8 @@ public class Superpixel implements Serializable{
         }
     }
 
-    public ArrayList<String> getBoundry() {
-        return boundry;
+    public ArrayList<String> getBoundryList() {
+        return boundryList;
     }
 
     public ArrayList<String> getAverageList() {
@@ -380,7 +216,7 @@ public class Superpixel implements Serializable{
 
     public String magicWand(int clickIndex, double tolerance) {
         Queue<Integer> queue = new LinkedList<>();
-        String selection = "";
+        StringBuilder selection = new StringBuilder();
         boolean[] selectionChecked = new boolean[clusters.length];
 
         queue.add(clickIndex);
@@ -396,13 +232,13 @@ public class Superpixel implements Serializable{
 
             double pixelValue = clusters[current].getAverageColor();
             if ((Math.abs(average - pixelValue)) / 255 < tolerance) {
-                selection += current + ",";
+                selection.append(current).append(",");
                 selectionChecked[current] = true;
 
                 count++;
-                average = (average * (count - 1) + pixelValue) / count;
+                //average = (average * (count - 1) + pixelValue) / count;
 
-                for(int i = 0; i < clusters[current].neighbours.size(); i++){
+                for (int i = 0; i < clusters[current].neighbours.size(); i++) {
                     queue.add(clusters[current].neighbours.get(i).id);
                 }
             }
@@ -413,7 +249,7 @@ public class Superpixel implements Serializable{
 
     class Cluster {
         int id;
-        double inv = 0;        // inv variable for optimization
+        double inv;        // inv variable for optimization
         double pixelCount;    // pixels in this cluster
         double avg_red;     // average red value
         double avg_green;    // average green value
@@ -426,12 +262,14 @@ public class Superpixel implements Serializable{
         double avg_x;       // average x
         double avg_y;       // average y
 
+
+        //EXTRA
         ArrayList<Point> pixels;
         ArrayList<Cluster> neighbours;
 
-        public Cluster(int id, int in_red, int in_green,
-                       int in_blue, int x, int y,
-                       double S, double m) {
+        Cluster(int id, int in_red, int in_green,
+                int in_blue, int x, int y,
+                double S, double m) {
             // inverse for distance calculation
             this.inv = 1.0 / ((S / m) * (S / m));
             this.id = id;
@@ -460,7 +298,7 @@ public class Superpixel implements Serializable{
             pixels = new ArrayList<>();
         }
 
-        double getAverageColor(){
+        double getAverageColor() {
             return ((avg_red + avg_green + avg_blue) / 3);
         }
 
@@ -481,7 +319,7 @@ public class Superpixel implements Serializable{
             pixelCount++;
         }
 
-        public void calculateCenter() {
+        void calculateCenter() {
             // Optimization: using "inverse"
             // to change divide to multiply
             double inv = 1 / pixelCount;
@@ -493,8 +331,7 @@ public class Superpixel implements Serializable{
         }
 
         double distance(int x, int y,
-                        int red, int green, int blue,
-                        double S, double m, int w, int h) {
+                        int red, int green, int blue) {
 
             // power of color difference between
             // given pixel and cluster center
@@ -509,9 +346,8 @@ public class Superpixel implements Serializable{
             // double D = dx_color+dx_spatial*inv;
 
             // Calculate squares to get more accurate results
-            double D = Math.sqrt(dx_color) + Math.sqrt(dx_spatial * inv);
 
-            return D;
+            return Math.sqrt(dx_color) + Math.sqrt(dx_spatial * inv);
         }
 
     }

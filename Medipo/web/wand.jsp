@@ -5,10 +5,10 @@
 <%
     int slideCount = 10;
 
-    String email = null;
+    String email;
     String userUpload = null;
-    File imagesDir = null;
-    File[] images = null;
+    File imagesDir;
+    File[] images = new File[0];
 
     try {
         email = (String) session.getAttribute("email");
@@ -17,14 +17,19 @@
         images = imagesDir.listFiles();
     } catch (Exception e) {
         AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
-        return;
     }
+
+    if (images == null || images.length <= 0) {
+        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
+    } else {
+        String extension = images[0].getName().substring(images[0].getName().length() - 4);
+        session.setAttribute("extension", extension);
 %>
 
 <html>
 
 <head>
-    <title>Image Slider</title>
+    <title>wandr</title>
 
     <style>
         div {
@@ -50,13 +55,6 @@
     <script src="js/jquery-1.10.2.js"></script>
 </head>
 
-<%
-    if (images == null || images.length <= 0) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
-    } else {
-        String extension = images[0].getName().substring(images[0].getName().length() - 4);
-%>
-
 <body>
 
 <div>
@@ -64,13 +62,11 @@
     <button onclick="buttonUpdateIndex(1)">&#10095;</button>
 </div>
 
-<p id="test">here</p>
-
 <div>
     <%
         for (int i = 0; i < images.length; i++) {
     %>
-    <img id="image<%=i%>" class="image"
+    <img id="image<%=i%>" class="image" style="display: inline-block"
          src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=i + extension%>">
     <%
         }
@@ -97,29 +93,26 @@
     %>
 </div>
 
-<button onclick="updateThreshold(-0.001)">&#10094;-</button>
-<button onclick="updateThreshold(0.001)">&#10095;+</button>
+<button onclick="updateThreshold(-0.01)">&#10094;-</button>
+<button onclick="updateThreshold(0.01)">&#10095;+</button>
 <button onclick="semiAutomate(1)">MAHMUT</button>
-<button onclick="clearSelection()">MEHMET</button>
+<button onclick="clearCurrent()">MEHMET</button>
 
 <p id="index">index: 0</p>
-<p id="threshold">0.02</p>
+<p id="threshold">threshold: 0.02</p>
 
 <script>
     let index = 0;
     let threshold = [];
-    threshold[0] = 0.02;
     let clickX, clickY;
 </script>
 
 <script>
-
-    var selectionArray = [];
-    var boundryArray = [];
-    var averageArray = [];
-    var centerXArray = [];
-    var centerYArray = [];
-
+    let selectionArray = [];
+    let boundryArray = [];
+    let averageArray = [];
+    let centerXArray = [];
+    let centerYArray = [];
 </script>
 
 <script>
@@ -136,7 +129,7 @@
     function slideUpdateIndex(element) {
         const images = document.getElementsByClassName("image");
         for (let i = 0; i < images.length; i++) {
-            if (element.src.localeCompare(images[i].src) === 0)
+            if (element.id.localeCompare(images[i].id) === 0)
                 index = i;
         }
         refresh();
@@ -146,12 +139,12 @@
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
 
-        document.getElementById("threshold").innerText = threshold[index];
         document.getElementById("index").innerText = "index: " + index;
+        document.getElementById("threshold").innerText = "threshold: " + threshold[index];
 
+        clearCanvases();
         refreshImage();
         refreshSlides();
-        clearCanvases();
         drawOnCanvas();
     }
 
@@ -174,31 +167,58 @@
                 slides[i].style.display = "none";
         }
     }
+</script>
+
+<script>
+    function setCanvases() {
+        const canvas0 = document.getElementById("canvas0");
+        const context0 = canvas0.getContext("2d");
+        const canvas1 = document.getElementById("canvas1");
+        const context1 = canvas1.getContext("2d");
+
+        canvas0.width = document.getElementById("image0").clientWidth;
+        canvas0.height = document.getElementById("image0").clientHeight;
+        context0.globalAlpha = 0.25;
+        context0.fillStyle = "#FF0000";
+
+        canvas1.width = document.getElementById("image0").clientWidth;
+        canvas1.height = document.getElementById("image0").clientHeight;
+        context1.globalAlpha = 1;
+        context1.fillStyle = "#0000FF";
+    }
 
     function clearCanvases() {
         const canvas0 = document.getElementById("canvas0");
         const context0 = canvas0.getContext("2d");
-        context0.clearRect(0, 0, canvas0.width, canvas0.height);
-
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
+
+        context0.clearRect(0, 0, canvas0.width, canvas0.height);
         context1.clearRect(0, 0, canvas1.width, canvas1.height);
     }
 
-    function setCanvases() {
+    function drawOnCanvas() {
         const canvas0 = document.getElementById("canvas0");
         const context0 = canvas0.getContext("2d");
-
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
 
-        canvas0.width = 512;
-        canvas0.height = 512;
-        context0.globalAlpha = 0.25;
+        const borderText = boundryArray[index];
+        const selectionText = selectionArray[index];
 
-        canvas1.width = 512;
-        canvas1.height = 512;
-        context1.globalAlpha = 1;
+        for (let i = 0; i < borderText.length; i = i + 2) {
+            context1.fillRect(borderText[i], borderText[i + 1], 1, 1);
+        }
+        for (let i = 0; i < selectionText.length; i = i + 2) {
+            context0.fillRect(selectionText[i], selectionText[i + 1], 1, 1);
+        }
+    }
+
+    function clickOnCanvas(event) {
+        clickX = event.offsetX;
+        clickY = event.offsetY;
+
+        sendClickOp();
     }
 </script>
 
@@ -219,37 +239,6 @@
         });
     }
 
-    function drawOnCanvas() {
-        var selectionText = selectionArray[index];
-        var borderText = boundryArray[index];
-
-
-        const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
-
-        const canvas1 = document.getElementById("canvas1");
-        const context1 = canvas1.getContext("2d");
-
-        context0.fillStyle = "#FF0000";
-        context1.fillStyle = "#0000FF";
-
-
-        for (let i = 0; i < selectionText.length; i = i + 2) {
-            context0.fillRect(selectionText[i], selectionText[i + 1], 1, 1);
-        }
-        for (let i = 0; i < borderText.length; i = i + 2) {
-            context1.fillRect(borderText[i], borderText[i + 1], 1, 1);
-        }
-    }
-
-    function clickOnCanvas(event) {
-
-        clickX = event.offsetX;
-        clickY = event.offsetY;
-
-        sendClickOp();
-    }
-
     function updateThreshold(n) {
         threshold[index] += n;
         if (threshold[index] >= 0.2)
@@ -259,9 +248,11 @@
 
         document.getElementById("threshold").innerText = threshold[index];
 
-        sendClickOp()
+        sendClickOp();
     }
+</script>
 
+<script>
     function semiAutomate(count) {
         semiAutomateRight(count);
         semiAutomateLeft(count);
@@ -276,13 +267,13 @@
                 boundryArray[index + count] = buffer[1].split(',');
                 averageArray[index + count] = buffer[2];
 
-                var center = buffer[3].split(",");
+                const center = buffer[3].split(",");
                 centerXArray[index + count] = center[0];
                 centerYArray[index + count] = center[1];
 
                 threshold[index + count] = threshold[index];
 
-                if (averageArray[index + count] != -1)
+                if (averageArray[index + count] !== -1)
                     semiAutomate(count + 1);
             });
         }
@@ -296,23 +287,37 @@
                 selectionArray[index - count] = buffer[0].split(',');
                 boundryArray[index - count] = buffer[1].split(',');
                 averageArray[index - count] = buffer[2];
-                var center = buffer[3].split(",");
 
+                const center = buffer[3].split(",");
                 centerXArray[index - count] = center[0];
                 centerYArray[index - count] = center[1];
 
                 threshold[index - count] = threshold[index];
 
-                if (averageArray[index - count] != -1)
+                if (averageArray[index - count] !== -1)
                     semiAutomateLeft(count + 1);
             });
         }
     }
+</script>
 
-    function clearSelection() {
+<script>
+    function clearCurrent() {
         selectionArray[index] = [];
         boundryArray[index] = [];
         averageArray[index] = -1;
+        centerXArray[index] = -1;
+        centerYArray[index] = -1;
+
+        clearCanvases();
+    }
+
+    function clearAll() {
+        selectionArray = [];
+        boundryArray = [];
+        averageArray = [];
+        centerXArray = [];
+        centerYArray = [];
 
         clearCanvases();
     }

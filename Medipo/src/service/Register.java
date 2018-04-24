@@ -19,12 +19,9 @@ public class Register extends HttpServlet {
     private File EMAILS = new File(FileManager.getFilePath_Emails());
     private File PASSWORDS = new File(FileManager.getFilePath_Passwords());
 
-    private PrintWriter out;
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        out = response.getWriter();
-
+        PrintWriter out = response.getWriter();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String firstname = request.getParameter("firstname");
@@ -39,7 +36,7 @@ public class Register extends HttpServlet {
             AlertManager.alert(out, request, response, "Oops", "Entry cannot be empty! Please try again..", "error", "register.jsp");
         } else if (password.length() < 8) {
             AlertManager.alert(out, request, response, "Oops", "Password should have at least 8 characters! Please try again..", "error", "register.jsp");
-        } else if (validateMail(email) == false) {
+        } else if (!validateMail(email)) {
             AlertManager.alert(out, request, response, "Oops", "Incorrect mail form (NAME@EMAIL.COM)", "error", "register.jsp");
         } else {
             writeUserInfo(firstname, lastname, email, password);
@@ -67,12 +64,8 @@ public class Register extends HttpServlet {
     private boolean validateMail(String email) {
         EmailValidator emailValidator = EmailValidator.getInstance();
 
-        if (emailValidator.isValid(email))
-            return true;
-        else
-            return false;
+        return emailValidator.isValid(email);
     }
-
 
     private void writeUserInfo(String firstname, String lastname, String email, String password) {
         Writer wr1 = null;

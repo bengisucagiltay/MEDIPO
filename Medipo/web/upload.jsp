@@ -33,7 +33,7 @@
 			<input type="submit" name="Submit" value="Submit files"/>
 		</form>
 
-		<form action="magicwand.jsp" method="post" >
+		<form action="wand.jsp" method="post" >
 			<input type="submit" name="Submit" value="Image History"/>
 		</form>
 	</div>

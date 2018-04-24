@@ -23,17 +23,12 @@ public class Login extends HttpServlet {
     private File EMAILS = new File(FileManager.getFilePath_Emails());
     private File PASSWORDS = new File(FileManager.getFilePath_Passwords());
 
-    private String email;
-    private String password;
-    private PrintWriter out;
-    private HttpSession session;
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        email = request.getParameter("email");
-        password = request.getParameter("password");
-        session = request.getSession();
-        out = response.getWriter();
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        HttpSession session = request.getSession();
+        PrintWriter out = response.getWriter();
 
         int userStatus = getUserStatus(email);
         if (userStatus == -1) {
@@ -86,7 +81,6 @@ public class Login extends HttpServlet {
 
         return -3;
     }
-
 
     private int getPasswordStatus(String password, int uid) {
 
