@@ -92,8 +92,9 @@
             width: 30px;
             height: 30px;
             border: none;
-            background: url('images/bb.png');
+            background: url('images/bb.png') fixed;
             cursor: pointer;
+            display:block;
         }
 
 
@@ -113,6 +114,7 @@
             -webkit-transition: all 1s ease;
             -moz-transition: all 1s ease;
             -ms-transition: all 1s ease;
+            -o-transition: all 1s ease;
             transition: all 1s ease;
         }
 
@@ -124,6 +126,7 @@
         .canvas3{
             background-color: red;
         }
+        canvaszoom { display:block; margin:1em auto; background:#fff; border:1px solid #ccc }
 
     </style>
 
@@ -167,8 +170,8 @@
         <div class="col-25">
             <h1>Adjust Threshold:</h1><br>
             <div class="slidecontainer">
-                <input type="range" min="2" max="10" value="2" class="slider" id="myRange">
-                <p>Value: <span id="demo"></span></p>
+                <input type="range" min="2" max="10" value="2" class="slider" id="rangeSlider">
+                <p>Value: <span id="rangeValue"></span></p>
             </div>
 
             <script>
@@ -178,8 +181,8 @@
                     cnrdeneme.push(a);
                     ijk++;
                 }
-                var slider = document.getElementById("myRange");
-                var output = document.getElementById("demo");
+                var slider = document.getElementById("rangeSlider");
+                var output = document.getElementById("rangeValue");
                 output.innerHTML = slider.value;
 
                 slider.oninput = function () {
@@ -230,8 +233,8 @@
             <canvas id="canvas2" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
             </div>
         </div>
-    </div>
 
+    </div>
     <h1 id="index">0</h1>
 
     <div>

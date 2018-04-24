@@ -1,5 +1,48 @@
 <%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ page import="transfer.Contact" %>
+<%@ page import="javax.mail.MessagingException" %>
+
+<%
+    String message = null;
+    String status = null;
+    if (request.getParameter("submit") != null) {
+        Contact javaEmail = new Contact();
+        javaEmail.setMailServerProperties();
+        String emailSubject = "Contact Form using Java JSP GMail";
+        String emailBody = "";
+        if (request.getParameter("name") != null) {
+            emailBody = "Sender Name: " + request.getParameter("name")
+                    + "<br>";
+        }
+        if (request.getParameter("email") != null) {
+            emailBody = emailBody + "Sender Email: "
+                    + request.getParameter("email") + "<br>";
+        }
+        /*if (request.getParameter("subject") != null) {
+            emailSubject = emailSubject + "Subject: "
+                    + request.getParameter("subject") + "<br>";
+        }*/
+        if (request.getParameter("message") != null) {
+            emailBody = emailBody + "Message: " + request.getParameter("message")
+                    + "<br>";
+        }
+        try {
+            javaEmail.createEmailMessage(emailSubject, emailBody);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            javaEmail.sendEmail();
+            status = "success";
+            message = "Email sent Successfully!";
+        } catch (MessagingException me) {
+            status = "error";
+            message = "Error in Sending Email!";
+        }
+    }
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 
@@ -31,20 +74,21 @@
     <h4></h4>
     <h4 style=" text-align:center;font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 14px;">Please use the Contact Form below</h4>
+    font-size: 14px;">Please use the form below to contact the <br>  Medipo Team</h4>
 </div>
 
 <div class="container" style="top:60%">
-    <form action="Login">
+    <form id="frmContact" name="frmContact" action="" method="POST"
+          novalidate="novalidate">
         <div class="row">
             <div class="col-25">
-                <label for="cname"><h2 style="font-family: 'Open Sans', sans-serif;
+                <label for="name"><h2 style="font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 14px;
     font-weight: 600;">Your Full Name:</h2></label>
             </div>
             <div class="col-75">
-                <input type="text" id="cname" name="conname" placeholder="Your name...">
+                <input type="text" id="name" name="name" placeholder="Your name...">
             </div>
         </div>
         <div class="row">
@@ -55,7 +99,7 @@
                     font-weight: 600;">Your E-Mail:</h2></label>
             </div>
             <div class="col-75">
-                <input type="text" id="email" name="conmail" placeholder="Your mail address...">
+                <input type="text" id="email" name="email" placeholder="Your mail address...">
             </div>
         </div>
         <div class="row">
@@ -66,18 +110,18 @@
                     font-weight: 600;">Subject:</h2></label>
             </div>
             <div class="col-75">
-                <input type="text" id="subject" name="sbjct" placeholder="Subject...">
+                <input type="text" id="subject" name="subject" placeholder="Subject...">
             </div>
         </div>
         <div class="row">
             <div class="col-25">
-                <label for="msg"><h2 style="font-family: 'Open Sans', sans-serif;
+                <label for="message"><h2 style="font-family: 'Open Sans', sans-serif;
                     text-align: center;
                     font-size: 14px;
                     font-weight: 600;">Your Message:</h2></label>
             </div>
             <div class="col-75">
-                <input type="textarea" id="msg" name="mssg" placeholder="Write your message here..." style=" padding: 12px;
+                <input type="textarea" id="message" name="message" placeholder="Write your message here..." style=" padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -85,7 +129,14 @@
             </div>
         </div>
         <div class="row">
-            <input type="submit" value="Submit">
+            <input type="submit" name="submit" value="Send Message"
+                   id="send-message" style="clear: both;">
+            <%
+                if (null != message) {
+                    out.println("<div class='" + status + "'>"
+                            + message + "</div>");
+                }
+            %>
         </div>
     </form>
 </div>

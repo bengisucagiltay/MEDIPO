@@ -24,7 +24,8 @@
 </script>
 
 <div class="container" style="top:43%;">
-   <h3> About Us</h3>
+   <h2 style="font-size: 25px;
+    font-weight: 600;"> About Us</h2>
 </div>
 
 <div class="container" style="top:55%; left:10%; width:80%; background: none;">
@@ -92,6 +93,5 @@
     </div>
 </div>
 
-<img src="images/pulse.png" alt="backg" width="100%" >
 </body>
 </html>
