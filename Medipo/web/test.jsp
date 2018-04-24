@@ -110,7 +110,6 @@
 
         .zoom {
             overflow: hidden;
-            border: 1px solid #333;
             -webkit-transition: all 1s ease;
             -moz-transition: all 1s ease;
             -ms-transition: all 1s ease;
@@ -122,6 +121,10 @@
             -webkit-transform: scale(1.5);
             transform: scale(1.5);
         }
+        .canvas3{
+            background-color: red;
+        }
+
     </style>
 
     <script src="js/jquery-1.10.2.js"></script>
@@ -221,26 +224,15 @@
 
 
         </div>
-        <div class="zoom"style="text-align: right; top:0;height: 512px;width:512px;float: right; position: relative;">
-
-            <%
-                for (int j = 0; j < images.length; j++) {
-            %>
-            <img id="image<%=j%>" class="image"
-                 src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=j + extension%>"
-            >
-            <%
-                }
-            %>
+        <div class="zoom"style="text-align: right; top:0;height: 512px;width:512px;float: right; ">
             <div class="col-75" >
-            <canvas id="canvas1" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
-            <canvas id="canvas0" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
+            <canvas id="canvas3" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
+            <canvas id="canvas2" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
             </div>
         </div>
     </div>
 
     <h1 id="index">0</h1>
-
 
     <div>
         <%
@@ -315,7 +307,8 @@
     function refresh() {
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
-
+        const myImg = document.getElementsByClassName("image");
+        document.getElementsByClassName("zoom")[0].style.backgroundImage = "url('"+myImg[index].src+"')";
         document.getElementById("index").innerText = index;
 
         refreshImage();
@@ -369,6 +362,7 @@
 
     function buttonUpdateIndex(n) {
         const images = document.getElementsByClassName("image");
+
         index += n;
         if (index >= images.length)
             index = 0;
@@ -383,6 +377,7 @@
             if (element.src.localeCompare(images[i].src) === 0)
                 index = i;
         }
+
         refresh();
     }
 

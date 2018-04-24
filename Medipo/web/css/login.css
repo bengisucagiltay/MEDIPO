@@ -183,7 +183,6 @@ button:hover {
 .col-75 {
     float: left;
     width: 75%;
-    margin-top: 6px;
 }
 
 /*clears float value after */
