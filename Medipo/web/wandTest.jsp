@@ -4,20 +4,26 @@
 
 <%
     int slideCount = 10;
-    int halfSlide = 5;
 
-    String email = (String) session.getAttribute("email");
+    String email;
     String userUpload = null;
-    File imagesDir = null;
-    File[] images = null;
+    File imagesDir;
+    File[] images = new File[0];
 
     try {
+        email = (String) session.getAttribute("email");
         userUpload = FileManager.getDirPath_UserUpload(email);
         imagesDir = new File(userUpload);
         images = imagesDir.listFiles();
     } catch (Exception e) {
         AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
     }
+
+    if (images == null || images.length <= 0) {
+        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
+    } else {
+        String extension = images[0].getName().substring(images[0].getName().length() - 4);
+        session.setAttribute("extension", extension);
 %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
@@ -91,12 +97,6 @@
     <script src="js/jquery-1.10.2.js"></script>
 </head>
 
-<%
-    if (images == null || images.length <= 0) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
-    } else {
-        String extension = images[0].getName().substring(images[0].getName().length() - 4);
-%>
 <body>
 <div id="navbar1">
 </div>
@@ -175,7 +175,6 @@
                <h2 style="float: left"> : Default Style</h2><br>-->
             </div>
 
-            <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
         </div>
 
     </div>
@@ -311,8 +310,8 @@
     }
 
     function drawOnCanvas() {
-        var selectionText = selectionArray[index];
-        var borderText = boundryArray[index];
+        const selectionText = selectionArray[index];
+        const borderText = boundryArray[index];
 
 
         const canvas0 = document.getElementById("canvas0");
@@ -343,7 +342,7 @@
     }
 
     function clickOnCanvas(event) {
-        var temp2=document.getElementById("canvas0");
+        const temp2 = document.getElementById("canvas0");
 
         clickX = event.offsetX- (temp2.width-512)/2;
         clickY = event.offsetY- (temp2.width-512)/2;

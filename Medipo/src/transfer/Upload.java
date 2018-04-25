@@ -59,6 +59,6 @@ public class Upload extends HttpServlet {
                 }
             }
         }
-        response.sendRedirect("wand.jsp");
+        response.sendRedirect("wandTest.jsp");
     }
 }

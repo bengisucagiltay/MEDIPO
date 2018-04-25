@@ -2,22 +2,29 @@
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
 
+
 <%
     int slideCount = 10;
-    int halfSlide = 5;
 
-    String email = (String) session.getAttribute("email");
+    String email;
     String userUpload = null;
-    File imagesDir = null;
+    File imagesDir;
     File[] images = null;
 
     try {
+        email = (String) session.getAttribute("email");
         userUpload = FileManager.getDirPath_UserUpload(email);
         imagesDir = new File(userUpload);
         images = imagesDir.listFiles();
     } catch (Exception e) {
         AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
     }
+
+    if (images == null || images.length <= 0) {
+        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
+    } else {
+        String extension = images[0].getName().substring(images[0].getName().length() - 4);
+        session.setAttribute("extension", extension);
 %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
@@ -92,12 +99,6 @@
     <script src="js/jquery-1.10.2.js"></script>
 </head>
 
-<%
-    if (images == null || images.length <= 0) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
-    } else {
-        String extension = images[0].getName().substring(images[0].getName().length() - 4);
-%>
 <body>
 <div id="navbar1">
 </div>
@@ -126,7 +127,7 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25">
+        <div class="col-25" style="left: 20%">
             <h1>Adjust Threshold:</h1><br>
             <div class="slidecontainer">
                 <input type="range" min="5" max="20" value="10" class="slider" id="rangeSlider">
@@ -151,7 +152,8 @@
                 }
 
             </script>
-            <button id="magic" onclick="changeTool()">Current Selection: Multiple Region </button><br>
+            <button id="magic" onclick="changeTool()">Current Selection: Multiple Region</button>
+            <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <button onclick="clearSelection()">CLEAR</button>
             <br><br><br>
@@ -164,7 +166,6 @@
                 background-color: whitesmoke"></h2>
                 <h2 style="float: left"> : Default Style</h2><br>-->
             </div>
-            <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
         </div>
 
     </div>
@@ -177,7 +178,6 @@
 
 
 </div>
-
 
 
 <script>
@@ -361,7 +361,7 @@
 
     function updateThreshold(n) {
         superPixelSize[index] += n;
-        if(superPixelSize[index] === 11)
+        if (superPixelSize[index] === 11)
             superPixelSize[index] += n;
 
         if (superPixelSize[index] >= 100)
@@ -374,8 +374,9 @@
         clearCanvases();
         superPixelize();
     }
+
     function updateThreshold2(n) {
-        if(superPixelSize[index] === 11)
+        if (superPixelSize[index] === 11)
             superPixelSize[index] += 1;
         superPixelSize[index] = n;
 
@@ -421,11 +422,12 @@
 
                 castSuperPixels(count);
 
-                if (averageArray[index + count] != -1)
+                if (averageArray[index + count] !== -1)
                     semiAutomateRight(count + 1);
-               // processRunning = false;
+                // processRunning = false;
             });
-        //}
+            //}
+        }
     }
 
     function semiAutomateLeft(count) {

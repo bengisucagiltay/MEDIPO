@@ -162,7 +162,7 @@ var Carousel = function (_React$Component) {
                 )
             );
 
-    refreshSlides();
+    //refreshSlides();
         }
 
     }]);
@@ -206,6 +206,14 @@ var Item = function (_React$Component2) {
 // 10 items
 
 var items = [];
+/*var btemp=0;
+while(btemp<cnrdeneme.length){
+
+    items.push(cnrdeneme[btemp]);
+btemp++;
+
+}*/
+
 
 for(var i = Math.floor(cnrdeneme.length/2); i < cnrdeneme.length; i++) {
     items.push(cnrdeneme[i]);
