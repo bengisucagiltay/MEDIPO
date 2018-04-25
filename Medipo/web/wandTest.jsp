@@ -57,42 +57,6 @@
 
     </style>
 
-    <style>
-        .slidecontainer {
-            width: 100%;
-        }
-
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: #ffffff;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-
-        }
-
-        .slider:hover {
-            opacity: 1;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 30px;
-            height: 30px;
-            border: none;
-            background: url('images/bb.png') fixed;
-            cursor: pointer;
-            display: block;
-        }
-
-
-    </style>
-
 
     <script src="js/jquery-1.10.2.js"></script>
 </head>
@@ -126,12 +90,10 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25" style="left: 20%">
-            <h1>Adjust Threshold:</h1><br>
-            <div class="slidecontainer">
-                <input type="range" min="2" max="10" value="2" class="slider" id="rangeSlider">
-                <p>Value: <span id="rangeValue"></span></p>
-            </div>
+        <div class="col-25">
+            <h2>Adjust Threshold:</h2><br>
+            <button onclick="updateThreshold(-0.01)">&#10094;-</button>
+            <button onclick="updateThreshold(0.01)">&#10095;+</button><br>
 
             <script>
                 var ijk = 0;
@@ -142,13 +104,13 @@
                     ijk++;
                 }
                 cnrlength = ijk - 1;
-                var slider = document.getElementById("rangeSlider");
+               /* var slider = document.getElementById("rangeSlider");
                 var output = document.getElementById("rangeValue");
-                output.innerHTML = slider.value;
+                output.innerHTML = slider.value;*/
 
                 slider.oninput = function () {
 
-                    updateThreshold2(this.value / 100);
+                    //updateThreshold2(this.value / 100);
                     output.innerHTML = slider.value;
                 }
 
@@ -382,7 +344,7 @@
         sendClickOp();
     }
 
-    function updateThreshold2(n) {
+    /*function updateThreshold2(n) {
         threshold[index] = n;
         if (threshold[index] >= 0.2)
             threshold[index] = 0.2;
@@ -391,7 +353,7 @@
 
         document.getElementById("threshold").innerText = threshold[index];
         sendClickOp()
-    }
+    }*/
 </script>
 
 <script>

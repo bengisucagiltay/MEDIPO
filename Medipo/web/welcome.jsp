@@ -63,7 +63,7 @@
 					  class="close" title="Close Modal" >&times</span>
 				<div class="container">
 					<button type="submit" formaction="upload.jsp">Upload Images</button>
-					<button type="submit" formaction="slider.jsp">View Image History</button>
+					<button type="submit" formaction="wandTest.jsp">View Image History</button>
 				</div>
 			</form>
 		</div>

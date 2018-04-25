@@ -181,7 +181,8 @@
 
 
 <script>
-    let index = 0;
+    //let index = 0;
+    let index = <%=images.length/2%>;
     let superPixelSize = [];
     let clickX, clickY;
     let isMagic = true;
@@ -376,9 +377,9 @@
     }
 
     function updateThreshold2(n) {
-        if (superPixelSize[index] === 11)
-            superPixelSize[index] += 1;
         superPixelSize[index] = n;
+        if (superPixelSize[index] === 11)
+            superPixelSize[index] += n  ;
 
         if (superPixelSize[index] >= 100)
             superPixelSize[index] = 100;

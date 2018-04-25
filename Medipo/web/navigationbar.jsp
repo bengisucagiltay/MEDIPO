@@ -15,7 +15,7 @@
 
 
     <a href="upload.jsp">Upload</a>
-    <a href="wandTest.jsp">Image History</a>
+    <!--<a href="wandTest.jsp">Image History</a>-->
     <a href="wandTest.jsp">Magic Wand</a>
     <a href="superpixelTest.jsp">Slic</a>
 
