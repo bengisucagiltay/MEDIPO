@@ -364,7 +364,7 @@ button:hover {
     height: 150px;
     width: 150px;
     line-height: 150px;
-    background-color: #228291;
+    background-color: transparent;
     left: 71%;
     margin-top: 25px;
 }
@@ -373,7 +373,7 @@ button:hover {
     height: 180px;
     width: 180px;
     line-height: 180px;
-    background-color: #6796e5;
+    background-color: transparent;
     left: 56.5%;
     margin-top: 10px;
 }
@@ -382,7 +382,7 @@ button:hover {
     height: 200px;
     width: 200px;
     line-height: 200px;
-    background-color: #4ec9e1;
+    background-color: transparent;
     left: 40%;
     border: solid #0094e2 thick ;
 }
@@ -391,7 +391,7 @@ button:hover {
     height: 180px;
     width: 180px;
     line-height: 180px;
-    background-color: #6796e5;
+    background-color: transparent;
     margin-top: 10px;
     left: 25%;
 }
@@ -400,7 +400,7 @@ button:hover {
     height: 150px;
     width: 150px;
     line-height: 150px;
-    background-color: #228291;
+    background-color: transparent;
     margin-top: 25px;
     left: 12.9%;
 }

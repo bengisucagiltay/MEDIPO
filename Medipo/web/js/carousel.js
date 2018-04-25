@@ -161,7 +161,10 @@ var Carousel = function (_React$Component) {
                     React.createElement("i", {className: "fi-arrow-right"})
                 )
             );
+
+    refreshSlides();
         }
+
     }]);
 
     return Carousel;
@@ -204,11 +207,12 @@ var Item = function (_React$Component2) {
 
 var items = [];
 
-var tempi=0;
-while(tempi<cnrdeneme.length){
-    items.push(cnrdeneme[tempi]);
-    tempi++;
+for(var i = Math.floor(cnrdeneme.length/2); i < cnrdeneme.length; i++) {
+    items.push(cnrdeneme[i]);
 }
 
+for(var i = 0; i < cnrdeneme.length/2; i++) {
+    items.push(cnrdeneme[i]);
+}
 
 ReactDOM.render(React.createElement(Carousel, {items: items, active: 0}), document.getElementById("carouselSlider"));

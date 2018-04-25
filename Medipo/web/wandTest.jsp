@@ -39,28 +39,16 @@
         }
 
         .image {
-            display: none;
+            display: inline-block;
             position: relative;
         }
 
         .canvas {
             position: absolute;
             left: 0;
-        }
-
-        .canvas3 {
-            position: absolute;
-            left: 0;
             top: 0;
         }
 
-        .slide1 {
-            width: <%=(100 / halfSlide) - 1%>%;
-        }
-
-        .slide2 {
-            width: <%=(100 / slideCount) - 2%>%;
-        }
     </style>
 
     <style>
@@ -91,12 +79,14 @@
             width: 30px;
             height: 30px;
             border: none;
-            background: url('images/bb.png');
+            background: url('images/bb.png') fixed;
             cursor: pointer;
+            display: block;
         }
 
 
     </style>
+
 
     <script src="js/jquery-1.10.2.js"></script>
 </head>
@@ -132,27 +122,28 @@
             <%
                 }
             %>
-
-            <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
             <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
+            <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25">
+        <div class="col-25" style="left: 20%">
             <h1>Adjust Threshold:</h1><br>
             <div class="slidecontainer">
-                <input type="range" min="2" max="10" value="2" class="slider" id="myRange">
-                <p>Value: <span id="demo"></span></p>
+                <input type="range" min="2" max="10" value="2" class="slider" id="rangeSlider">
+                <p>Value: <span id="rangeValue"></span></p>
             </div>
 
             <script>
                 var ijk = 0;
+                var cnrlength = 0;
                 while (document.getElementById("image" + ijk) != null) {
                     var a = document.getElementById("image" + ijk).src;
                     cnrdeneme.push(a);
                     ijk++;
                 }
-                var slider = document.getElementById("myRange");
-                var output = document.getElementById("demo");
+                cnrlength = ijk - 1;
+                var slider = document.getElementById("rangeSlider");
+                var output = document.getElementById("rangeValue");
                 output.innerHTML = slider.value;
 
                 slider.oninput = function () {
@@ -161,100 +152,89 @@
                     output.innerHTML = slider.value;
                 }
 
-                }
             </script>
 
+            <button onclick="zoomOut()">Zoom OUT</button>
+            <button onclick="zoomIn()">Zoom IN</button>
             <button onclick="semiAutomate(1)">PAINT</button>
             <!--<br>
             <button onclick="decrease()">DECREASE</button>
             <button onclick="increase()">INCREASE</button>
             <br>-->
-            <button onclick="clearSelection()">CLEAR</button>
-            <button onclick="zoomIn()">Zoom IN</button>
-            <button onclick="zoomOut()">Zoom Out</button>
+            <button onclick="clearCanvases()">CLEAR</button><br>
             <br>
             <p id="threshold">0.02</p><br><br>
 
             <div>
                 <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
                 <h2 style="float: left"> : Current Slice</h2><br><br>
-                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
-                <h2 style="float: left"> : Edited Slices</h2><br>
-                <!--<h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2);
-                background-color: whitesmoke"></h2>
-                <h2 style="float: left"> : Default Style</h2><br>-->
+                <!--<h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
+               <h2 style="float: left"> : Edited Slices</h2><br>
+              <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2);
+               background-color: whitesmoke"></h2>
+               <h2 style="float: left"> : Default Style</h2><br>-->
             </div>
-            <br><br><br>
+
             <a href="<%=request.getContextPath() + FileManager.convertPathForJSP(FileManager.getDirPath_User(email)) + "/" + session.getAttribute("firstname")%>.zip">download</a>
-
-
         </div>
 
     </div>
-
     <h1 id="index">0</h1>
 
-    <div>
-        <%
-            for (int i = 0; i < images.length; i++) {
-        %>
-        <img id="slide<%=i%>" class="slide1"
-             src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=i%><%=extension%>"
-             onclick="slideUpdateIndex(this)">
-        <%
-            }
-        %>
-
-    </div>
     <div id="carouselSlider"></div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
     <script type="text/javascript" src="js/carousel.js"></script>
-    <br><br><br><br><br><br><br><br>
 
-    <div>
-        <%
-            for (int i = 0; i < images.length; i++) {
-        %>
-        <img id="slide<%=i%>" class="slide2"
-             src="<%=request.getContextPath() + FileManager.convertPathForJSP(userUpload)%>/<%=i%><%=extension%>"
-             onclick="slideUpdateIndex(this)">
-        <%
-            }
-        %>
-    </div>
+
 </div>
 
-
 <script>
-    let index = 0;
+    //let index = 0;
+    let index = <%=images.length/2%>;
     let threshold = [];
-    threshold[0] = 0.02;
     let clickX, clickY;
+    let processRunning = false;
 </script>
 
 <script>
-
-    var fillArray = [];
-    var boundryArray = [];
-    var averageArray = [];
-    var centerXArray = [];
-    var centerYArray = [];
-
+    let selectionArray = [];
+    let boundryArray = [];
+    let averageArray = [];
+    let centerXArray = [];
+    let centerYArray = [];
 </script>
 
 <script>
+    function buttonUpdateIndex(n) {
+        const images = document.getElementsByClassName("image");
+        index += n;
+        if (index >= images.length)
+            index = 0;
+        else if (index < 0)
+            index = images.length - 1;
+        refresh();
+    }
 
+    function slideUpdateIndex(element) {
+        const images = document.getElementsByClassName("image");
+        for (let i = 0; i < images.length; i++) {
+            if (element.id.localeCompare(images[i].id) === 0)
+                index = i;
+        }
+        refresh();
+    }
 
     function refresh() {
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
-        const myImg = document.getElementsByClassName("image");
-        document.getElementById("index").innerText = index;
 
+        document.getElementById("index").innerText = "index: " + index;
+        document.getElementById("threshold").innerText = "threshold: " + threshold[index];
+
+        clearCanvases();
         refreshImage();
-        refreshSlides();
-        clearCanvas();
+        //refreshSlides();
         drawOnCanvas();
     }
 
@@ -267,110 +247,71 @@
     }
 
     function refreshSlides() {
-        const slides1 = document.getElementsByClassName("slide1");
-        const slides2 = document.getElementsByClassName("slide2");
-        const divResult1 = Math.floor(index / <%=halfSlide%>);
-        const divResult2 = Math.floor(index / <%=slideCount%>);
+        var l_2 = document.getElementsByClassName("level-2")[0];
+        var l_1 = document.getElementsByClassName("level-1")[0];
+        var l1 = document.getElementsByClassName("level1")[0];
+        var l2 = document.getElementsByClassName("level2")[0];
+        var l0 = document.getElementsByClassName("level0")[0];
 
-        for (let i = 0; i < slides1.length; i++) {
-            if (Math.floor(i / <%=halfSlide%>) === divResult1)
-            //slides1[i].style.display = "inline-block";
-                slides1[i].style.display = "none";//invisible
 
-            else
-                slides1[i].style.display = "none";
+        if (typeof selectionArray[index - 2] !== 'undefined') {
+            l_2.style.border = "solid #E58D1E thick";
         }
+        else
+            l_2.style.border = "0px";
 
-        for (let i = 0; i < slides2.length; i++) {
-            if (i == index) {
-                //slides2[i].style.border ="5px solid blue";
-                //slides2[i].style.display = "inline-block";
-                slides2[i].style.display = "none";//invisible
-
-
-            }
-            else if (i <= index + 5 && i >= index - 5) {
-                //slides2[i].style.display = "inline-block";
-                //slides2[i].style.border ="5px";
-                slides2[i].style.display = "none";//invisible
-
-
-            }
-            else
-                slides2[i].style.display = "none";
+        if (typeof selectionArray[index - 1] !== 'undefined') {
+            l_1.style.border = "solid #E58D1E thick";
         }
-    }
-
-    function buttonUpdateIndex(n) {
-        const images = document.getElementsByClassName("image");
-
-        index += n;
-        if (index >= images.length)
-            index = 0;
-        else if (index < 0)
-            index = images.length - 1;
-        refresh();
-    }
-
-    function slideUpdateIndex(element) {
-        const images = document.getElementsByClassName("image");
-        for (let i = 0; i < images.length; i++) {
-            if (element.src.localeCompare(images[i].src) === 0)
-                index = i;
+        else
+            l_1.style.border = "0px";
+        if (typeof selectionArray[index + 1] !== 'undefined') {
+            l1.style.border = "solid #E58D1E thick";
         }
+        else
+            l1.style.border = "0px";
+        if (typeof selectionArray[index + 2] !== 'undefined') {
+            l2.style.border = "solid #E58D1E thick";
+        }
+        else
+            l2.style.border = "0px";
 
-        refresh();
+        l0.style.border = "solid #0094e2 thick ";
     }
 
-    function clearCanvas() {
-        const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
-        context0.clearRect(0, 0, canvas0.width, canvas0.height);
 
-        const canvas1 = document.getElementById("canvas1");
-        const context1 = canvas1.getContext("2d");
-        context1.clearRect(0, 0, canvas1.width, canvas1.height);
-    }
-
-    function setCanvasSize() {
-        const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
-
-        const canvas1 = document.getElementById("canvas1");
-        const context1 = canvas1.getContext("2d");
-
-        canvas0.width = 512;
-        canvas0.height = 512;
-        context0.globalAlpha = 0.25;
-
-        canvas1.width = 512;
-        canvas1.height = 512;
-        context1.globalAlpha = 1;
-    }
 </script>
 
 <script>
+    function setCanvases() {
+        const canvas0 = document.getElementById("canvas0");
+        const context0 = canvas0.getContext("2d");
+        const canvas1 = document.getElementById("canvas1");
+        const context1 = canvas1.getContext("2d");
 
-    function sendClickOp() {
-        clearCanvas();
+        canvas0.width = document.getElementById("image0").clientWidth;
+        canvas0.height = document.getElementById("image0").clientHeight;
+        context0.globalAlpha = 0.25;
+        context0.fillStyle = "#FF0000";
 
-        if (typeof threshold[index] === 'undefined')
-            threshold[index] = 0.02;
+        canvas1.width = document.getElementById("image0").clientWidth;
+        canvas1.height = document.getElementById("image0").clientHeight;
+        context1.globalAlpha = 1;
+        context1.fillStyle = "#0000FF";
+    }
 
-        $.get("MagicWand?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
-            const buffer = responseText.split('|');
-            fillArray[index] = buffer[0].split(',');
-            boundryArray[index] = buffer[1].split(',');
-            averageArray[index] = buffer[2];
-            centerXArray[index] = clickX;
-            centerYArray[index] = clickY;
+    function clearCanvases() {
+        const canvas0 = document.getElementById("canvas0");
+        const context0 = canvas0.getContext("2d");
+        const canvas1 = document.getElementById("canvas1");
+        const context1 = canvas1.getContext("2d");
 
-            drawOnCanvas();
-        });
+        context0.clearRect(0, 0, canvas0.width, canvas0.height);
+        context1.clearRect(0, 0, canvas1.width, canvas1.height);
     }
 
     function drawOnCanvas() {
-        var fillText = fillArray[index];
+        var selectionText = selectionArray[index];
         var borderText = boundryArray[index];
 
 
@@ -385,16 +326,16 @@
 
         var temp3=document.getElementById("canvas0");
         console.log(borderText);
-        for (let i = 0; i < fillText.length; i++) {
-            fillText[i]=(parseInt(fillText[i])+(temp3.width-512)/2)+"";
+        for (let i = 0; i < selectionText.length; i++) {
+            selectionText[i]=(parseInt(selectionText[i])+(temp3.width-512)/2)+"";
         }
         for (let i = 0; i < borderText.length; i++) {
             borderText[i]=(parseInt(borderText[i])+ (temp3.width-512)/2)+"";
         }
 
         console.log(borderText);
-        for (let i = 0; i < fillText.length; i = i + 2) {
-            context0.fillRect(fillText[i], fillText[i + 1], 1, 1);
+        for (let i = 0; i < selectionText.length; i = i + 2) {
+            context0.fillRect(selectionText[i], selectionText[i + 1], 1, 1);
         }
         for (let i = 0; i < borderText.length; i = i + 2) {
             context1.fillRect(borderText[i], borderText[i + 1], 1, 1);
@@ -408,6 +349,28 @@
         clickY = event.offsetY- (temp2.width-512)/2;
         sendClickOp();
     }
+</script>
+
+<script>
+    function sendClickOp() {
+        //TODO::
+        if (!processRunning) {
+            clearCanvases();
+            processRunning = true;
+            $.get("MagicWand?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
+                const buffer = responseText.split('|');
+                selectionArray[index] = buffer[0].split(',');
+                boundryArray[index] = buffer[1].split(',');
+                averageArray[index] = buffer[2];
+                centerXArray[index] = clickX;
+                centerYArray[index] = clickY;
+
+                drawOnCanvas();
+                processRunning = false;
+            });
+        }
+
+    }
 
     function updateThreshold(n) {
         threshold[index] += n;
@@ -417,7 +380,7 @@
             threshold[index] = 0;
 
         document.getElementById("threshold").innerText = threshold[index];
-        sendClickOp()
+        sendClickOp();
     }
 
     function updateThreshold2(n) {
@@ -430,40 +393,76 @@
         document.getElementById("threshold").innerText = threshold[index];
         sendClickOp()
     }
+</script>
 
+<script>
     function semiAutomate(count) {
-        if (typeof threshold[index] === 'undefined')
-            threshold[index] = 0.02;
+        semiAutomateRight(count);
+        semiAutomateLeft(count);
+    }
+
+    function semiAutomateRight(count) {
 
         if (count < 5) {
             $.get("MagicWand?imageID=" + (index + count) + "&x=" + centerXArray[index + count - 1] + "&y=" + centerYArray[index + count - 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index + count - 1], function (responseText) {
                 const buffer = responseText.split('|');
-                fillArray[index + count] = buffer[0].split(',');
+                selectionArray[index + count] = buffer[0].split(',');
                 boundryArray[index + count] = buffer[1].split(',');
                 averageArray[index + count] = buffer[2];
-                var center = buffer[3].split(",");
 
+                const center = buffer[3].split(",");
                 centerXArray[index + count] = center[0];
                 centerYArray[index + count] = center[1];
 
-                alert(centerXArray[index + count] + "," + centerYArray[index + count]);
-
                 threshold[index + count] = threshold[index];
 
-                if (averageArray[index + count] != -1)
+                if (averageArray[index + count] !== -1)
                     semiAutomate(count + 1);
-                // else
-                //     alert('stop it');
             });
         }
     }
 
-    function clearSelection() {
-        fillArray[index] = [];
+    function semiAutomateLeft(count) {
+
+        if (count < 5) {
+            $.get("MagicWand?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
+                const buffer = responseText.split('|');
+                selectionArray[index - count] = buffer[0].split(',');
+                boundryArray[index - count] = buffer[1].split(',');
+                averageArray[index - count] = buffer[2];
+
+                const center = buffer[3].split(",");
+                centerXArray[index - count] = center[0];
+                centerYArray[index - count] = center[1];
+
+                threshold[index - count] = threshold[index];
+
+                if (averageArray[index - count] !== -1)
+                    semiAutomateLeft(count + 1);
+            });
+        }
+    }
+</script>
+
+<script>
+    function clearCurrent() {
+        selectionArray[index] = [];
         boundryArray[index] = [];
         averageArray[index] = -1;
+        centerXArray[index] = -1;
+        centerYArray[index] = -1;
 
-        clearCanvas();
+        clearCanvases();
+    }
+
+    function clearAll() {
+        selectionArray = [];
+        boundryArray = [];
+        averageArray = [];
+        centerXArray = [];
+        centerYArray = [];
+
+        clearCanvases();
     }
 
 </script>
@@ -498,17 +497,15 @@
         temp2.width=value;
         temp2.height=value;
 
-        temp3=document.getElementById("canvas1");
+        var temp3=document.getElementById("canvas1");
         temp3.width=value;
         temp3.height=value;
     }
 </script>
-
 <script>
-    setCanvasSize();
+    setCanvases();
     refresh();
 </script>
-
 </body>
 <%}%>
 </html>

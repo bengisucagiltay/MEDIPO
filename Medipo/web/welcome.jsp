@@ -74,11 +74,14 @@
 		<h3 align="center">Latest News</h3>
 		<h4 class="updatec">These are the latest news</h4>
 
-		<h3 align="center">Update 1.2</h3>
-		<h4 class="updatec">These are the update news</h4>
+		<h3 align="center">CS Fair Update</h3>
+		<h4 class="updatec">The Medipo Group will be presenting in Bilkent CS Fair on May 14</h4>
 
-		<h3 align="center" >Maintenance on 21.12.22</h3>
-		<h4 class="updatec">These are the maintenance news</h4>
+		<h3 align="center" >The Project MedIPO</h3>
+		<h4 class="updatec">Medical Image Processing Online (MedIPO) is a web based system which allows its users to upload
+			and analyze MR images quickly and easily, online. The target audience of this system are medical doctors.
+			The system aims to provide an online analysis and decision support tool for medical doctors by providing detailed,
+			intractable images and statistical data analysis.</h4>
 
 	</div>
 
