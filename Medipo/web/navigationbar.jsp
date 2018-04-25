@@ -1,21 +1,22 @@
 <%@ page import="utils.FileManager" %>
-<div class="header" style="background-size: 70% auto;">
+<div class="header" style="background-size: 50% auto; height: 70px;">
+    
     <h2 style="
     position: center;
     font-family: 'Cinzel Decorative', cursive;
-    font-size: 80px;
+    font-size: 40px;
     text-align: left;
     padding: 0 20px 0 20px;">
         Medipo
     </h2>
-    <h1>Medical Image Processing Online<br></h1>
+    <h1 style="font-size: 15px;">Medical Image Processing Online<br></h1>
 </div>
 
 <div class="topnav">
 
 
     <a href="upload.jsp">Upload</a>
-    <!--<a href="wandTest.jsp">Image History</a>-->
+    <a href="wandTest.jsp">Image History</a>
     <a href="wandTest.jsp">Magic Wand</a>
     <a href="superpixelTest.jsp">Slic</a>
 
@@ -24,9 +25,9 @@
 
     <%
         if(session.getAttribute("firstname") != null && session.getAttribute("firstname") != "Guest"){%>
-            <a style="float: right" href="Logout" ><u>Logout</u></a>
+    <a style="float: right" href="Logout" ><u>Logout</u></a>
     <%}else if(session.getAttribute("firstname") == null || session.getAttribute("firstname") == "Guest"){%>
-            <a style="float: right" href="login.jsp" ><u>Login</u></a>
+    <a style="float: right" href="login.jsp" ><u>Login</u></a>
 
     <%}%>
     <a href="contact.jsp"style="float: right">Contact</a>
