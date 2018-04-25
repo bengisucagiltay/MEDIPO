@@ -125,7 +125,7 @@
             <br>-->
             <button onclick="clearCanvases()">CLEAR</button><br>
             <br>
-            <p id="threshold">0.02</p><br><br>
+            <p id="threshold" style="display: none;">0.02</p><br><br>
 
             <div>
                 <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>

@@ -59,43 +59,6 @@
 
     </style>
 
-    <style>
-        .slidecontainer {
-            width: 100%;
-        }
-
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: #ffffff;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-
-        }
-
-        .slider:hover {
-            opacity: 1;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 30px;
-            height: 30px;
-            border: none;
-            background: url('images/bb.png') fixed;
-            cursor: pointer;
-            display: block;
-        }
-
-
-    </style>
-
-
     <script src="js/jquery-1.10.2.js"></script>
 </head>
 
@@ -127,12 +90,12 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25" style="left: 20%">
-            <h1>Adjust Threshold:</h1><br>
-            <div class="slidecontainer">
-                <input type="range" min="5" max="20" value="10" class="slider" id="rangeSlider">
-                <p>Value: <span id="superPixelSize"></span></p>
-            </div>
+        <div class="col-25">
+            <h2>Adjust Threshold:</h2><br>
+            <button onclick="updateThreshold(-1)">&#10094;-</button>
+            <button onclick="updateThreshold(1)">&#10095;+</button>
+            <br>
+
 
             <script>
                 var ijk = 0;
@@ -147,16 +110,19 @@
 
                 slider.oninput = function () {
 
-                    updateThreshold2(this.value);
+                    //updateThreshold2(this.value);
                     output.innerHTML = slider.value;
                 }
 
             </script>
-            <button id="magic" onclick="changeTool()">Current Selection: Multiple Region</button>
+            <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
+            <button onclick="zoomOut()">Zoom OUT</button>
+            <button onclick="zoomIn()">Zoom IN</button>
             <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <button onclick="clearSelection()">CLEAR</button>
             <br><br><br>
+
             <div>
                 <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
                 <h2 style="float: left"> : Current Slice</h2><br><br>
@@ -170,22 +136,20 @@
 
     </div>
     <h1 id="index">0</h1>
+    <p id="superPixelSize" style="display: none">10</p>
 
     <div id="carouselSlider"></div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
     <script type="text/javascript" src="js/carousel.js"></script>
-
-
 </div>
-
 
 <script>
     //let index = 0;
     let index = <%=images.length/2%>;
     let superPixelSize = [];
     let clickX, clickY;
-    let isMagic = true;
+    let isMagic = false;
     let processRunning = false;
 
 </script>
@@ -379,7 +343,7 @@
     function updateThreshold2(n) {
         superPixelSize[index] = n;
         if (superPixelSize[index] === 11)
-            superPixelSize[index] += n  ;
+            superPixelSize[index] += n;
 
         if (superPixelSize[index] >= 100)
             superPixelSize[index] = 100;
@@ -447,7 +411,7 @@
 
                     superPixelSize[index - count] = superPixelSize[index];
 
-                    if (averageArray[index - count] != -1)
+                    if (averageArray[index - count] !== -1)
                         semiAutomateLeft(count + 1);
                     processRunning = false;
                 });
@@ -457,7 +421,7 @@
 
     function castSuperPixels(count) {
         for (var i = 0; i < clickedArray[index + count - 1].length; i++) {
-            if (clickedArray[index + count - 1][i] == 1) {
+            if (clickedArray[index + count - 1][i] === 1) {
                 //alert('res: ' + (Math.abs(averageArray[index + count - 1][i] - averageArray[index + count][i]) / 255));
                 if ((Math.abs(averageArray[index + count - 1][i] - averageArray[index + count][i]) / 255) < 0.03
                     &&
@@ -495,7 +459,7 @@
 
     function floodFill(x, y) {
         var clickedIndex = findSuperPixel(x, y);
-        if (clickedArray[index][clickedIndex] == 0) {
+        if (clickedArray[index][clickedIndex] === 0) {
             fillSuperPixel(clickedIndex);
             clickedArray[index][clickedIndex] = 1
         }
@@ -531,6 +495,41 @@
             isMagic = true;
             document.getElementById("magic").innerHTML = "Current Selection: Multiple Region ";
         }
+    }
+</script>
+
+<script>
+    function zoomIn() {
+        var temp = document.getElementById("image" + index);
+
+        temp.width = (temp.width + 100);
+        temp.height = (temp.height + 100);
+
+        var temp2 = document.getElementById("canvas0");
+        temp2.width = (temp2.width + 100);
+        temp2.height = (temp2.height + 100);
+
+        temp3 = document.getElementById("canvas1");
+        temp3.width = (temp3.width + 100);
+        temp3.height = (temp3.height + 100);
+
+    }
+
+    function zoomOut() {
+        var temp = document.getElementById("image" + index);
+        var value = temp.width - 100;
+        if (value < 512)
+            value = 512;
+        temp.width = value;
+        temp.height = value;
+
+        var temp2 = document.getElementById("canvas0");
+        temp2.width = value;
+        temp2.height = value;
+
+        var temp3 = document.getElementById("canvas1");
+        temp3.width = value;
+        temp3.height = value;
     }
 </script>
 
