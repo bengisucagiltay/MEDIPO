@@ -1,6 +1,6 @@
 <%@ page import="utils.FileManager" %>
 <div class="header" style="background-size: 50% auto; height: 70px;">
-    
+
     <h2 style="
     position: center;
     font-family: 'Cinzel Decorative', cursive;
