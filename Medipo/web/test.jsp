@@ -46,7 +46,6 @@
         .canvas {
             position: absolute;
             left: 0;
-            top: 0;
         }
 
         .canvas3 {
@@ -92,41 +91,10 @@
             width: 30px;
             height: 30px;
             border: none;
-            background: url('images/bb.png') fixed;
+            background: url('images/bb.png');
             cursor: pointer;
-            display:block;
         }
 
-
-    </style>
-
-    <style>
-        * {
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        .zoom {
-            overflow: hidden;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -ms-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 1s ease;
-        }
-
-        .zoom:hover {
-            -moz-transform: scale(1.5);
-            -webkit-transform: scale(1.5);
-            transform: scale(1.5);
-        }
-        .canvas3{
-            background-color: red;
-        }
-        canvaszoom { display:block; margin:1em auto; background:#fff; border:1px solid #ccc }
 
     </style>
 
@@ -154,7 +122,8 @@
 <div class="cBig">
 
     <div class="row">
-        <div class="col-75" style="text-align: left;width:512px;position: sticky;">
+        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
+	 white-space: nowrap;">
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -163,15 +132,16 @@
             <%
                 }
             %>
-            <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
+
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
+            <canvas id="canvas1" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
         <div class="col-25">
             <h1>Adjust Threshold:</h1><br>
             <div class="slidecontainer">
-                <input type="range" min="2" max="10" value="2" class="slider" id="rangeSlider">
-                <p>Value: <span id="rangeValue"></span></p>
+                <input type="range" min="2" max="10" value="2" class="slider" id="myRange">
+                <p>Value: <span id="demo"></span></p>
             </div>
 
             <script>
@@ -181,8 +151,8 @@
                     cnrdeneme.push(a);
                     ijk++;
                 }
-                var slider = document.getElementById("rangeSlider");
-                var output = document.getElementById("rangeValue");
+                var slider = document.getElementById("myRange");
+                var output = document.getElementById("demo");
                 output.innerHTML = slider.value;
 
                 slider.oninput = function () {
@@ -210,6 +180,8 @@
             <button onclick="increase()">INCREASE</button>
             <br>-->
             <button onclick="clearSelection()">CLEAR</button>
+            <button onclick="zoomIn()">Zoom IN</button>
+            <button onclick="zoomOut()">Zoom Out</button>
             <br>
             <p id="threshold">0.02</p><br><br>
 
@@ -227,14 +199,9 @@
 
 
         </div>
-        <div class="zoom"style="text-align: right; top:0;height: 512px;width:512px;float: right; ">
-            <div class="col-75" >
-            <canvas id="canvas3" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
-            <canvas id="canvas2" class="canvas3" onclick="clickOnCanvas(event)"></canvas>
-            </div>
-        </div>
 
     </div>
+
     <h1 id="index">0</h1>
 
     <div>
@@ -287,31 +254,12 @@
 </script>
 
 <script>
-    /*
-    // Zoom to specific resolution.
-    Annotator.prototype.zoom = function (scale) {
-        this.currentZoom = Math.max(Math.min(scale || 1.0, 10.0), 1.0);
-        this.innerContainer.style.zoom = this.currentZoom;
-        this.innerContainer.style.MozTransform =
-            "scale(" + this.currentZoom + ")";
-        return this;
-    };
 
-    // Zoom in.
-    Annotator.prototype.zoomIn = function (scale) {
-        return this.zoom(this.currentZoom + (scale || 0.25));
-    };
-
-    // Zoom out.
-    Annotator.prototype.zoomOut = function (scale) {
-        return this.zoom(this.currentZoom - (scale || 0.25));
-    };*/
 
     function refresh() {
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
         const myImg = document.getElementsByClassName("image");
-        document.getElementsByClassName("zoom")[0].style.backgroundImage = "url('"+myImg[index].src+"')";
         document.getElementById("index").innerText = index;
 
         refreshImage();
@@ -424,7 +372,6 @@
             fillArray[index] = buffer[0].split(',');
             boundryArray[index] = buffer[1].split(',');
             averageArray[index] = buffer[2];
-
             centerXArray[index] = clickX;
             centerYArray[index] = clickY;
 
@@ -446,7 +393,16 @@
         context0.fillStyle = "#FF0000";
         context1.fillStyle = "#0000FF";
 
+        var temp3=document.getElementById("canvas0");
+        console.log(borderText);
+        for (let i = 0; i < fillText.length; i++) {
+            fillText[i]=(parseInt(fillText[i])+(temp3.width-512)/2)+"";
+        }
+        for (let i = 0; i < borderText.length; i++) {
+            borderText[i]=(parseInt(borderText[i])+ (temp3.width-512)/2)+"";
+        }
 
+        console.log(borderText);
         for (let i = 0; i < fillText.length; i = i + 2) {
             context0.fillRect(fillText[i], fillText[i + 1], 1, 1);
         }
@@ -456,10 +412,10 @@
     }
 
     function clickOnCanvas(event) {
+        var temp2=document.getElementById("canvas0");
 
-        clickX = event.offsetX;
-        clickY = event.offsetY;
-
+        clickX = event.offsetX- (temp2.width-512)/2;
+        clickY = event.offsetY- (temp2.width-512)/2;
         sendClickOp();
     }
 
@@ -520,6 +476,42 @@
         clearCanvas();
     }
 
+</script>
+
+<script>
+
+    function zoomIn() {
+        var temp=document.getElementById("image"+index);
+
+        temp.width = (temp.width+100);
+        temp.height = (temp.height+100);
+
+        var temp2=document.getElementById("canvas0");
+        temp2.width=(temp2.width+100);
+        temp2.height=(temp2.height+100);
+
+        temp3=document.getElementById("canvas1");
+        temp3.width=(temp3.width+100);
+        temp3.height=(temp3.height+100);
+
+    }
+
+    function zoomOut() {
+        var temp=document.getElementById("image"+index);
+        var value=temp.width-100;
+        if(value<512)
+            value=512;
+        temp.width = value;
+        temp.height = value;
+
+        var temp2=document.getElementById("canvas0");
+        temp2.width=value;
+        temp2.height=value;
+
+        temp3=document.getElementById("canvas1");
+        temp3.width=value;
+        temp3.height=value;
+    }
 </script>
 
 <script>
