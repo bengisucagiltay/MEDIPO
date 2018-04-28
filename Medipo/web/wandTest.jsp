@@ -72,12 +72,9 @@
     var cnrdeneme = [];
 </script>
 
-
-<div class="cBig">
-
+<div class="cBig" style="top: 25%;padding-bottom: 10%">
     <div class="row">
-        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
-	 white-space: nowrap;">
+        <div class="col-75" style="width:fit-content; align-content: left;">
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -90,9 +87,9 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25">
+        <div class="col-25" style="left: 5%;width: 50%; align-content: center">
             <h2>Adjust Threshold:</h2><br>
-            <button onclick="updateThreshold(-0.01)">&#10094;-</button>
+            <button onclick="updateThreshold(-0.01)">-&#10094;</button>
             <button onclick="updateThreshold(0.01)">&#10095;+</button><br>
 
             <script>
@@ -115,9 +112,9 @@
                 }
 
             </script>
-
-            <button onclick="zoomOut()">Zoom OUT</button>
-            <button onclick="zoomIn()">Zoom IN</button>
+            <button style="background-color: lightcyan"onclick="zoomOut()">Zoom OUT</button>
+            <button style="background-color: lightcyan"onclick="zoomIn()">Zoom IN</button>
+            <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <!--<br>
             <button onclick="decrease()">DECREASE</button>
@@ -125,29 +122,18 @@
             <br>-->
             <button onclick="clearCanvases()">CLEAR</button><br>
             <br>
-            <p id="threshold" style="display: none;">0.02</p><br><br>
+            <p id="threshold" style="display: none;">0.02</p>
 
-            <div>
-                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
-                <h2 style="float: left"> : Current Slice</h2><br><br>
-                <!--<h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
-               <h2 style="float: left"> : Edited Slices</h2><br>
-              <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2);
-               background-color: whitesmoke"></h2>
-               <h2 style="float: left"> : Default Style</h2><br>-->
-            </div>
 
+            <h1 style="padding-left: 5%" id="index">0</h1>
+
+            <div id="carouselSlider" style="transform: scale(1.2)"></div>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
+            <script type="text/javascript" src="js/carousel.js"></script>
         </div>
 
     </div>
-    <h1 id="index">0</h1>
-
-    <div id="carouselSlider"></div>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
-    <script type="text/javascript" src="js/carousel.js"></script>
-
-
 </div>
 
 <script>

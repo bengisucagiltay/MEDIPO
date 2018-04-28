@@ -150,7 +150,7 @@ button:hover {
 .cBig {
     width: 90%;
     left: 5%;
-    top: 35%;
+    top: 20%;
     position: absolute;
     border-radius: 5px;
     background-color: #cdeffe;
@@ -305,7 +305,7 @@ button:hover {
 }
 
 .fast-forward {
-    right: 2%;
+    right: 0%;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -321,7 +321,7 @@ button:hover {
 }
 
 .arrow-left {
-    left: 5%;
+    left: 6.5%;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -337,7 +337,7 @@ button:hover {
 }
 
 .rewind {
-    left: 2%;
+    left: 1.5%;
     position: absolute;
     width: 30px;
     height: 30px;
@@ -361,74 +361,76 @@ button:hover {
 }
 
 .level-2 {
-    height: 150px;
-    width: 150px;
-    line-height: 150px;
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
     background-color: transparent;
     left: 71%;
     margin-top: 25px;
+    z-index: -1;
 }
 
 .level-1 {
-    height: 180px;
-    width: 180px;
-    line-height: 180px;
+    height: 130px;
+    width: 130px;
+    line-height: 130px;
     background-color: transparent;
     left: 56.5%;
     margin-top: 10px;
 }
 
 .level0 {
-    height: 200px;
-    width: 200px;
-    line-height: 200px;
+    height: 150px;
+    width: 150px;
+    line-height: 150px;
     background-color: transparent;
     left: 40%;
     border: solid #0094e2 thick ;
+    z-index: 1000;
 }
 
 .level1 {
-    height: 180px;
-    width: 180px;
-    line-height: 180px;
+    height: 130px;
+    width: 130px;
+    line-height: 130px;
     background-color: transparent;
     margin-top: 10px;
     left: 25%;
 }
 
 .level2 {
-    height: 150px;
-    width: 150px;
-    line-height: 150px;
+    height: 100px;
+    width: 100px;
+    line-height: 100px;
     background-color: transparent;
     margin-top: 25px;
     left: 12.9%;
 }
 
 .img-lvl0 {
-    max-height: 200px;
-    max-width: 200px;
+    max-height: 150px;
+    max-width: 150px;
 
 }
 
 .img-lvl1 {
-    max-height: 180px;
-    max-width: 180px;
+    max-height: 130px;
+    max-width: 130px;
 }
 
 .img-lvl2 {
-    max-height: 150px;
-    max-width: 150px;
+    max-height: 100px;
+    max-width: 100px;
 }
 
 .img-lvl-1 {
-    max-height: 180px;
-    max-width: 180px;
+    max-height: 130px;
+    max-width: 130px;
 }
 
 .img-lvl-2 {
-    max-height: 150px;
-    max-width: 150px;
+    max-height: 100px;
+    max-width: 100px;
 }
 
 .left-enter {
