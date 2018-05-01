@@ -64,9 +64,10 @@
     var cnrdeneme = [];
 </script>
 
-<div class="cBig" style="top: 30%;padding-bottom: 10%">
+<div class="cBig" style="top: 25%;padding-bottom: 10%">
     <div class="row">
-        <div class="col-75" style="width:fit-content; align-content: left;">
+        <div class="col-75" style="width:auto; align-content: left;">
+
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -76,7 +77,16 @@
                 }
             %>
         </div>
+        <div class="col-25" style=" left: 20%;align-content: center">
+            <h1 style="padding-left: 20%" >Image History</h1>
+            <form action="superpixelTest.jsp" >
+                <input type="submit" value="Magic Grid">
+            </form>
+            <form action="wandTest.jsp">
+                <input type="submit" value="Magic Wand">
+            </form>
 
+        </div>
         <div class="col-25" style="left: 5%;width: 50%; align-content: center">
 
             <script>
@@ -90,24 +100,16 @@
                 cnrlength = ijk - 1;
             </script>
 
-            <form action="Clean" method="post">
-                <input type="submit" value="Delete History">
-            </form>
-            <form action="superpixelTest.jsp" method="post">
-                <input type="submit" value="Superpixel">
-            </form>
-            <form action="wandTest.jsp" method="post">
-                <input type="submit" value="Magic Wand">
-            </form>
-            <br>
-            <br>
-
-            <h1 style="padding-left: 5%" id="index">0</h1>
-
+            <br><br><h1 style="padding-left: 5%" id="index">0</h1>
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
             <script type="text/javascript" src="js/carousel.js"></script>
+
+            <br><br><br><br><br><br><br>
+            <form action="Clean" method="post" style="align-content: center">
+                <input type="submit" value="Delete History">
+            </form>
         </div>
 
     </div>

@@ -38,7 +38,7 @@
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
 
 
-    <title>Superpixel</title>
+    <title>Magic Grid</title>
 
     <style>
         div {
@@ -91,7 +91,7 @@
         </div>
 
         <div class="col-25" style="left: 5%;width: 50%; align-content: center">
-            <h2>Adjust Threshold:</h2><br>
+            <h1>Edit Image</h1>
             <button onclick="updateThreshold(-1)">-&#10094;</button>
             <button onclick="updateThreshold(1)">&#10095;+</button>
             <br>
@@ -120,7 +120,7 @@
             <button style="background-color: lightcyan" onclick="zoomOut()">Zoom OUT</button>
             <button style="background-color: lightcyan" onclick="zoomIn()">Zoom IN</button>
             <br>
-            <button onclick="semiAutomate(1)">Apply Selection</button>
+            <button onclick="semiAutomate(1)">APPLY Selection</button>
             <button onclick="clearSelection()">CLEAR</button>
             <br>
             <form action="Download" method="post">

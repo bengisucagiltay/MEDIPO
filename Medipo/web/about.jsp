@@ -23,12 +23,12 @@
     });
 </script>
 
-<div class="container" style="top:43%;">
+<div class="container" style="top:30%;">
    <h2 style="font-size: 25px;
     font-weight: 600;"> About Us</h2>
 </div>
 
-<div class="container" style="top:55%; left:10%; width:80%; background: none;">
+<div class="container" style="top:40%; left:10%; width:80%; background: none;">
 <div class="card">
     <br>
     <img src="images/img_avatar.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">
@@ -58,7 +58,7 @@
     </div>
 </div>
 </div>
-<div class="container" style="top:90%; left:10%; width:80%; background: none;">
+<div class="container" style="top:80%; left:10%; width:80%; background: none;">
     <div class="card">
         <br>
         <img src="images/img_avatar2.png" alt="Avatar" style="width:70%;border-radius: 50% 50%;">

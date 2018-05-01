@@ -28,8 +28,8 @@
 
 		<form action="Upload" method="post" enctype="multipart/form-data" name="form1" id="form1">
 			<br>
-			<h3 align="center" ><b>Upload your files:</b><br><br>
-			<input name="file" type="file" id="file" multiple></h3><br>
+			<h1 align="center" ><b>Upload your files</b><br><br>
+			<input name="file" type="file" id="file" multiple></h1><br>
 			<input type="submit" name="Submit" value="Submit files"/>
 		</form>
 

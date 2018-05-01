@@ -65,7 +65,7 @@
     });
 </script>
 
-<div class="container" style="top:40%">
+<div class="container" style="top:26%">
     <h2 style="font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 30px;
@@ -77,7 +77,7 @@
     font-size: 14px;">Please use the form below to contact the <br>  Medipo Team</h4>
 </div>
 
-<div class="container" style="top:60%">
+<div class="container" style="top:50%">
     <form id="frmContact" name="frmContact" action="" method="POST"
           novalidate="novalidate">
         <div class="row">
