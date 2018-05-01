@@ -74,8 +74,8 @@
 
 <div class="cBig" style="top: 25%;padding-bottom: 10%">
     <div class="row">
-        <div class="col-75" style="width:auto; align-content: left;">
-            <%
+        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
+	 white-space: nowrap;">            <%
                 for (int i = 0; i < images.length; i++) {
             %>
             <img id="image<%=i%>" class="image"
@@ -104,7 +104,7 @@
 
             </script>
             <button style="background-color: lightcyan"onclick="zoomOut()">Zoom OUT</button>
-            <button style="background-color: lightcyan"onclick="Carousel.leftClick()">Zoom IN</button>
+            <button style="background-color: lightcyan"onclick="zoomIn()">Zoom IN</button>
             <br>
             <button onclick="semiAutomate(1)">Apply Selection</button>
             <button onclick="clearCanvases()">CLEAR</button><br>
