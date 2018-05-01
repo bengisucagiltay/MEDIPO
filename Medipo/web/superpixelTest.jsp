@@ -2,17 +2,19 @@
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
 
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8" %>
 
 <%
     int slideCount = 10;
 
-    String email;
+    String email = (String) session.getAttribute("email");
     String userUpload = null;
     File imagesDir;
     File[] images = null;
 
     try {
-        email = (String) session.getAttribute("email");
+        //email = (String) session.getAttribute("email");
         userUpload = FileManager.getDirPath_UserUpload(email);
         imagesDir = new File(userUpload);
         images = imagesDir.listFiles();
@@ -26,8 +28,6 @@
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
         session.setAttribute("extension", extension);
 %>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 <head>
@@ -77,6 +77,7 @@
 <div class="cBig" style="top: 25%;padding-bottom: 10%">
     <div class="row">
         <div class="col-75"  style="width:fit-content; align-content: left;">
+
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -120,11 +121,17 @@
             <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <button onclick="clearSelection()">CLEAR</button>
-            <br><br><br>
+            <br>
+                <form action="Download" method="post">
+                    <input type="submit" name="Submit" value="Download ZIP"/>
+            </form>
+
+            <br><br>
             <h1  style="padding-left: 5%" id="index">0</h1>
             <p id="superPixelSize" style="display: none">10</p>
 
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
+
         </div>
 
     </div>
