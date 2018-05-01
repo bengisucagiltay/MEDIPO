@@ -1,11 +1,9 @@
 package utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -165,11 +163,16 @@ public class FileManager {
         return path.substring(getDirPath_Root().length());
     }
 
-    public static File zip(String email, String firstname) {
+    public static File zip(String email, String firstname) throws IOException {
 
-        String directoryPath = getDirPath_User(email);
-        List<File> files = Arrays.asList(new File(directoryPath).listFiles());
-        File zipFile = new File(directoryPath + "/" + firstname + ".zip");
+
+        String directoryPath = getDirPath_UserUpload(email);
+        String outputPath = getDirPath_User(email);
+
+        List<File> files = Arrays.asList(Objects.requireNonNull(new File(directoryPath).listFiles()));
+        System.out.println("Files:"+files.size());
+
+        File zipFile = new File(outputPath + "/" + firstname + ".zip");
 
         byte[] buf = new byte[1024];
         try {
@@ -196,4 +199,5 @@ public class FileManager {
         }
         return null;
     }
+
 }
