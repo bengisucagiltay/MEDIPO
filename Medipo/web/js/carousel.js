@@ -1,3 +1,5 @@
+var ananın;
+
 var _createClass = function () {
     function defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
@@ -46,7 +48,8 @@ function _inherits(subClass, superClass) {
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var Carousel = function (_React$Component) {
+
+var Carouse2 = function a(_React$Component) {
     _inherits(Carousel, _React$Component);
 
     function Carousel(props) {
@@ -59,6 +62,7 @@ var Carousel = function (_React$Component) {
             active: _this.props.active,
             direction: ""
         };
+        this.cancan=5;
         _this.rightClick = _this.moveRight.bind(_this);
         _this.rightClick5 = _this.moveRight5.bind(_this);
         _this.leftClick = _this.moveLeft.bind(_this);
@@ -80,7 +84,7 @@ var Carousel = function (_React$Component) {
                     index = i % this.state.items.length;
                 }
                 level = this.state.active - i;
-                items.push(React.createElement(Item, {key: index, id: this.state.items[index], level: level}));
+                items.push(React.createElement(Item, {key: index, id: this.state.items[index], level: level, onClickLeft: this.leftClick,onClickRight: this.rightClick}));
             }
             return items;
         }
@@ -187,15 +191,27 @@ var Item = function (_React$Component2) {
     _createClass(Item, [{
         key: "render",
         value: function render() {
+
             var className = "item level" + this.props.level;
             var imgClass = "img-lvl" + this.props.level;
             var imgSrc = this.props.id;
+            if(this.props.level>0){
+                return React.createElement(
+                    "div",
+                    {className: className},
+                    React.createElement(
+                        "img",
+                        {className: imgClass, src:imgSrc, onClick: this.props.onClickLeft}
+                    )
+                );
+            }
+
             return React.createElement(
                 "div",
                 {className: className},
                 React.createElement(
                     "img",
-                    {className: imgClass, src:imgSrc}
+                    {className: imgClass, src:imgSrc, onClick: this.props.onClickRight}
                 )
             );
         }
@@ -206,14 +222,6 @@ var Item = function (_React$Component2) {
 // 10 items
 
 var items = [];
-/*var btemp=0;
-while(btemp<cnrdeneme.length){
-
-    items.push(cnrdeneme[btemp]);
-btemp++;
-
-}*/
-
 
 for(var i = Math.floor(cnrdeneme.length/2); i < cnrdeneme.length; i++) {
     items.push(cnrdeneme[i]);
@@ -223,4 +231,4 @@ for(var i = 0; i < cnrdeneme.length/2; i++) {
     items.push(cnrdeneme[i]);
 }
 
-ReactDOM.render(React.createElement(Carousel, {items: items, active: 0}), document.getElementById("carouselSlider"));
+ReactDOM.render(React.createElement(Carouse2, {items: items, active: 0}), document.getElementById("carouselSlider"));

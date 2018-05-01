@@ -101,19 +101,10 @@
                     ijk++;
                 }
                 cnrlength = ijk - 1;
-               /* var slider = document.getElementById("rangeSlider");
-                var output = document.getElementById("rangeValue");
-                output.innerHTML = slider.value;*/
-
-                slider.oninput = function () {
-
-                    //updateThreshold2(this.value / 100);
-                    output.innerHTML = slider.value;
-                }
 
             </script>
             <button style="background-color: lightcyan"onclick="zoomOut()">Zoom OUT</button>
-            <button style="background-color: lightcyan"onclick="zoomIn()">Zoom IN</button>
+            <button style="background-color: lightcyan"onclick="Carousel.leftClick()">Zoom IN</button>
             <br>
             <button onclick="semiAutomate(1)">PAINT</button>
             <!--<br>
