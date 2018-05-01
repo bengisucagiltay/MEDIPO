@@ -1,4 +1,4 @@
-ç<%@ page import="utils.AlertManager" %>
+<%@ page import="utils.AlertManager" %>
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -92,6 +92,12 @@
 
             <form action="Clean" method="post">
                 <input type="submit" value="Delete History">
+            </form>
+            <form action="superpixelTest.jsp" method="post">
+                <input type="submit" value="Superpixel">
+            </form>
+            <form action="wandTest.jsp" method="post">
+                <input type="submit" value="Magic Wand">
             </form>
             <br>
             <br>

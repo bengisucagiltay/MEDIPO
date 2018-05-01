@@ -76,7 +76,7 @@
 
 <div class="cBig" style="top: 25%;padding-bottom: 10%">
     <div class="row">
-        <div class="col-75"  style="width:fit-content; align-content: left;">
+        <div class="col-75" style="width:auto; align-content: left;">
 
             <%
                 for (int i = 0; i < images.length; i++) {
@@ -115,19 +115,20 @@
                 }
 
             </script>
-            <button id="magic" onclick="changeTool()">Current Selection: Single Region</button><br>
-            <button style="background-color: lightcyan"onclick="zoomOut()">Zoom OUT</button>
-            <button style="background-color: lightcyan"onclick="zoomIn()">Zoom IN</button>
+            <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
             <br>
-            <button onclick="semiAutomate(1)">PAINT</button>
+            <button style="background-color: lightcyan" onclick="zoomOut()">Zoom OUT</button>
+            <button style="background-color: lightcyan" onclick="zoomIn()">Zoom IN</button>
+            <br>
+            <button onclick="semiAutomate(1)">Apply Selection</button>
             <button onclick="clearSelection()">CLEAR</button>
             <br>
-                <form action="Download" method="post">
-                    <input type="submit" name="Submit" value="Download ZIP"/>
+            <form action="Download" method="post">
+                <input type="submit" name="Submit" value="Download ZIP"/>
             </form>
 
             <br><br>
-            <h1  style="padding-left: 5%" id="index">0</h1>
+            <h1 style="padding-left: 5%" id="index">0</h1>
             <p id="superPixelSize" style="display: none">10</p>
 
             <div id="carouselSlider" style="transform: scale(1.2)"></div>

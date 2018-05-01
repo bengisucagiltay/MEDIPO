@@ -74,7 +74,7 @@
 
 <div class="cBig" style="top: 25%;padding-bottom: 10%">
     <div class="row">
-        <div class="col-75" style="width:fit-content; align-content: left;">
+        <div class="col-75" style="width:auto; align-content: left;">
             <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -106,16 +106,15 @@
             <button style="background-color: lightcyan"onclick="zoomOut()">Zoom OUT</button>
             <button style="background-color: lightcyan"onclick="Carousel.leftClick()">Zoom IN</button>
             <br>
-            <button onclick="semiAutomate(1)">PAINT</button>
-            <!--<br>
-            <button onclick="decrease()">DECREASE</button>
-            <button onclick="increase()">INCREASE</button>
-            <br>-->
+            <button onclick="semiAutomate(1)">Apply Selection</button>
             <button onclick="clearCanvases()">CLEAR</button><br>
+            <form action="Download" method="post">
+                <input type="submit" name="Submit" value="Download ZIP"/>
+            </form>
             <br>
             <p id="threshold" style="display: none;">0.02</p>
 
-
+            <br><br>
             <h1 style="padding-left: 5%" id="index">0</h1>
 
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
