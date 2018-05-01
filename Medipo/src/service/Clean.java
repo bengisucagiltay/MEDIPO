@@ -25,13 +25,21 @@ public class Clean extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		out.println("test");
+		deleteImages(request);
 
 		response.sendRedirect("welcome.jsp");
 
 	}
 
-	public static void deleteImage(){
+	public static void deleteImages(HttpServletRequest request){
+		String email = (String) request.getSession().getAttribute("email");
+		String userDirectoryPath = FileManager.getDirPath_UserUpload(email);
 
+		try {
+			FileUtils.cleanDirectory(new File(userDirectoryPath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

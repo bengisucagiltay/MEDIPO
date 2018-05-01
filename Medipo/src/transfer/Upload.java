@@ -59,6 +59,6 @@ public class Upload extends HttpServlet {
                 }
             }
         }
-        response.sendRedirect("wandTest.jsp");
+        response.sendRedirect("imageHistory.jsp");
     }
 }

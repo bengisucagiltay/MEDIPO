@@ -1,7 +1,8 @@
 ç<%@ page import="utils.AlertManager" %>
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
-
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8" %>
 <%
     int slideCount = 10;
 
@@ -25,8 +26,7 @@
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
         session.setAttribute("extension", extension);
 %>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 <head>
@@ -48,15 +48,7 @@
             display: inline-block;
             position: relative;
         }
-
-        .canvas {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
     </style>
-
 
     <script src="js/jquery-1.10.2.js"></script>
 </head>
@@ -116,12 +108,7 @@
 </div>
 
 <script>
-    //let index = 0;
     let index = <%=images.length/2%>;
-    let threshold = [];
-    let clickX, clickY;
-    let processRunning = false;
-
 </script>
 
 <script>
@@ -193,7 +180,6 @@
 
 
 </script>
-
 
 <script>
     refresh();
