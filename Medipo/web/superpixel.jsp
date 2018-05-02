@@ -3,33 +3,29 @@
 <%@ page import="java.io.File" %>
 
 <%
-    int slideCount = 10;
-
     String email;
-    String userUpload = null;
+    String userUpload;
     File imagesDir;
-    File[] images = null;
+    File[] images;
 
     try {
         email = (String) session.getAttribute("email");
         userUpload = FileManager.getDirPath_UserUpload(email);
         imagesDir = new File(userUpload);
         images = imagesDir.listFiles();
-    } catch (Exception e) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
-    }
 
-    if (images == null || images.length <= 0) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
-    } else {
-        String extension = images[0].getName().substring(images[0].getName().length() - 4);
-        session.setAttribute("extension", extension);
+
+        if (images == null || images.length <= 0) {
+            AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
+        } else {
+            String extension = images[0].getName().substring(images[0].getName().length() - 4);
+            session.setAttribute("extension", extension);
 %>
 
 <html>
 
 <head>
-    <title>Image Slider</title>
+    <title>Super Pixel</title>
 
     <style>
         div {
@@ -48,7 +44,7 @@
         }
 
         .slide {
-            width: <%=(100 / slideCount) - 1%>%;
+            width: 10%;
         }
     </style>
 
@@ -58,11 +54,10 @@
 <body>
 
 <div>
-    <button onclick="buttonUpdateIndex(-1)">&#10094;</button>
-    <button onclick="buttonUpdateIndex(1)">&#10095;</button>
+    <button onclick="buttonUpdateIndex(-1)" style="display: inline-block">&#10094;</button>
+    <p id="index" style="display: inline-block">index: <%=images.length / 2%>></p>
+    <button onclick="buttonUpdateIndex(1)" style="display: inline-block">&#10095;</button>
 </div>
-
-<p id="test">here</p>
 
 <div>
     <%
@@ -73,14 +68,10 @@
     <%
         }
     %>
-
+    <canvas id="canvas3" class="canvas"></canvas>
+    <canvas id="canvas2" class="canvas"></canvas>
     <canvas id="canvas1" class="canvas"></canvas>
     <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
-</div>
-
-<div>
-    <button onclick="buttonUpdateIndex(-10)">&#10094;</button>
-    <button onclick="buttonUpdateIndex(10)">&#10095;</button>
 </div>
 
 <div>
@@ -95,30 +86,65 @@
     %>
 </div>
 
-<button onclick="updateThreshold(-1)">&#10094;-</button>
-<button onclick="updateThreshold(1)">&#10095;+</button>
-<button onclick="semiAutomate(1)">MAHMUT</button>
-<button onclick="clearSelection()">MEHMET</button>
-<button id="magic" onclick="changeTool()">Magic</button>
+<div>
+    <button onclick="updateSuperPixelSize(-1)" style="display: inline-block">&#10094;</button>
+    <p id="superPixelSize" style="display: inline-block">superPixelSize: 10</p>
+    <button onclick="updateSuperPixelSize(1)" style="display: inline-block">&#10095;</button>
+</div>
 
-<p id="index">index: 0</p>
-<p id="superPixelSize">10</p>
+<div>
+    <button onclick="semiAutomateLeft(1)">AUTO LEFT 4</button>
+    <button onclick="semiAutomate(1)">AUTO BOTH 4</button>
+    <button onclick="semiAutomateRight(1)">AUTO RIGHT 4</button>
+</div>
 
+<div>
+    <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
+</div>
+
+<div>
+    <button onclick="clearCurrent()">CLEAR</button>
+    <button onclick="clearAll()">CLEAR ALL</button>
+</div>
 
 <script>
-    let index = 0;
-    let superPixelSize = [];
+    let size = <%=images.length%>;
+    let index = <%=images.length/2%>;
+    let processRunning = false;
+    let processRunningRight = false;
+    let processRunningLeft = false;
+    let isMagic = false;
     let clickX, clickY;
-    let isMagic = true;
 </script>
 
 <script>
+    let superPixelSize = [];
+    var borderArray = [];
     var selectionArray = [];
-    var boundryArray = [];
-    var averageArray = [];
+    var selectionBorderArray = [];
+    var selectionAverageArray = [];
     var centerArray = [];
+    var averageArray = [];
     var pixelArray = [];
     var clickedArray = [];
+    var tempSelectionArray = [];
+    var tempBorderArray = [];
+    var tempSelectionAverageArray = [];
+
+    for (let i = 0; i < size; i++) {
+        superPixelSize[i] = 10;
+        borderArray[i] = [];
+        selectionArray[i] = [];
+        selectionBorderArray[i] = [];
+        selectionAverageArray[i] = -1;
+        averageArray[i] = [];
+        centerArray[i] = [];
+        pixelArray[i] = [];
+        clickedArray[i] = [];
+        tempSelectionArray[i] = [];
+        tempBorderArray[i] = [];
+        tempSelectionAverageArray[i] = [];
+    }
 </script>
 
 <script>
@@ -129,43 +155,37 @@
             index = 0;
         else if (index < 0)
             index = images.length - 1;
+
         refresh();
     }
 
     function slideUpdateIndex(element) {
         const images = document.getElementsByClassName("image");
         for (let i = 0; i < images.length; i++) {
-            if (element.id.localeCompare(images[i].id) === 0)
+            if (element.src.localeCompare(images[i].src) === 0)
                 index = i;
         }
+
         refresh();
     }
 
     function refresh() {
-        if (typeof superPixelSize[index] === 'undefined')
-            superPixelSize[index] = 10.0;
+        if (borderArray[index].length === 0) {
+            superPixelization();
+        }
 
-
-        document.getElementById("superPixelSize").innerText = superPixelSize[index];
         document.getElementById("index").innerText = "index: " + index;
+        document.getElementById("superPixelSize").innerText = superPixelSize[index];
 
-        clearCanvases();
         refreshImage();
         refreshSlides();
-        if (typeof boundryArray[index] === 'undefined') {
-            superPixelize();
-        }
-
-        if (!(typeof clickedArray[index] === 'undefined')) {
-            for (let i = 0; i < clickedArray[index].length; i++)
-                if (clickedArray[index][i] === 1)
-                    fillSuperPixel(i);
-        }
+        clearCanvases();
         drawOnCanvas();
     }
 
     function refreshImage() {
         const images = document.getElementsByClassName("image");
+
         for (let i = 0; i < images.length; i++) {
             images[i].style.display = "none";
         }
@@ -174,10 +194,20 @@
 
     function refreshSlides() {
         const slides = document.getElementsByClassName("slide");
-        const divResult = Math.floor(index / <%=slideCount%>);
 
         for (let i = 0; i < slides.length; i++) {
-            if (Math.floor(i / <%=slideCount%>) === divResult)
+            if (index === i) {
+                slides[i].border = "3";
+                slides[i].style.borderColor = "purple";
+            }
+            else if (selectionArray[i].length !== 0) {
+                slides[i].border = "3";
+                slides[i].style.borderColor = "yellow";
+            }
+            else
+                slides[i].border = "0";
+
+            if (Math.abs(index - i) < 5)
                 slides[i].style.display = "inline-block";
             else
                 slides[i].style.display = "none";
@@ -188,19 +218,30 @@
 <script>
     function setCanvases() {
         const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const context2 = canvas2.getContext("2d");
+        const canvas3 = document.getElementById("canvas3");
+        const context3 = canvas3.getContext("2d");
 
-        canvas0.width = document.getElementById("image0").clientWidth;
-        canvas0.height = document.getElementById("image0").clientHeight;
-        context0.globalAlpha = 0.25;
-        context0.fillStyle = "#0000FF";
+        canvas0.width = document.getElementById("image" + index).clientWidth;
+        canvas0.height = document.getElementById("image" + index).clientHeight;
 
-        canvas1.width = document.getElementById("image0").clientWidth;
-        canvas1.height = document.getElementById("image0").clientHeight;
-        context1.globalAlpha = 0.1;
-        context1.fillStyle = "#FF00FF";
+        canvas1.width = document.getElementById("image" + index).clientWidth;
+        canvas1.height = document.getElementById("image" + index).clientHeight;
+        context1.globalAlpha = 0.60;
+        context1.fillStyle = "#FF0000";
+
+        canvas2.width = document.getElementById("image" + index).clientWidth;
+        canvas2.height = document.getElementById("image" + index).clientHeight;
+        context2.globalAlpha = 0.40;
+        context2.fillStyle = "#00FF00";
+
+        canvas3.width = document.getElementById("image" + index).clientWidth;
+        canvas3.height = document.getElementById("image" + index).clientHeight;
+        context3.globalAlpha = 0.20;
+        context3.fillStyle = "#0000FF";
     }
 
     function clearCanvases() {
@@ -208,18 +249,47 @@
         const context0 = canvas0.getContext("2d");
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const context2 = canvas2.getContext("2d");
+        const canvas3 = document.getElementById("canvas3");
+        const context3 = canvas3.getContext("2d");
 
         context0.clearRect(0, 0, canvas0.width, canvas0.height);
         context1.clearRect(0, 0, canvas1.width, canvas1.height);
+        context2.clearRect(0, 0, canvas1.width, canvas1.height);
+        context3.clearRect(0, 0, canvas1.width, canvas1.height);
     }
 
     function drawOnCanvas() {
-        const borderText = boundryArray[index];
-        const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
+        const canvas1 = document.getElementById("canvas1");
+        const context1 = canvas1.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const context2 = canvas2.getContext("2d");
+        const canvas3 = document.getElementById("canvas3");
+        const context3 = canvas3.getContext("2d");
 
-        for (let i = 0; i < borderText.length; i = i + 2) {
-            context0.fillRect(borderText[i], borderText[i + 1], 1, 1);
+        const selection = selectionArray[index];
+        const border = borderArray[index];
+        const selectionBorder = selectionBorderArray[index];
+
+        if (selectionBorder.length !== 0) {
+            for (let i = 0; i < selectionBorder.length; i = i + 2) {
+                context1.fillRect(selectionBorder[i], selectionBorder[i + 1], 1, 1);
+            }
+        }
+
+        if (border.length !== 0) {
+            for (let i = 0; i < border.length; i = i + 2) {
+                context2.fillRect(border[i], border[i + 1], 1, 1);
+            }
+        }
+
+        if (selection.length !== 0 || typeof selectionArray[index] !== 'undefined') {
+            for (let i = 0; i < selection.length; i++) {
+                for (let j = 0; j < pixelArray[index][selection[i]].length; j++) {
+                    context3.fillRect(pixelArray[index][selection[i]][j], pixelArray[index][selection[i]][j + 1], 1, 1);
+                }
+            }
         }
     }
 
@@ -228,67 +298,137 @@
         clickY = event.offsetY;
 
         if (isMagic) {
-            magicSuperPixel(clickX, clickY)
+            magicSuperPixel()
         }
         else {
-            floodFill(clickX, clickY);
+            clickPixel();
         }
     }
 </script>
 
 <script>
-    function superPixelize() {
-        $.get("MagicSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
-            const buffer = responseText.split('|');
-            boundryArray[index] = buffer[0].split(',');
-            centerArray[index] = buffer[1].split(',');
-            averageArray[index] = buffer[2].split(',');
-            var pixelLists = buffer[3].split("$");
-
-            pixelArray[index] = [];
-            clickedArray[index] = [];
-            for (var i = 0; i < pixelLists.length; i++) {
-                pixelArray[index][i] = pixelLists[i].split(',');
-
-                clickedArray[index][i] = 0;
-            }
-
-            drawOnCanvas();
-        });
-    }
-
-    function magicSuperPixel(x, y) {
-        var clickIndex = findSuperPixel(x, y);
-        $.get("MagicSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=" + clickIndex + "&tolerance=0.02", function (responseText) {
-            const buffer = responseText.split('|');
-            const tempClickArray = buffer[4].split(',');
-
-            for (let i = 0; i < clickedArray[index].length; i++) {
-                if (clickedArray[index][i] === 1) {
-                    clearSuperPixel(i);
-                    clickedArray[index][i] = 0;
-                }
-            }
-
-            for (let i = 0; i < tempClickArray.length; i++) {
-                clickedArray[index][tempClickArray[i]] = 1;
-
-                fillSuperPixel(tempClickArray[i]);
-            }
-        });
-    }
-
-    function updateThreshold(n) {
+    function updateSuperPixelSize(n) {
         superPixelSize[index] += n;
-        if (superPixelSize[index] >= 100)
+        if (superPixelSize[index] > 100)
             superPixelSize[index] = 100;
         else if (superPixelSize[index] < 5)
             superPixelSize[index] = 5;
 
         document.getElementById("superPixelSize").innerText = superPixelSize[index];
 
-        clearCanvases();
-        superPixelize();
+        if (selectionArray[index].length !== 0)
+            castSuperPixel();
+        else
+            superPixelization(false);
+    }
+
+    function superPixelization() {
+        if (!processRunning) {
+            processRunning = true;
+            $.get("SuperPixelization?imageID=" + index + "&superPixelSize=" + superPixelSize[index], function (responseText) {
+                const buffer = responseText.split('|');
+                borderArray[index] = buffer[0].split(',');
+                centerArray[index] = buffer[1].split(',');
+                averageArray[index] = buffer[2].split(',');
+                const clusterBuffer = buffer[3].split("$");
+
+                pixelArray[index] = [];
+                clickedArray[index] = [];
+                for (let i = 0; i < clusterBuffer.length; i++) {
+                    pixelArray[index][i] = clusterBuffer[i].split(',');
+                    clickedArray[index][i] = 0;
+                }
+
+                processRunning = false;
+                refresh();
+            });
+        }
+    }
+
+    function magicSuperPixel() {
+        const clickIndex = findSuperPixel(clickX, clickY);
+        $.get("SuperPixelMagic?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=" + clickIndex + "&tolerance=0.035", function (responseText) {
+            const buffer = responseText.split('|');
+            borderArray[index] = buffer[0].split(',');
+            centerArray[index] = buffer[1].split(',');
+            averageArray[index] = buffer[2].split(',');
+            const clusterBuffer = buffer[3].split("$");
+            selectionArray[index] = buffer[4].split(',');
+            selectionBorderArray[index] = buffer[5].split(',');
+
+            pixelArray[index] = [];
+            clickedArray[index] = [];
+            for (let i = 0; i < clusterBuffer.length; i++) {
+                pixelArray[index][i] = clusterBuffer[i].split(',');
+                clickedArray[index][i] = 0;
+            }
+
+            for (let i = 0; i < selectionArray[index].length; i++)
+                clickedArray[index][selectionArray[index][i]] = 1;
+
+            processRunning = false;
+            refresh();
+        });
+    }
+
+    function castSuperPixel() {
+        if (!processRunning) {
+            processRunning = true;
+            $.post("SuperPixelCast", {
+                    imageID: index,
+                    superPixelSize: superPixelSize[index],
+                    selection: selectionArray[index].toString(),
+                    tolerance: 0.5
+                }, function (responseText) {
+                    const buffer = responseText.split('|');
+                    borderArray[index] = buffer[0].split(',');
+                    centerArray[index] = buffer[1].split(',');
+                    averageArray[index] = buffer[2].split(',');
+                    const clusterBuffer = buffer[3].split("$");
+                    selectionArray[index] = buffer[4].split(',');
+                    selectionBorderArray[index] = buffer[5].split(',');
+
+                    pixelArray[index] = [];
+                    clickedArray[index] = [];
+
+                    for (let i = 0; i < clusterBuffer.length; i++) {
+                        pixelArray[index][i] = clusterBuffer[i].split(',');
+                        clickedArray[index][i] = 0;
+                    }
+
+                    for (let i = 0; i < selectionArray[index].length; i++)
+                        clickedArray[index][selectionArray[index][i]] = 1;
+
+                    processRunning = false;
+                    refresh();
+                }
+            );
+        }
+    }
+
+    function smoothie() {
+        if (!processRunning) {
+            processRunning = true;
+            $.post("SuperPixelExpand",
+                {
+                    imageID: index,
+                    border: selectionBorderArray[index].toString(),
+                    selection: selectionArray[index].toString(),
+                    average: selectionAverageArray[index],
+                    tolerance: 0.07
+                },
+                function (responseText) {
+                    const buffer = responseText.split('|');
+                    tempBorderArray[index] = buffer[0].split(',');
+                    tempSelectionArray[index] = buffer[1].split(',');
+                    tempSelectionAverageArray[index] = buffer[2];
+
+                    updateSelection();
+
+                    processRunning = false;
+                }
+            );
+        }
     }
 </script>
 
@@ -302,9 +442,9 @@
         if (count < 5) {
 
             // clickX and clickY are -1 since magic wand does not work for this call.
-            $.get("MagicSuperpixel?imageID=" + (index + count) + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
+            $.get("SuperPixelization?imageID=" + (index + count) + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
                 const buffer = responseText.split('|');
-                boundryArray[index + count] = buffer[0].split(',');
+                borderArray[index + count] = buffer[0].split(',');
                 centerArray[index + count] = buffer[1].split(',');
                 averageArray[index + count] = buffer[2].split(',');
                 var pixelLists = buffer[3].split("$");
@@ -318,9 +458,9 @@
 
                 superPixelSize[index + count] = superPixelSize[index];
 
-                castSuperPixels(count);
+                automateSuperPixels(count);
 
-                if (averageArray[index + count] != -1)
+                if (averageArray[index + count] !== -1)
                     semiAutomateRight(count + 1);
             });
         }
@@ -329,10 +469,10 @@
     function semiAutomateLeft(count) {
 
         if (count < 5) {
-            $.get("MagicWand?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + superPixelSize[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
+            $.get("WandMagic?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + superPixelSize[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
                 const buffer = responseText.split('|');
                 selectionArray[index - count] = buffer[0].split(',');
-                boundryArray[index - count] = buffer[1].split(',');
+                borderArray[index - count] = buffer[1].split(',');
                 averageArray[index - count] = buffer[2];
                 var center = buffer[3].split(",");
 
@@ -347,9 +487,9 @@
         }
     }
 
-    function castSuperPixels(count) {
-        for (var i = 0; i < clickedArray[index + count - 1].length; i++) {
-            if (clickedArray[index + count - 1][i] == 1) {
+    function automateSuperPixels(count) {
+        for (let i = 0; i < clickedArray[index + count - 1].length; i++) {
+            if (clickedArray[index + count - 1][i] === 1) {
                 //alert('res: ' + (Math.abs(averageArray[index + count - 1][i] - averageArray[index + count][i]) / 255));
                 if ((Math.abs(averageArray[index + count - 1][i] - averageArray[index + count][i]) / 255) < 0.03
                     &&
@@ -361,23 +501,15 @@
 </script>
 
 <script>
-    function clearSelection() {
-        selectionArray[index] = [];
-        boundryArray[index] = [];
-        averageArray[index] = -1;
-
-        clearCanvases();
-    }
-
     function findSuperPixel(x, y) {
-        var tempDistance = (x - centerArray[index][0]) * (x - centerArray[index][0]) + (y - centerArray[index][1]) * (y - centerArray[index][1]);
-        var nearestIndex = 0;
+        let distance = (x - centerArray[index][0]) * (x - centerArray[index][0]) + (y - centerArray[index][1]) * (y - centerArray[index][1]);
+        let nearestIndex = 0;
 
-        for (var i = 2; i < centerArray[index].length; i += 2) {
-            var temp = (x - centerArray[index][i]) * (x - centerArray[index][i]) + (y - centerArray[index][i + 1]) * (y - centerArray[index][i + 1]);
+        for (let i = 2; i < centerArray[index].length; i += 2) {
+            const temp = (x - centerArray[index][i]) * (x - centerArray[index][i]) + (y - centerArray[index][i + 1]) * (y - centerArray[index][i + 1]);
 
-            if (temp < tempDistance) {
-                tempDistance = temp;
+            if (temp < distance) {
+                distance = temp;
                 nearestIndex = i / 2;
             }
         }
@@ -385,43 +517,28 @@
         return nearestIndex;
     }
 
-    function floodFill(x, y) {
-        var clickedIndex = findSuperPixel(x, y);
-        if (clickedArray[index][clickedIndex] == 0) {
-            fillSuperPixel(clickedIndex);
-            clickedArray[index][clickedIndex] = 1
+    function clickPixel() {
+        const clickedIndex = findSuperPixel(clickX, clickY);
+
+        if (clickedArray[index][clickedIndex] === 0) {
+            clickedArray[index][clickedIndex] = 1;
+            selectionArray[index].push(clickedIndex);
         }
         else {
-            clearSuperPixel(clickedIndex);
             clickedArray[index][clickedIndex] = 0;
+            selectionArray[index].splice(selectionArray[index].indexOf(clickedIndex.toString()), 1);
         }
-    }
 
-    function fillSuperPixel(superPixelIndex) {
-        const canvas1 = document.getElementById("canvas1");
-        const context1 = canvas1.getContext("2d");
-
-        for (var i = 0; i < pixelArray[index][superPixelIndex].length; i += 2) {
-            context1.fillRect(pixelArray[index][superPixelIndex][i], pixelArray[index][superPixelIndex][i + 1], 1, 1);
-        }
-    }
-
-    function clearSuperPixel(superPixelIndex) {
-        const canvas1 = document.getElementById("canvas1");
-        const context1 = canvas1.getContext("2d");
-
-        for (var i = 0; i < pixelArray[index][superPixelIndex].length; i += 2) {
-            context1.clearRect(pixelArray[index][superPixelIndex][i], pixelArray[index][superPixelIndex][i + 1], 1, 1);
-        }
+        refresh();
     }
 
     function changeTool() {
         if (isMagic) {
             isMagic = false;
-            document.getElementById("magic").innerHTML = "Not Magic";
+            document.getElementById("magic").innerHTML = "Current Selection: Single Region ";
         } else {
             isMagic = true;
-            document.getElementById("magic").innerHTML = "Magic";
+            document.getElementById("magic").innerHTML = "Current Selection: Multiple Region ";
         }
     }
 </script>
@@ -432,6 +549,12 @@
 </script>
 
 </body>
-<%}%>
 
 </html>
+
+<%
+        }
+    } catch (Exception e) {
+        AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
+    }
+%>

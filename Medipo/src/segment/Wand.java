@@ -10,25 +10,25 @@ public class Wand {
     private double centerX;
     private double centerY;
     private double average;
-    private ArrayList<String> boundry;
+    private ArrayList<String> border;
     private ArrayList<String> selection;
 
     public Wand() {
         centerX = -1;
         centerY = -1;
         average = -1;
-        boundry = new ArrayList<>();
+        border = new ArrayList<>();
         selection = new ArrayList<>();
     }
 
-    private int getPixelValue(BufferedImage image, int x, int y) {
+    private double getPixelValue(BufferedImage image, int x, int y) {
         Color color = new Color(image.getRGB(x, y));
         return (color.getRed() + color.getBlue() + color.getGreen()) / 3;
     }
 
     public void process(BufferedImage image, int x, int y, double tolerance) {
-        Queue<Point>queue = new LinkedList<>();
-        boolean[][] boundryChecked = new boolean[image.getWidth()][image.getHeight()];
+        Queue<Point> queue = new LinkedList<>();
+        boolean[][] borderChecked = new boolean[image.getWidth()][image.getHeight()];
         boolean[][] selectionChecked = new boolean[image.getWidth()][image.getHeight()];
 
         average = getPixelValue(image, x, y);
@@ -37,9 +37,8 @@ public class Wand {
         int count = 0;
         while (!queue.isEmpty()) {
             Point current = queue.remove();
-
-            int currentX = (int) current.getX();
-            int currentY = (int) current.getY();
+            int currentX = current.x;
+            int currentY = current.y;
 
             if (currentX < 0 || currentY < 0 || currentX >= image.getWidth() || currentY >= image.getHeight()) {
                 continue;
@@ -48,7 +47,7 @@ public class Wand {
                 continue;
             }
 
-            int pixelValue = getPixelValue(image, currentX, currentY);
+            double pixelValue = getPixelValue(image, currentX, currentY);
             if ((Math.abs(average - pixelValue)) / 255 < tolerance) {
                 selection.add(currentX + "," + currentY);
                 selectionChecked[currentX][currentY] = true;
@@ -72,20 +71,19 @@ public class Wand {
 
         while (!queue.isEmpty()) {
             Point current = queue.remove();
-
-            int currentX = (int) current.getX();
-            int currentY = (int) current.getY();
+            int currentX = current.x;
+            int currentY = current.y;
 
             if (currentX < 0 || currentY < 0 || currentX >= image.getWidth() || currentY >= image.getHeight()) {
                 continue;
             }
 
-            if (boundryChecked[currentX][currentY]) {
+            if (borderChecked[currentX][currentY]) {
                 continue;
             }
 
             if (selectionChecked[currentX][currentY]) {
-                if (     !(selectionChecked[currentX - 1][currentY]
+                if (!(selectionChecked[currentX - 1][currentY]
                         && selectionChecked[currentX - 1][currentY - 1]
                         && selectionChecked[currentX - 1][currentY + 1]
                         && selectionChecked[currentX][currentY - 1]
@@ -94,8 +92,8 @@ public class Wand {
                         && selectionChecked[currentX + 1][currentY - 1]
                         && selectionChecked[currentX + 1][currentY + 1]
                 )) {
-                    boundry.add(currentX + "," + currentY);
-                    boundryChecked[currentX][currentY] = true;
+                    border.add(currentX + "," + currentY);
+                    borderChecked[currentX][currentY] = true;
 
                     queue.add(new Point(currentX - 1, currentY));
                     queue.add(new Point(currentX - 1, currentY - 1));
@@ -110,8 +108,8 @@ public class Wand {
         }
     }
 
-    public ArrayList<String> getBoundry() {
-        return boundry;
+    public ArrayList<String> getBorder() {
+        return border;
     }
 
     public ArrayList<String> getSelection() {

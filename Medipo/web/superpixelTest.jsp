@@ -74,7 +74,8 @@
 </script>
 
 
-<div class="cBig" style="top: 25%;padding-bottom: 10%">
+<div class="cBig">
+
     <div class="row">
         <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
 	 white-space: nowrap;">
@@ -137,6 +138,7 @@
 
     </div>
 
+    </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
     <script type="text/javascript" src="js/carousel.js"></script>
@@ -159,9 +161,54 @@
     var centerArray = [];
     var pixelArray = [];
     var clickedArray = [];
+    var totalAverageArray = [];
+    var selectionBoundryArray = [];
+    var tempSelectionArray = [];
+    var tempBoundryArray = [];
 </script>
 
 <script>
+    function smoothie() {
+        if (!processRunning) {
+            processRunning = true;
+
+            $.post("ExpandBorderServlet",
+                {
+                    imageID: index,
+                    boundry: selectionBoundryArray[index].toString(),
+                    selection: selectionArray[index].toString(),
+                    average: totalAverageArray[index],
+                    tolerance: 0.07
+                },
+                function (responseText) {
+                    const buffer = responseText.split('|');
+                    tempBoundryArray[index] = buffer[0].split(',');
+                    tempSelectionArray[index] = buffer[1].split(',');
+                    totalAverageArray[index] = buffer[2];
+
+                    updateSelection();
+
+                    processRunning = false;
+                }
+            );
+        }
+    }
+
+    function updateSelection() {
+        const canvas1 = document.getElementById("canvas1");
+        const context1 = canvas1.getContext("2d");
+
+        for (var i = 0; i < selectionArray[index].length; i += 2) {
+            context1.clearRect(selectionArray[index][i], selectionArray[index][i + 1], 1, 1);
+        }
+
+        alert(tempSelectionArray[index]);
+
+        for (var i = 0; i < tempSelectionArray[index].length; i += 2) {
+            context1.fillRect(tempSelectionArray[index][i], tempSelectionArray[index][i + 1], 1, 1);
+        }
+    }
+
     function buttonUpdateIndex(n) {
         const images = document.getElementsByClassName("image");
         index += n;
@@ -277,35 +324,108 @@
 </script>
 
 <script>
-    function superPixelize() {
-        if (!processRunning) {
-            processRunning = true;
-            $.get("MagicSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
-                const buffer = responseText.split('|');
-                boundryArray[index] = buffer[0].split(',');
-                centerArray[index] = buffer[1].split(',');
-                averageArray[index] = buffer[2].split(',');
-                var pixelLists = buffer[3].split("$");
+    function superPixelize(doCast) {
+        if(doCast){
+            if (!processRunning) {
+                processRunning = true;
+                $.post("MSuperpixel",
+                    {
+                        imageID: index,
+                        superPixelSize: superPixelSize[index],
+                        clickIndex: -1,
+                        selection: selectionArray[index].toString(),
+                        tolerance: -1.0
+                    },
+                    function (responseText) {
+                    alert(selectionArray[index].toString());
+                        const buffer = responseText.split('|');
+                        boundryArray[index] = buffer[0].split(',');
+                        centerArray[index] = buffer[1].split(',');
+                        averageArray[index] = buffer[2].split(',');
+                        var pixelLists = buffer[3].split("$");
 
-                pixelArray[index] = [];
-                clickedArray[index] = [];
-                for (var i = 0; i < pixelLists.length; i++) {
-                    pixelArray[index][i] = pixelLists[i].split(',');
+                        pixelArray[index] = [];
+                        clickedArray[index] = [];
+                        for (var i = 0; i < pixelLists.length; i++) {
+                            pixelArray[index][i] = pixelLists[i].split(',');
 
-                    clickedArray[index][i] = 0;
-                }
-                drawOnCanvas();
-                processRunning = false;
+                            clickedArray[index][i] = 0;
+                        }
+                        drawOnCanvas();
 
-            });
+
+                        selectionArray[index] = buffer[4].split(',');
+                        //tempBoundryArray[index] = buffer[5].split(',');
+                        selectionBoundryArray[index] = buffer[5].split(',');
+
+                        const canvas1 = document.getElementById("canvas1");
+                        const context1 = canvas1.getContext("2d");
+
+                        context1.globalAlpha = 0.10;
+                        context1.fillStyle = "#FF00FF";
+
+                        fillSelection();
+
+
+
+                        processRunning = false;
+                    }
+                );
+            }
+        }
+        else {
+            if (!processRunning) {
+                processRunning = true;
+                $.get("MSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
+                    const buffer = responseText.split('|');
+                    boundryArray[index] = buffer[0].split(',');
+                    centerArray[index] = buffer[1].split(',');
+                    averageArray[index] = buffer[2].split(',');
+                    var pixelLists = buffer[3].split("$");
+
+                    pixelArray[index] = [];
+                    clickedArray[index] = [];
+                    for (var i = 0; i < pixelLists.length; i++) {
+                        pixelArray[index][i] = pixelLists[i].split(',');
+
+                        clickedArray[index][i] = 0;
+                    }
+                    drawOnCanvas();
+                    processRunning = false;
+                });
+            }
         }
     }
 
     function magicSuperPixel(x, y) {
         var clickIndex = findSuperPixel(x, y);
-        $.get("MagicSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=" + clickIndex + "&tolerance=0.02", function (responseText) {
+        $.get("MSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=" + clickIndex + "&tolerance=0.035", function (responseText) {
             const buffer = responseText.split('|');
             const tempClickArray = buffer[4].split(',');
+
+            selectionBoundryArray[index] = buffer[5].split(',');
+
+            const canvas1 = document.getElementById("canvas1");
+            const context1 = canvas1.getContext("2d");
+
+
+            context1.globalAlpha = 1.0;
+            context1.fillStyle = "#00FF00";
+
+            //alert(selectionBoundryArray[index].length);
+
+            for (var i = 0; i < selectionBoundryArray[index].length; i += 2) {
+                context1.fillRect(selectionBoundryArray[index][i], selectionBoundryArray[index][i + 1], 1, 1);
+            }
+
+
+            context1.globalAlpha = 0.1;
+            context1.fillStyle = "#FF00FF";
+
+            totalAverageArray[index] = buffer[6];
+
+            var selectionIndex = 0;
+            selectionArray[index] = [];
 
             for (let i = 0; i < clickedArray[index].length; i++) {
                 if (clickedArray[index][i] === 1) {
@@ -317,8 +437,13 @@
             for (let i = 0; i < tempClickArray.length; i++) {
                 clickedArray[index][tempClickArray[i]] = 1;
 
-                fillSuperPixel(tempClickArray[i]);
+                for (var j = 0; j < pixelArray[index][tempClickArray[i]].length; j++)
+                    selectionArray[index][selectionIndex + j] = pixelArray[index][tempClickArray[i]][j];
+
+                selectionIndex += pixelArray[index][tempClickArray[i]].length;
             }
+
+            fillSelection();
         });
     }
 
@@ -335,7 +460,7 @@
         document.getElementById("superPixelSize").innerText = superPixelSize[index];
 
         clearCanvases();
-        superPixelize();
+        superPixelize(true);
     }
 
     function updateThreshold2(n) {
@@ -351,8 +476,9 @@
         document.getElementById("superPixelSize").innerText = superPixelSize[index];
 
         clearCanvases();
-        superPixelize();
+        superPixelize(true);
     }
+
 </script>
 
 <script>
@@ -362,17 +488,18 @@
     }
 
     function semiAutomateRight(count) {
-
         //if (!processRunning) {
-        if (count < 5) {
+        if (count < 15) {
             // clickX and clickY are -1 since magic wand does not work for this call.
             //processRunning = true ;
-            $.get("MagicSuperpixel?imageID=" + (index + count) + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
+            $.get("MSuperpixel?imageID=" + (index + count) + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
                 const buffer = responseText.split('|');
                 boundryArray[index + count] = buffer[0].split(',');
                 centerArray[index + count] = buffer[1].split(',');
                 averageArray[index + count] = buffer[2].split(',');
                 var pixelLists = buffer[3].split("$");
+
+                totalAverageArray[index - count] = buffer[4];
 
                 pixelArray[index + count] = [];
                 clickedArray[index + count] = [];
@@ -397,7 +524,7 @@
         if (!processRunning) {
             if (count < 5) {
                 processRunning = true;
-                $.get("MagicWand?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + superPixelSize[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
+                $.get("WandMagic?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + superPixelSize[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
                     const buffer = responseText.split('|');
                     selectionArray[index - count] = buffer[0].split(',');
                     boundryArray[index - count] = buffer[1].split(',');
@@ -408,6 +535,8 @@
                     centerYArray[index - count] = center[1];
 
                     superPixelSize[index - count] = superPixelSize[index];
+
+                    totalAverageArray[index - count] = buffer[4];
 
                     if (averageArray[index - count] !== -1)
                         semiAutomateLeft(count + 1);
@@ -464,6 +593,15 @@
         else {
             clearSuperPixel(clickedIndex);
             clickedArray[index][clickedIndex] = 0;
+        }
+    }
+
+    function fillSelection() {
+        const canvas1 = document.getElementById("canvas1");
+        const context1 = canvas1.getContext("2d");
+
+        for (var i = 0; i < selectionArray[index].length; i += 2) {
+            context1.fillRect(selectionArray[index][i], selectionArray[index][i + 1], 1, 1);
         }
     }
 

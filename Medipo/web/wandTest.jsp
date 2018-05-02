@@ -294,7 +294,7 @@
         if (!processRunning) {
             clearCanvases();
             processRunning = true;
-            $.get("MagicWand?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
+            $.get("WandMagic?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
                 const buffer = responseText.split('|');
                 selectionArray[index] = buffer[0].split(',');
                 boundryArray[index] = buffer[1].split(',');
@@ -341,7 +341,7 @@
     function semiAutomateRight(count) {
 
         if (count < 5) {
-            $.get("MagicWand?imageID=" + (index + count) + "&x=" + centerXArray[index + count - 1] + "&y=" + centerYArray[index + count - 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index + count - 1], function (responseText) {
+            $.get("WandMagic?imageID=" + (index + count) + "&x=" + centerXArray[index + count - 1] + "&y=" + centerYArray[index + count - 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index + count - 1], function (responseText) {
                 const buffer = responseText.split('|');
                 selectionArray[index + count] = buffer[0].split(',');
                 boundryArray[index + count] = buffer[1].split(',');
@@ -362,7 +362,7 @@
     function semiAutomateLeft(count) {
 
         if (count < 5) {
-            $.get("MagicWand?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
+            $.get("WandMagic?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
                 const buffer = responseText.split('|');
                 selectionArray[index - count] = buffer[0].split(',');
                 boundryArray[index - count] = buffer[1].split(',');
@@ -409,17 +409,8 @@
     function zoomIn() {
         var temp=document.getElementById("image"+index);
 
-        temp.width = (temp.width+100);
-        temp.height = (temp.height+100);
-
-        var temp2=document.getElementById("canvas0");
-        temp2.width=(temp2.width+100);
-        temp2.height=(temp2.height+100);
-
-        temp3=document.getElementById("canvas1");
-        temp3.width=(temp3.width+100);
-        temp3.height=(temp3.height+100);
-
+        temp.width = temp.width * 1.1;
+        temp.height = temp.height * 1.1;
     }
 
     function zoomOut() {

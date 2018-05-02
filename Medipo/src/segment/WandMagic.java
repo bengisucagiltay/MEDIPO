@@ -12,8 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/MagicWand")
-public class MagicWand extends HttpServlet {
+@WebServlet("/WandMagic")
+public class WandMagic extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
@@ -25,37 +25,28 @@ public class MagicWand extends HttpServlet {
         int x = Integer.parseInt(request.getParameter("x"));
         int y = Integer.parseInt(request.getParameter("y"));
         double tolerance = Double.parseDouble(request.getParameter("tolerance"));
-        double average = Double.parseDouble(request.getParameter("average"));
 
         Wand w = new Wand();
-
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(FileManager.getDirPath_UserUpload((String) request.getSession().getAttribute("email")) + "/" + imageID + extension));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         w.process(img, x, y, tolerance);
 
-        String responseText = getResponseString(w.getSelection()) + "|" + getResponseString(w.getBoundry()) + "|" + w.getAverage() + "|" + (int) w.getCenter().getX() + "," + (int) w.getCenter().getY();
-        if (average != -1 && Math.abs(w.getAverage() - average) / 255 > 0.05) {
-            response.setContentType("text/plain");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("||-1");
-            response.getWriter().flush();
-        } else {
-            response.setContentType("text/plain");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(responseText);
-            response.getWriter().flush();
-        }
+        String responseText = getResponseString(w.getSelection()) + "|" + getResponseString(w.getBorder()) + "|" + w.getAverage() + "|" + w.getCenter().x + "," + w.getCenter().y;
+
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(responseText);
+        response.getWriter().flush();
     }
 
     private String getResponseString(ArrayList<String> strArrayList) {
-        String response = "";
+        StringBuilder response = new StringBuilder();
         for (String str : strArrayList) {
-            response += str + ",";
+            response.append(str).append(",");
         }
 
         return response.substring(0, response.length() - 1);
