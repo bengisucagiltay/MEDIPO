@@ -78,6 +78,7 @@
             %>
         </div>
         <div class="col-25" style=" left: 20%;align-content: center">
+            <br>
             <h1 style="padding-left: 20%" >Image History</h1>
             <form action="superpixelTest.jsp" >
                 <input type="submit" value="Magic Grid">
@@ -99,7 +100,7 @@
                 }
                 cnrlength = ijk - 1;
             </script>
-
+            <br><br><br>
             <br><br><h1 style="padding-left: 5%" id="index">0</h1>
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>

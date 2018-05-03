@@ -108,9 +108,6 @@
             <br>
             <button onclick="semiAutomate(1)">APPLY Selection</button>
             <button onclick="clearCanvases()">CLEAR</button><br>
-            <form action="Download" method="post">
-                <input type="submit" name="Submit" value="Download ZIP"/>
-            </form>
             <br>
             <p id="threshold" style="display: none;">0.02</p>
 
@@ -121,6 +118,11 @@
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
             <script type="text/javascript" src="js/carousel.js"></script>
+
+            <br><br><br><br><br><br><br>
+            <form action="Download" method="post">
+                <input type="submit" name="Submit" value="Download ZIP"/>
+            </form>
         </div>
 
     </div>

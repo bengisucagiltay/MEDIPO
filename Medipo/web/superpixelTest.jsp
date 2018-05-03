@@ -115,23 +115,24 @@
                 }
 
             </script>
-            <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
-            <br>
             <button style="background-color: lightcyan" onclick="zoomOut()">Zoom OUT</button>
             <button style="background-color: lightcyan" onclick="zoomIn()">Zoom IN</button>
             <br>
             <button onclick="semiAutomate(1)">APPLY Selection</button>
             <button onclick="clearSelection()">CLEAR</button>
             <br>
-            <form action="Download" method="post">
-                <input type="submit" name="Submit" value="Download ZIP"/>
-            </form>
-
+,
+            <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
+            <br>
             <br><br>
             <h1 style="padding-left: 5%" id="index">0</h1>
             <p id="superPixelSize" style="display: none">10</p>
 
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
+            <br><br><br><br><br><br><br>
+            <form action="Download" method="post">
+                <input type="submit" name="Submit" value="Download ZIP"/>
+            </form>
 
         </div>
 
