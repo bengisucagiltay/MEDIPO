@@ -10,16 +10,15 @@ import java.util.Queue;
  * @version 1
  * http://popscan.blogspot.com
  */
-class SuperPixel {
+public class SuperPixel {
 
+    private int height;
+    private int width;
     private int[] reds;
     private int[] greens;
     private int[] blues;
-    private Cluster[] clusters;
-
     private int[] labels;
-    private int height;
-    private int width;
+    private Cluster[] clusters;
 
     private ArrayList<String> centerList;
     private ArrayList<String> averageList;
