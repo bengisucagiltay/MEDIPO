@@ -357,7 +357,7 @@
         if (typeof threshold[index] === 'undefined')
             threshold[index] = 0.02;
 
-        $.get("MagicWand?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
+        $.get("WandMagic?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
             const buffer = responseText.split('|');
             fillArray[index] = buffer[0].split(',');
             boundryArray[index] = buffer[1].split(',');
@@ -436,7 +436,7 @@
             threshold[index] = 0.02;
 
         if (count < 5) {
-            $.get("MagicWand?imageID=" + (index + count) + "&x=" + centerXArray[index + count - 1] + "&y=" + centerYArray[index + count - 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index + count - 1], function (responseText) {
+            $.get("WandMagic?imageID=" + (index + count) + "&x=" + centerXArray[index + count - 1] + "&y=" + centerYArray[index + count - 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index + count - 1], function (responseText) {
                 const buffer = responseText.split('|');
                 fillArray[index + count] = buffer[0].split(',');
                 boundryArray[index + count] = buffer[1].split(',');

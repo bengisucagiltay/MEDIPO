@@ -3,33 +3,29 @@
 <%@ page import="java.io.File" %>
 
 <%
-    int slideCount = 10;
-
     String email;
-    String userUpload = null;
+    String userUpload;
     File imagesDir;
-    File[] images = new File[0];
+    File[] images;
 
     try {
         email = (String) session.getAttribute("email");
         userUpload = FileManager.getDirPath_UserUpload(email);
         imagesDir = new File(userUpload);
         images = imagesDir.listFiles();
-    } catch (Exception e) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
-    }
 
-    if (images == null || images.length <= 0) {
-        AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
-    } else {
-        String extension = images[0].getName().substring(images[0].getName().length() - 4);
-        session.setAttribute("extension", extension);
+
+        if (images == null || images.length <= 0) {
+            AlertManager.alert(response.getWriter(), request, response, "Oops", "There is no image history for this user..", "error", "upload.jsp");
+        } else {
+            String extension = images[0].getName().substring(images[0].getName().length() - 4);
+            session.setAttribute("extension", extension);
 %>
 
 <html>
 
 <head>
-    <title>wandr</title>
+    <title>Wand</title>
 
     <style>
         div {
@@ -48,7 +44,7 @@
         }
 
         .slide {
-            width: <%=(100 / slideCount) - 1%>%;
+            width: 10%;
         }
     </style>
 
@@ -58,8 +54,9 @@
 <body>
 
 <div>
-    <button onclick="buttonUpdateIndex(-1)">&#10094;</button>
-    <button onclick="buttonUpdateIndex(1)">&#10095;</button>
+    <button onclick="buttonUpdateIndex(-1)" style="display: inline-block">&#10094;</button>
+    <p id="index" style="display: inline-block">index: <%=images.length / 2%>></p>
+    <button onclick="buttonUpdateIndex(1)" style="display: inline-block">&#10095;</button>
 </div>
 
 <div>
@@ -71,14 +68,9 @@
     <%
         }
     %>
-
+    <canvas id="canvas2" class="canvas"></canvas>
     <canvas id="canvas1" class="canvas"></canvas>
     <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
-</div>
-
-<div>
-    <button onclick="buttonUpdateIndex(-10)">&#10094;</button>
-    <button onclick="buttonUpdateIndex(10)">&#10095;</button>
 </div>
 
 <div>
@@ -93,26 +85,39 @@
     %>
 </div>
 
-<button onclick="updateThreshold(-0.01)">&#10094;-</button>
-<button onclick="updateThreshold(0.01)">&#10095;+</button>
-<button onclick="semiAutomate(1)">MAHMUT</button>
-<button onclick="clearCurrent()">MEHMET</button>
+<div>
+    <button onclick="updateThreshold(-0.01)" style="display: inline-block">&#10094;</button>
+    <p id="threshold" style="display: inline-block">threshold: 0.01</p>
+    <button onclick="updateThreshold(0.01)" style="display: inline-block">&#10095;</button>
+</div>
 
-<p id="index">index: 0</p>
-<p id="threshold">threshold: 0.02</p>
+<div>
+    <button onclick="semiAutomateLeft(1)">AUTO LEFT 4</button>
+    <button onclick="semiAutomate(1)">AUTO BOTH 4</button>
+    <button onclick="semiAutomateRight(1)">AUTO RIGHT 4</button>
+</div>
+
+<div>
+    <button onclick="clearCurrent()">CLEAR</button>
+    <button onclick="clearAll()">CLEAR ALL</button>
+</div>
 
 <script>
-    let index = 0;
-    let threshold = [];
-    let clickX, clickY;
+    let index = <%=images.length/2%>;
+    let processRunning = false;
+    let processRunningRight = false;
+    let processRunningLeft = false;
 </script>
 
 <script>
     let selectionArray = [];
-    let boundryArray = [];
+    let borderArray = [];
     let averageArray = [];
+    let threshold = [];
     let centerXArray = [];
     let centerYArray = [];
+    let clickXArray = [];
+    let clickYArray = [];
 </script>
 
 <script>
@@ -123,33 +128,36 @@
             index = 0;
         else if (index < 0)
             index = images.length - 1;
+
         refresh();
     }
 
     function slideUpdateIndex(element) {
         const images = document.getElementsByClassName("image");
         for (let i = 0; i < images.length; i++) {
-            if (element.id.localeCompare(images[i].id) === 0)
+            if (element.src.localeCompare(images[i].src) === 0)
                 index = i;
         }
+
         refresh();
     }
 
     function refresh() {
         if (typeof threshold[index] === 'undefined')
-            threshold[index] = 0.02;
+            threshold[index] = 0.01;
 
         document.getElementById("index").innerText = "index: " + index;
-        document.getElementById("threshold").innerText = "threshold: " + threshold[index];
+        document.getElementById("threshold").innerText = "threshold: " + threshold[index].toFixed(2);
 
-        clearCanvases();
         refreshImage();
         refreshSlides();
-        drawOnCanvas();
+        clearCanvases();
+        drawOnCanvases();
     }
 
     function refreshImage() {
         const images = document.getElementsByClassName("image");
+
         for (let i = 0; i < images.length; i++) {
             images[i].style.display = "none";
         }
@@ -158,10 +166,20 @@
 
     function refreshSlides() {
         const slides = document.getElementsByClassName("slide");
-        const divResult = Math.floor(index / <%=slideCount%>);
 
         for (let i = 0; i < slides.length; i++) {
-            if (Math.floor(i / <%=slideCount%>) === divResult)
+            if (index === i) {
+                slides[i].border = "3";
+                slides[i].style.borderColor = "purple";
+            }
+            else if (typeof selectionArray[i] !== 'undefined') {
+                slides[i].border = "3";
+                slides[i].style.borderColor = "yellow";
+            }
+            else
+                slides[i].border = "0";
+
+            if (Math.abs(index - i) < 5)
                 slides[i].style.display = "inline-block";
             else
                 slides[i].style.display = "none";
@@ -172,19 +190,23 @@
 <script>
     function setCanvases() {
         const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const context2 = canvas2.getContext("2d");
 
-        canvas0.width = document.getElementById("image0").clientWidth;
-        canvas0.height = document.getElementById("image0").clientHeight;
-        context0.globalAlpha = 0.25;
-        context0.fillStyle = "#FF0000";
+        canvas0.width = document.getElementById("image" + index).clientWidth;
+        canvas0.height = document.getElementById("image" + index).clientHeight;
 
-        canvas1.width = document.getElementById("image0").clientWidth;
-        canvas1.height = document.getElementById("image0").clientHeight;
-        context1.globalAlpha = 1;
-        context1.fillStyle = "#0000FF";
+        canvas1.width = document.getElementById("image" + index).clientWidth;
+        canvas1.height = document.getElementById("image" + index).clientHeight;
+        context1.globalAlpha = 0.25;
+        context1.fillStyle = "#FF0000";
+
+        canvas2.width = document.getElementById("image" + index).clientWidth;
+        canvas2.height = document.getElementById("image" + index).clientHeight;
+        context2.globalAlpha = 0.5;
+        context2.fillStyle = "#00FF00";
     }
 
     function clearCanvases() {
@@ -192,63 +214,73 @@
         const context0 = canvas0.getContext("2d");
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const context2 = canvas2.getContext("2d");
 
         context0.clearRect(0, 0, canvas0.width, canvas0.height);
         context1.clearRect(0, 0, canvas1.width, canvas1.height);
+        context2.clearRect(0, 0, canvas1.width, canvas1.height);
     }
 
-    function drawOnCanvas() {
-        const canvas0 = document.getElementById("canvas0");
-        const context0 = canvas0.getContext("2d");
+    function drawOnCanvases() {
         const canvas1 = document.getElementById("canvas1");
         const context1 = canvas1.getContext("2d");
+        const canvas2 = document.getElementById("canvas2");
+        const context2 = canvas2.getContext("2d");
 
-        const borderText = boundryArray[index];
-        const selectionText = selectionArray[index];
+        const selection = selectionArray[index];
+        const border = borderArray[index];
 
-        for (let i = 0; i < borderText.length; i = i + 2) {
-            context1.fillRect(borderText[i], borderText[i + 1], 1, 1);
+        if (typeof selection !== "undefined") {
+            for (let i = 0; i < selection.length; i = i + 2) {
+                context1.fillRect(selection[i], selection[i + 1], 1, 1);
+            }
         }
-        for (let i = 0; i < selectionText.length; i = i + 2) {
-            context0.fillRect(selectionText[i], selectionText[i + 1], 1, 1);
+
+        if (typeof border !== "undefined") {
+            for (let i = 0; i < border.length; i = i + 2) {
+                context2.fillRect(border[i], border[i + 1], 1, 1);
+            }
         }
     }
 
     function clickOnCanvas(event) {
-        clickX = event.offsetX;
-        clickY = event.offsetY;
+        clickXArray[index] = event.offsetX;
+        clickYArray[index] = event.offsetY;
 
         sendClickOp();
     }
 </script>
 
 <script>
-    function sendClickOp() {
-        clearCanvases();
-
-        $.get("MagicWand?imageID=" + index + "&x=" + clickX + "&y=" + clickY + "&tolerance=" + threshold[index] + "&average=-1", function (responseText) {
-            const buffer = responseText.split('|');
-            selectionArray[index] = buffer[0].split(',');
-            boundryArray[index] = buffer[1].split(',');
-            averageArray[index] = buffer[2];
-
-            centerXArray[index] = clickX;
-            centerYArray[index] = clickY;
-
-            drawOnCanvas();
-        });
-    }
-
     function updateThreshold(n) {
         threshold[index] += n;
         if (threshold[index] >= 0.2)
             threshold[index] = 0.2;
-        else if (threshold[index] < 0)
-            threshold[index] = 0;
+        else if (threshold[index] <= 0.01)
+            threshold[index] = 0.01;
 
-        document.getElementById("threshold").innerText = threshold[index];
+        document.getElementById("threshold").innerText = "threshold: " + threshold[index].toFixed(2);
 
         sendClickOp();
+    }
+
+    function sendClickOp() {
+        if (!processRunning && (index >= 0) && (index < <%=images.length%>) && typeof clickXArray[index] !== 'undefined' && typeof clickYArray[index] !== 'undefined' && typeof threshold[index] !== 'undefined') {
+            processRunning = true;
+            $.get("WandMagic?imageID=" + index + "&x=" + clickXArray[index] + "&y=" + clickYArray[index] + "&tolerance=" + threshold[index], function (responseText) {
+                const buffer = responseText.split('|');
+                selectionArray[index] = buffer[0].split(',');
+                borderArray[index] = buffer[1].split(',');
+                averageArray[index] = buffer[2];
+                const centerBuffer = buffer[3].split(',');
+                centerXArray[index] = centerBuffer[0];
+                centerYArray[index] = centerBuffer[1];
+
+                processRunning = false;
+                refresh();
+            });
+        }
     }
 </script>
 
@@ -259,69 +291,114 @@
     }
 
     function semiAutomateRight(count) {
+        if (count < 5 && (index + count) < <%=images.length%>) {
+            clickXArray[index + count] = centerXArray[index + count - 1];
+            clickYArray[index + count] = centerYArray[index + count - 1];
+            threshold[index + count] = threshold[index];
 
-        if (count < 5) {
-            $.get("MagicWand?imageID=" + (index + count) + "&x=" + centerXArray[index + count - 1] + "&y=" + centerYArray[index + count - 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index + count - 1], function (responseText) {
-                const buffer = responseText.split('|');
-                selectionArray[index + count] = buffer[0].split(',');
-                boundryArray[index + count] = buffer[1].split(',');
-                averageArray[index + count] = buffer[2];
+            if (!processRunningRight && typeof clickXArray[index + count] !== 'undefined' && typeof clickYArray[index + count] !== 'undefined' && typeof threshold[index + count] !== 'undefined') {
+                processRunningRight = true;
+                $.get("WandMagic?imageID=" + (index + count) + "&x=" + clickXArray[index + count] + "&y=" + clickYArray[index + count] + "&tolerance=" + threshold[index + count], function (responseText) {
+                    const buffer = responseText.split('|');
+                    selectionArray[index + count] = buffer[0].split(',');
+                    borderArray[index + count] = buffer[1].split(',');
+                    averageArray[index + count] = buffer[2];
+                    const center = buffer[3].split(",");
+                    centerXArray[index + count] = center[0];
+                    centerYArray[index + count] = center[1];
 
-                const center = buffer[3].split(",");
-                centerXArray[index + count] = center[0];
-                centerYArray[index + count] = center[1];
+                    processRunningRight = false;
 
-                threshold[index + count] = threshold[index];
-
-                if (averageArray[index + count] !== -1)
-                    semiAutomate(count + 1);
-            });
+                    if (Math.abs(averageArray[index + count - 1] - averageArray[index + count]) / 255 < 0.05) {
+                        refresh();
+                        semiAutomateRight(count + 1);
+                    }
+                    else
+                        clear(index + count);
+                });
+            }
         }
     }
 
     function semiAutomateLeft(count) {
+        if (count < 5 && (index - count) >= 0) {
+            clickXArray[index - count] = centerXArray[index - count + 1];
+            clickYArray[index - count] = centerYArray[index - count + 1];
+            threshold[index - count] = threshold[index];
 
-        if (count < 5) {
-            $.get("MagicWand?imageID=" + (index - count) + "&x=" + centerXArray[index - count + 1] + "&y=" + centerYArray[index - count + 1] + "&tolerance=" + threshold[index] + "&average=" + averageArray[index - count + 1], function (responseText) {
-                const buffer = responseText.split('|');
-                selectionArray[index - count] = buffer[0].split(',');
-                boundryArray[index - count] = buffer[1].split(',');
-                averageArray[index - count] = buffer[2];
+            if (!processRunningLeft && typeof clickXArray[index - count] !== 'undefined' && typeof clickYArray[index - count] !== 'undefined' && typeof threshold[index - count] !== 'undefined') {
+                processRunningLeft = true;
+                $.get("WandMagic?imageID=" + (index - count) + "&x=" + clickXArray[index - count] + "&y=" + clickYArray[index - count] + "&tolerance=" + threshold[index - count], function (responseText) {
+                    const buffer = responseText.split('|');
+                    selectionArray[index - count] = buffer[0].split(',');
+                    borderArray[index - count] = buffer[1].split(',');
+                    averageArray[index - count] = buffer[2];
+                    const center = buffer[3].split(",");
+                    centerXArray[index - count] = center[0];
+                    centerYArray[index - count] = center[1];
 
-                const center = buffer[3].split(",");
-                centerXArray[index - count] = center[0];
-                centerYArray[index - count] = center[1];
+                    processRunningLeft = false;
 
-                threshold[index - count] = threshold[index];
-
-                if (averageArray[index - count] !== -1)
-                    semiAutomateLeft(count + 1);
-            });
+                    if (Math.abs(averageArray[index - count + 1] - averageArray[index - count]) / 255 < 0.05) {
+                        refresh();
+                        semiAutomateLeft(count + 1);
+                    }
+                    else
+                        clear(index - count);
+                });
+            }
         }
     }
 </script>
 
 <script>
     function clearCurrent() {
-        selectionArray[index] = [];
-        boundryArray[index] = [];
-        averageArray[index] = -1;
-        centerXArray[index] = -1;
-        centerYArray[index] = -1;
+        selectionArray[index] = undefined;
+        borderArray[index] = undefined;
+        averageArray[index] = undefined;
+        threshold[index] = undefined;
+        centerXArray[index] = undefined;
+        centerYArray[index] = undefined;
+        clickXArray[index] = undefined;
+        clickYArray[index] = undefined;
 
-        clearCanvases();
+        refresh();
+    }
+
+    function clear(clearIndex) {
+        selectionArray[clearIndex] = undefined;
+        borderArray[clearIndex] = undefined;
+        averageArray[clearIndex] = undefined;
+        threshold[clearIndex] = undefined;
+        centerXArray[clearIndex] = undefined;
+        centerYArray[clearIndex] = undefined;
+        clickXArray[clearIndex] = undefined;
+        clickYArray[clearIndex] = undefined;
+
+        refresh();
     }
 
     function clearAll() {
+        selectionArray = undefined;
+        borderArray = undefined;
+        averageArray = undefined;
+        threshold = undefined;
+        centerXArray = undefined;
+        centerYArray = undefined;
+        clickXArray = undefined;
+        clickYArray = undefined;
+
         selectionArray = [];
-        boundryArray = [];
+        borderArray = [];
         averageArray = [];
+        threshold = [];
         centerXArray = [];
         centerYArray = [];
+        clickXArray = [];
+        clickYArray = [];
 
-        clearCanvases();
+        refresh();
     }
-
 </script>
 
 <script>
@@ -330,6 +407,12 @@
 </script>
 
 </body>
-<%}%>
 
 </html>
+
+<%
+        }
+    } catch (Exception e) {
+        AlertManager.alert(response.getWriter(), request, response, "Oops", "Failed to access user directory!", "error", "welcome.jsp");
+    }
+%>

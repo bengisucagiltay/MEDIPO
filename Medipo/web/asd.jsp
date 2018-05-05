@@ -2,19 +2,17 @@
 <%@ page import="utils.FileManager" %>
 <%@ page import="java.io.File" %>
 
-<%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
 
 <%
     int slideCount = 10;
 
-    String email = (String) session.getAttribute("email");
+    String email;
     String userUpload = null;
     File imagesDir;
     File[] images = null;
 
     try {
-        //email = (String) session.getAttribute("email");
+        email = (String) session.getAttribute("email");
         userUpload = FileManager.getDirPath_UserUpload(email);
         imagesDir = new File(userUpload);
         images = imagesDir.listFiles();
@@ -28,6 +26,8 @@
         String extension = images[0].getName().substring(images[0].getName().length() - 4);
         session.setAttribute("extension", extension);
 %>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+         pageEncoding="utf-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 <head>
@@ -38,7 +38,7 @@
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
 
 
-    <title>Magic Grid</title>
+    <title>Superpixel</title>
 
     <style>
         div {
@@ -77,9 +77,8 @@
 <div class="cBig">
 
     <div class="row">
-        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
-	 white-space: nowrap;">
-        <%
+        <div class="col-75" style="text-align: left;width:512px;position: sticky;">
+            <%
                 for (int i = 0; i < images.length; i++) {
             %>
             <img id="image<%=i%>" class="image"
@@ -91,9 +90,9 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25" style="left: 5%;width: 50%; align-content: center">
-            <h1>Edit Image</h1>
-            <button onclick="updateThreshold(-1)">-&#10094;</button>
+        <div class="col-25">
+            <h2>Adjust Threshold:</h2><br>
+            <button onclick="updateThreshold(-1)">&#10094;-</button>
             <button onclick="updateThreshold(1)">&#10095;+</button>
             <br>
 
@@ -116,30 +115,31 @@
                 }
 
             </script>
-            <button style="background-color: lightcyan" onclick="zoomOut()">Zoom OUT</button>
-            <button style="background-color: lightcyan" onclick="zoomIn()">Zoom IN</button>
-            <br>
-            <button onclick="semiAutomate(1)">APPLY Selection</button>
-            <button onclick="clearSelection()">CLEAR</button>
-            <br>
-,
             <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
+            <button onclick="zoomOut()">Zoom OUT</button>
+            <button onclick="zoomIn()">Zoom IN</button>
             <br>
-            <br><br>
-            <h1 style="padding-left: 5%" id="index">0</h1>
-            <p id="superPixelSize" style="display: none">10</p>
+            <button onclick="semiAutomate(1)">PAINT</button>
+            <button onclick="clearSelection()">CLEAR</button>
+            <button onclick="smoothie()">MAHMUT</button>
+            <br><br><br>
 
-            <div id="carouselSlider" style="transform: scale(1.2)"></div>
-            <br><br><br><br><br><br><br>
-            <form action="Download" method="post">
-                <input type="submit" name="Submit" value="Download ZIP"/>
-            </form>
-
+            <div>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: #0094e2"></h2>
+                <h2 style="float: left"> : Current Slice</h2><br><br>
+                <!--<h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2); background-color: red"></h2>
+                <h2 style="float: left"> : Edited Slices</h2><br>
+                <h2 style="float: left;width: 20px;height: 20px;margin: 5px;  border: 1px solid rgba(0, 0, 0, .2);
+                background-color: whitesmoke"></h2>
+                <h2 style="float: left"> : Default Style</h2><br>-->
+            </div>
         </div>
 
     </div>
+    <h1 id="index">0</h1>
+    <p id="superPixelSize" style="display: none">10</p>
 
-    </div>
+    <div id="carouselSlider"></div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
     <script type="text/javascript" src="js/carousel.js"></script>
@@ -329,7 +329,7 @@
         if(doCast){
             if (!processRunning) {
                 processRunning = true;
-                $.post("MSuperpixel",
+                $.post("MagicSuperpixel",
                     {
                         imageID: index,
                         superPixelSize: superPixelSize[index],
@@ -338,7 +338,6 @@
                         tolerance: -1.0
                     },
                     function (responseText) {
-                    alert(selectionArray[index].toString());
                         const buffer = responseText.split('|');
                         boundryArray[index] = buffer[0].split(',');
                         centerArray[index] = buffer[1].split(',');
@@ -377,7 +376,7 @@
         else {
             if (!processRunning) {
                 processRunning = true;
-                $.get("MSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
+                $.get("MagicSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
                     const buffer = responseText.split('|');
                     boundryArray[index] = buffer[0].split(',');
                     centerArray[index] = buffer[1].split(',');
@@ -400,7 +399,7 @@
 
     function magicSuperPixel(x, y) {
         var clickIndex = findSuperPixel(x, y);
-        $.get("MSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=" + clickIndex + "&tolerance=0.035", function (responseText) {
+        $.get("MagicSuperpixel?imageID=" + index + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=" + clickIndex + "&tolerance=0.035", function (responseText) {
             const buffer = responseText.split('|');
             const tempClickArray = buffer[4].split(',');
 
@@ -490,10 +489,10 @@
 
     function semiAutomateRight(count) {
         //if (!processRunning) {
-        if (count < 15) {
+        if (count < 5) {
             // clickX and clickY are -1 since magic wand does not work for this call.
             //processRunning = true ;
-            $.get("MSuperpixel?imageID=" + (index + count) + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
+            $.get("MagicSuperpixel?imageID=" + (index + count) + "&superPixelSize=" + superPixelSize[index] + "&clickIndex=-1" + "&tolerance=-1.0", function (responseText) {
                 const buffer = responseText.split('|');
                 boundryArray[index + count] = buffer[0].split(',');
                 centerArray[index + count] = buffer[1].split(',');

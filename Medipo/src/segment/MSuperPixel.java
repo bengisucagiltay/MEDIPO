@@ -12,8 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/MagicSuperpixel")
-public class MagicSuperpixel extends HttpServlet {
+@WebServlet("/MSuperpixel")
+public class MSuperPixel extends HttpServlet {
 
     private static final int M = 100;
 
@@ -27,9 +27,10 @@ public class MagicSuperpixel extends HttpServlet {
         int imageID = Integer.parseInt(request.getParameter("imageID"));
         int clickIndex = Integer.parseInt(request.getParameter("clickIndex"));
         double superPixelSize = Double.parseDouble(request.getParameter("superPixelSize"));
+        String selection = request.getParameter("selection");
         double tolerance = Double.parseDouble(request.getParameter("tolerance"));
 
-        Superpixel s = new Superpixel();
+        SuperPixel s = new SuperPixel();
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + imageID + extension));
@@ -38,9 +39,14 @@ public class MagicSuperpixel extends HttpServlet {
         }
         s.calculate(img, superPixelSize, M);
 
-        String responseText = getResponseString(s.getBoundryList()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterLists());
+        String responseText = getResponseString(s.getBorderList()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterLists());
 
-        if(clickIndex != -1){
+        if(selection != null){
+            ArrayList<Integer> selectionArray = getIntegerArray(selection);
+            String result = s.castSelection(selectionArray, 0.5);
+            responseText += "|" + result;
+        }
+        else if(clickIndex != -1){
             String result = s.magicWand(clickIndex, tolerance);
             responseText += "|" + result;
         }
@@ -70,4 +76,17 @@ public class MagicSuperpixel extends HttpServlet {
 
         return response.toString();
     }
+
+    private ArrayList<Integer> getIntegerArray(String boundry) {
+        ArrayList<Integer> result = new ArrayList<>();
+
+        String[] tokens = boundry.split(",");
+
+        for (String token : tokens) {
+            result.add(Integer.parseInt(token));
+        }
+
+        return result;
+    }
+
 }
