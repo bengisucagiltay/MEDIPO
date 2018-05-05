@@ -1,6 +1,6 @@
 body{
 	margin: 0;
-	background-color: #d2f1ff;
+	background-color: #cdeefd;
 }
 
 
@@ -98,7 +98,7 @@ p{
 	height: 100%;
 	width: 20%;
 	padding: 10px;
-	background-color: #cdeffe;
+	background-color: #cdeefd;
 	border-left: solid 4px;
 }
 .row:after{

@@ -64,9 +64,10 @@
     var cnrdeneme = [];
 </script>
 
-<div class="cBig" style="top: 25%;padding-bottom: 10%">
+<div class="cBig" style="top: 25%;padding-bottom: 10%; padding-left: 5%;">
     <div class="row">
-        <div class="col-75" style="width:auto; align-content: left;">
+        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
+	 white-space: nowrap;">
 
             <%
                 for (int i = 0; i < images.length; i++) {
@@ -77,18 +78,17 @@
                 }
             %>
         </div>
-        <div class="col-25" style=" left: 20%;align-content: center">
-            <br>
-            <h1 style="padding-left: 20%" >Image History</h1>
-            <form action="superpixelTest.jsp" >
-                <input type="submit" value="Magic Grid">
+        <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
+            <h1 style=" text-align:center; font-family: 'Open Sans', sans-serif" >Image History</h1>
+            <br><form style="display:inline-block" action="superpixelTest.jsp" >
+                <input style="height: 40px; width:150px; float:none;" type="submit" value="Magic Grid">
             </form>
-            <form action="wandTest.jsp">
-                <input type="submit" value="Magic Wand">
+            <form style="display:inline-block"action="wandTest.jsp">
+                <input  style="height: 40px; width:150px; float:none;"type="submit" value="Magic Wand">
             </form>
 
         </div>
-        <div class="col-25" style="left: 5%;width: 50%; align-content: center">
+        <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
 
             <script>
                 var ijk = 0;
@@ -100,16 +100,15 @@
                 }
                 cnrlength = ijk - 1;
             </script>
-            <br><br><br>
-            <br><br><h1 style="padding-left: 5%" id="index">0</h1>
+
+            <br><br><br><br><br>
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
             <script type="text/javascript" src="js/carousel.js"></script>
-
-            <br><br><br><br><br><br><br>
-            <form action="Clean" method="post" style="align-content: center">
-                <input type="submit" value="Delete History">
+            <br><br><br><br><br><br><br><h1 style="padding-left: 5%" id="index">0</h1>
+            <form style="align-content: center" action="Clean" method="post" style="align-content: center">
+                <input style="margin-left:4%; height: 40px; width:150px; float:none;" type="submit" value="Delete History">
             </form>
         </div>
 

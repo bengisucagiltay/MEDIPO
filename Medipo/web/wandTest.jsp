@@ -72,10 +72,10 @@
     var cnrdeneme = [];
 </script>
 
-<div class="cBig" style="top: 25%;padding-bottom: 10%">
+<div class="cBig" style="top: 25%;padding-bottom: 10%; padding-left: 5%;">
     <div class="row">
-        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
-	 white-space: nowrap;">            <%
+        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto; white-space: nowrap;">
+            <%
                 for (int i = 0; i < images.length; i++) {
             %>
             <img id="image<%=i%>" class="image"
@@ -87,8 +87,8 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25" style="left: 5%;width: 50%; align-content: center">
-            <h1>Edit Image</h1>
+        <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
+            <h1 style=" text-align:center; font-family: 'Open Sans', sans-serif" >Edit Image</h1>
             <button onclick="updateThreshold(-0.01)">-&#10094;</button>
             <button onclick="updateThreshold(0.01)">&#10095;+</button><br>
 
@@ -103,25 +103,24 @@
                 cnrlength = ijk - 1;
 
             </script>
-            <button style="background-color: lightcyan"onclick="zoomOut()">Zoom OUT</button>
-            <button style="background-color: lightcyan"onclick="zoomIn()">Zoom IN</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #77D1FA;"onclick="zoomOut()">Zoom OUT</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #77D1FA;"onclick="zoomIn()">Zoom IN</button>
             <br>
-            <button onclick="semiAutomate(1)">APPLY Selection</button>
-            <button onclick="clearCanvases()">CLEAR</button><br>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"onclick="semiAutomate(1)">APPLY Selection</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"onclick="clearCanvases()">CLEAR</button><br>
             <br>
             <p id="threshold" style="display: none;">0.02</p>
 
             <br><br>
-            <h1 style="padding-left: 5%" id="index">0</h1>
-
+        </div>
+        <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
             <script type="text/javascript" src="js/carousel.js"></script>
-
-            <br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><h1 style="padding-left: 5%" id="index">0</h1>
             <form action="Download" method="post">
-                <input type="submit" name="Submit" value="Download ZIP"/>
+                <input style="margin-left:4%; height: 40px; width:150px; float:none;"type="submit" name="Submit" value="Download ZIP"/>
             </form>
         </div>
 

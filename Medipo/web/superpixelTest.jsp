@@ -74,11 +74,10 @@
 </script>
 
 
-<div class="cBig">
+<div class="cBig" style="top: 25%;padding-bottom: 10%; padding-left: 5%;">
 
     <div class="row">
-        <div class="col-75" style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;
-	 white-space: nowrap;">
+        <div class="col-75"  style="text-align: left;width:512px;height:512px;position: sticky;overflow: auto;white-space: nowrap;">
         <%
                 for (int i = 0; i < images.length; i++) {
             %>
@@ -91,10 +90,21 @@
             <canvas id="canvas0" class="canvas" onclick="clickOnCanvas(event)"></canvas>
         </div>
 
-        <div class="col-25" style="left: 5%;width: 50%; align-content: center">
-            <h1>Edit Image</h1>
-            <button onclick="updateThreshold(-1)">-&#10094;</button>
-            <button onclick="updateThreshold(1)">&#10095;+</button>
+        <div class="col-25"  style="left: 10%;width: 50%; align-content: center; text-align: center">
+            <h1 style=" text-align:center; font-family: 'Open Sans', sans-serif" >Edit Image</h1>
+            <button style="display: inline-block"onclick="updateThreshold(-1)">&#10094;</button>
+            <h2 style="display: inline-block">Threshold 1</h2>
+            <button style="display: inline-block"onclick="updateThreshold(1)">&#10095;</button>
+            <button style="display: inline-block"onclick="updateThreshold(-1)">&#10094;</button>
+            <h2 style="display: inline-block">Threshold 2</h2>
+            <button style="display: inline-block"onclick="updateThreshold(1)">&#10095;</button>
+            <br>
+            <button style="display: inline-block"onclick="updateThreshold(-1)">&#10094;</button>
+            <h2 style="display: inline-block">Threshold 3</h2>
+            <button style="display: inline-block"onclick="updateThreshold(1)">&#10095;</button>
+            <button style="display: inline-block"onclick="updateThreshold(-1)">&#10094;</button>
+            <h2 style="display: inline-block">Threshold 4</h2>
+            <button style="display: inline-block"onclick="updateThreshold(1)">&#10095;</button>
             <br>
 
 
@@ -116,25 +126,25 @@
                 }
 
             </script>
-            <button style="background-color: lightcyan" onclick="zoomOut()">Zoom OUT</button>
-            <button style="background-color: lightcyan" onclick="zoomIn()">Zoom IN</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #77D1FA;" onclick="zoomOut()">Zoom OUT</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #77D1FA;" onclick="zoomIn()">Zoom IN</button>
             <br>
-            <button onclick="semiAutomate(1)">APPLY Selection</button>
-            <button onclick="clearSelection()">CLEAR</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"onclick="semiAutomate(1)">APPLY Selection</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"onclick="clearSelection()">CLEAR</button>
             <br>
-,
-            <button id="magic" onclick="changeTool()">Current Selection: Single Region</button>
-            <br>
+            <button style="background-color: #42B6EF;"id="magic" onclick="changeTool()">Current Selection: Single Region</button>
             <br><br>
-            <h1 style="padding-left: 5%" id="index">0</h1>
             <p id="superPixelSize" style="display: none">10</p>
-
+        </div>
+        <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
             <div id="carouselSlider" style="transform: scale(1.2)"></div>
-            <br><br><br><br><br><br><br>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
+            <script type="text/javascript" src="js/carousel.js"></script>
+            <br><br><br><br><br><br><br><h1 style="padding-left: 5%" id="index">0</h1>
             <form action="Download" method="post">
-                <input type="submit" name="Submit" value="Download ZIP"/>
+                <input style="margin-left:4%; height: 40px; width:150px; float:none;"type="submit" name="Submit" value="Download ZIP"/>
             </form>
-
         </div>
 
     </div>
