@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet("/SuperPixelPixelate")
 public class SuperPixelPixelate extends HttpServlet {
@@ -43,19 +42,4 @@ public class SuperPixelPixelate extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doPost(request, response);
     }
-
-
-
-    private ArrayList<Integer> getIntegerArray(String boundry) {
-        ArrayList<Integer> result = new ArrayList<>();
-
-        String[] tokens = boundry.split(",");
-
-        for (String token : tokens) {
-            result.add(Integer.parseInt(token));
-        }
-
-        return result;
-    }
-
 }

@@ -79,5 +79,4 @@ public class SuperPixelCast extends HttpServlet {
 
         return result;
     }
-
 }
