@@ -18,7 +18,7 @@ public class SuperPixelExpand extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = (String)request.getSession().getAttribute("email");
         String extension = (String)request.getSession().getAttribute("extension");
-        int imageID = Integer.parseInt(request.getParameter("imageID"));
+        int index = Integer.parseInt(request.getParameter("index"));
         String border = request.getParameter("border");
         String selection = request.getParameter("selection");
         double average = Double.parseDouble(request.getParameter("average"));
@@ -26,7 +26,7 @@ public class SuperPixelExpand extends HttpServlet {
 
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + imageID + extension));
+            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + index + extension));
         } catch (IOException e) {
             e.printStackTrace();
         }

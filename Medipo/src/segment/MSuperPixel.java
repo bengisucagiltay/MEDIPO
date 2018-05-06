@@ -39,11 +39,11 @@ public class MSuperPixel extends HttpServlet {
         }
         s.calculate(img, superPixelSize, M);
 
-        String responseText = getResponseString(s.getBorderList()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterLists());
+        String responseText = ""; //getResponseString(s.getTotalBorderArray()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterPixelList());
 
         if(selection != null){
             ArrayList<Integer> selectionArray = getIntegerArray(selection);
-            String result = s.castSelection(selectionArray, 0.5);
+            String result = ""; //s.castSelection(selectionArray, 0.5);
             responseText += "|" + result;
         }
         else if(clickIndex != -1){

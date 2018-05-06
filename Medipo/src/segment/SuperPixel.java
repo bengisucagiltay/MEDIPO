@@ -20,18 +20,26 @@ public class SuperPixel {
     private int[] labels;
     private Cluster[] clusters;
 
-    private ArrayList<String> centerList;
-    private ArrayList<String> averageList;
-    private ArrayList<String> borderList;
-    private ArrayList<String> clusterLists;
-    private Set<Point> borderPixels;
 
-    SuperPixel() {
-        centerList = new ArrayList<>();
-        averageList = new ArrayList<>();
-        borderList = new ArrayList<>();
-        clusterLists = new ArrayList<>();
-        borderPixels = new HashSet<>();
+    private Set<Point> selectionBorderArray;
+
+
+    private StringBuilder spBorder;
+    private StringBuilder spAverage;
+    private StringBuilder spCenter;
+    private StringBuilder pixelsOfSp;
+    private StringBuilder neighbourList;
+    private StringBuilder spOfPixels;
+
+    public SuperPixel() {
+        spBorder = new StringBuilder();
+        spAverage = new StringBuilder();
+        spCenter = new StringBuilder();
+        pixelsOfSp = new StringBuilder();
+        neighbourList = new StringBuilder();
+        spOfPixels = new StringBuilder();
+
+        selectionBorderArray = new HashSet<>();
     }
 
     public void calculate(BufferedImage image, double S, double m) {
@@ -62,8 +70,8 @@ public class SuperPixel {
         createClusters(image, S, m);
 
         int loops = 0;
-        boolean pixelChangedCluster = true;
         int maxClusteringLoops = 50;
+        boolean pixelChangedCluster = true;
         while (pixelChangedCluster && loops < maxClusteringLoops) {
             pixelChangedCluster = false;
             loops++;
@@ -113,13 +121,13 @@ public class SuperPixel {
                 if (id1 != id2) {
                     adjacencyArray[id1][id2] = true;
                     adjacencyArray[id2][id1] = true;
-                    borderList.add(x + "," + y);
-                    borderPixels.add(new Point(x, y));
+                    spBorder.append(x + "," + y + ",");
+                    selectionBorderArray.add(new Point(x, y));
                 } else if (id1 != id3) {
                     adjacencyArray[id1][id3] = true;
                     adjacencyArray[id3][id1] = true;
-                    borderList.add(x + "," + y);
-                    borderPixels.add(new Point(x, y));
+                    spBorder.append(x + "," + y + ",");
+                    selectionBorderArray.add(new Point(x, y));
                 } else {
                     result.setRGB(x, y, image.getRGB(x, y));
                 }
@@ -127,16 +135,22 @@ public class SuperPixel {
         }
 
         for (Cluster c : clusters) {
-            centerList.add((int) c.avg_x + "," + (int) c.avg_y);
-            averageList.add("" + c.getAverageColor());
+            spCenter.append((int) c.avg_x + "," + (int) c.avg_y + ",");
+            spAverage.append(c.getAverageColor() + ",");
 
             ArrayList<Point> clusterPixels = c.pixels;
 
             for (Point clusterPixel : clusterPixels) {
-                clusterLists.add((int) clusterPixel.getX() + "," + (int) clusterPixel.getY());
+                pixelsOfSp.append(clusterPixel.x + "," + clusterPixel.y + ",");
             }
 
-            clusterLists.add("$");
+            pixelsOfSp.deleteCharAt(pixelsOfSp.length() - 1);
+            pixelsOfSp.append("$");
+
+        }
+
+        for (int i = 0; i < labels.length; i++) {
+            spOfPixels.append(labels[i] + ",");
         }
 
         for (int i = 0; i < adjacencyArray.length; i++) {
@@ -146,6 +160,16 @@ public class SuperPixel {
                 }
             }
         }
+
+        for (Cluster c : clusters) {
+            for(Cluster neighbour: c.neighbours){
+                neighbourList.append(neighbour.id + ",");
+            }
+
+            neighbourList.deleteCharAt(neighbourList.length() - 1);
+            neighbourList.append("$");
+        }
+
     }
 
     private void createClusters(BufferedImage image, double S, double m) {
@@ -177,20 +201,28 @@ public class SuperPixel {
         }
     }
 
-    public ArrayList<String> getBorderList() {
-        return borderList;
+    public String getSpBorder() {
+        return spBorder.deleteCharAt(spBorder.length() - 1).toString();
     }
 
-    public ArrayList<String> getAverageList() {
-        return averageList;
+    public String getSpAverage() {
+        return spAverage.deleteCharAt(spAverage.length() - 1).toString();
     }
 
-    public ArrayList<String> getCenterList() {
-        return centerList;
+    public String getSpCenter() {
+        return spCenter.deleteCharAt(spCenter.length() - 1).toString();
     }
 
-    public ArrayList<String> getClusterLists() {
-        return clusterLists;
+    public String getPixelsOfSp() {
+        return pixelsOfSp.deleteCharAt(pixelsOfSp.length() - 1).toString();
+    }
+
+    public String getSpNeighbourList(){
+        return neighbourList.deleteCharAt(neighbourList.length() - 1).toString();
+    }
+
+    public String getSpOfPixels(){
+        return spOfPixels.deleteCharAt(spOfPixels.length() - 1).toString();
     }
 
     public String magicWand(int clickIndex, double tolerance) {
@@ -230,8 +262,9 @@ public class SuperPixel {
         return selection.substring(0, selection.length() - 1) + "|" + selectionBorder.substring(0, selectionBorder.length() - 1) + "|" + finalAverage;
     }
 
-    public String castSelection(ArrayList<Integer> selectionArray, double tolerance) {
+    public String castSelection(ArrayList<Integer> selectionArray, ArrayList<Integer> spOfPixelsArray, ArrayList<Double> spAverageArray, double coverageTolerance, double averageTolerance) {
         StringBuilder selection = new StringBuilder();
+        StringBuilder spSelected = new StringBuilder();
         double finalAverage = 0.0;
         int count = 0;
         boolean[] selectionChecked = new boolean[clusters.length];
@@ -246,15 +279,15 @@ public class SuperPixel {
         }
 
         for (int i = 0; i < coverageArray.length; i++) {
-            if(coverageArray[i] > tolerance){
+            if(coverageArray[i] > coverageTolerance && (clusters[i].getAverageColor() - spAverageArray.get( spOfPixelsArray.get( (int)clusters[i].avg_x + (int)clusters[i].avg_y * width ) )) / 255.0 < averageTolerance){
                 selectionChecked[i] = true;
                 count++;
                 finalAverage += clusters[i].getAverageColor();
                 ArrayList<Point> clusterPixels = clusters[i].pixels;
-                for (int j = 0; j < clusterPixels.size(); j++) {
-                    selection.append(clusterPixels.get(j).x);
+                for (Point clusterPixel : clusterPixels) {
+                    selection.append(clusterPixel.x);
                     selection.append(",");
-                    selection.append(clusterPixels.get(j).y);
+                    selection.append(clusterPixel.y);
                     selection.append(",");
                 }
             }
@@ -264,25 +297,35 @@ public class SuperPixel {
 
         StringBuilder border = getBorder(selectionChecked);
 
-        return selection.subSequence(0, selection.length() - 1).toString() + "|" + border.substring(0, border.length() - 1) + "|" + finalAverage;
+        for(int i = 0; i < selectionChecked.length; i++)
+            if(selectionChecked[i])
+                spSelected.append(i + ",");
+
+        if(selection.length() > 0) {
+            selection.deleteCharAt(selection.length() - 1);
+            spSelected.deleteCharAt(spSelected.length() - 1);
+            border.deleteCharAt(border.length() - 1);
+        }
+
+        return selection + "|" + border + "|" + spSelected + "|" + finalAverage;
     }
 
     private StringBuilder getBorder(boolean[] selectionChecked){
         StringBuilder border = new StringBuilder();
 
-        for(Point pixel : borderPixels){
+        for(Point pixel : selectionBorderArray){
             int currentX = pixel.x;
             int currentY = pixel.y;
 
-            int currentPixel = labels[currentX + currentY * width];
-            int left = labels[(currentX - 1) + currentY * width];
-            int right = labels[(currentX + 1) + currentY * width];
-            int up = labels[currentX + (currentY - 1) * width];
-            int down = labels[currentX + (currentY + 1) * width];
+            int currentSuperPixel = labels[currentX + currentY * width];
+            int leftSuperPixel = labels[(currentX - 1) + currentY * width];
+            int rightSuperPixel = labels[(currentX + 1) + currentY * width];
+            int upSuperPixel = labels[currentX + (currentY - 1) * width];
+            int downSuperPixel = labels[currentX + (currentY + 1) * width];
 
-            if(selectionChecked[currentPixel] && (!selectionChecked[left] || !selectionChecked[right] || !selectionChecked[up] || !selectionChecked[down]))
+            if(selectionChecked[currentSuperPixel] && (!selectionChecked[leftSuperPixel] || !selectionChecked[rightSuperPixel] || !selectionChecked[upSuperPixel] || !selectionChecked[downSuperPixel]))
                 border.append(currentX).append(",").append(currentY).append(",");
-            else if(!selectionChecked[currentPixel] && (selectionChecked[left] || selectionChecked[right] || selectionChecked[up] || selectionChecked[down]))
+            else if(!selectionChecked[currentSuperPixel] && (selectionChecked[leftSuperPixel] || selectionChecked[rightSuperPixel] || selectionChecked[upSuperPixel] || selectionChecked[downSuperPixel]))
                 border.append(currentX).append(",").append(currentY).append(",");
         }
 

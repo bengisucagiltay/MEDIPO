@@ -24,23 +24,23 @@ public class SuperPixelMagic extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = (String) request.getSession().getAttribute("email");
         String extension = (String) request.getSession().getAttribute("extension");
-        int imageID = Integer.parseInt(request.getParameter("imageID"));
-        int clickIndex = Integer.parseInt(request.getParameter("clickIndex"));
+        int index = Integer.parseInt(request.getParameter("index"));
+        int clickNumber = Integer.parseInt(request.getParameter("clickNumber"));
         double superPixelSize = Double.parseDouble(request.getParameter("superPixelSize"));
         double tolerance = Double.parseDouble(request.getParameter("tolerance"));
 
         SuperPixel s = new SuperPixel();
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + imageID + extension));
+            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + index + extension));
         } catch (IOException e) {
             e.printStackTrace();
         }
         s.calculate(img, superPixelSize, M);
 
-        String responseText = getResponseString(s.getBorderList()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterLists());
+        String responseText = ""; //getResponseString(s.getTotalBorderArray()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterPixelList());
 
-        String result = s.magicWand(clickIndex, tolerance);
+        String result = s.magicWand(clickNumber, tolerance);
         responseText += "|" + result;
 
         response.setContentType("text/plain");

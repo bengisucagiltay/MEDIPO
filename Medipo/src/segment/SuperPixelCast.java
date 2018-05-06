@@ -18,30 +18,32 @@ public class SuperPixelCast extends HttpServlet {
     private static final int M = 100;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doGet(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = (String) request.getSession().getAttribute("email");
         String extension = (String) request.getSession().getAttribute("extension");
-        int imageID = Integer.parseInt(request.getParameter("imageID"));
+        int index = Integer.parseInt(request.getParameter("index"));
         double superPixelSize = Double.parseDouble(request.getParameter("superPixelSize"));
+        String spAverage = request.getParameter("spAverage");
+        double averageTolerance = Double.parseDouble(request.getParameter("averageTolerance"));
+        double coverageTolerance = Double.parseDouble(request.getParameter("coverageTolerance"));
         String selection = request.getParameter("selection");
-        double tolerance = Double.parseDouble(request.getParameter("tolerance"));
+        String spOfPixels = request.getParameter("spOfPixels");
 
         SuperPixel s = new SuperPixel();
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + imageID + extension));
+            img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + index + extension));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         s.calculate(img, superPixelSize, M);
 
-        String responseText = getResponseString(s.getBorderList()) + "|" + getResponseString(s.getCenterList()) + "|" + getResponseString(s.getAverageList()) + "|" + getResponseString(s.getClusterLists());
+        String responseText = s.getSpBorder() + "|" + s.getSpAverage() + "|" + s.getSpCenter() + "|" + s.getPixelsOfSp() + "|" + s.getSpNeighbourList() + "|" + s.getSpOfPixels();
         ArrayList<Integer> selectionArray = getIntegerArray(selection);
+        ArrayList<Integer> spOfPixelsArray = getIntegerArray(spOfPixels);
+        ArrayList<Double> spAverageArray = getDoubleArray(spAverage);
 
-        String result = s.castSelection(selectionArray, tolerance);
+        String result = s.castSelection(selectionArray, spOfPixelsArray, spAverageArray, coverageTolerance, averageTolerance);
         responseText += "|" + result;
 
         response.setContentType("text/plain");
@@ -50,32 +52,29 @@ public class SuperPixelCast extends HttpServlet {
         response.getWriter().flush();
     }
 
-    private String getResponseString(ArrayList<String> strArrayList) {
-        StringBuilder response = new StringBuilder();
-        for (int i = 0; i < strArrayList.size(); i++) {
-            String str = strArrayList.get(i);
-
-            if (i < strArrayList.size() - 1)
-                if (strArrayList.get(i + 1).equals("$")) {
-                    response.append(str).append("$");
-                    i++;
-                } else {
-                    response.append(str).append(",");
-                }
-            else
-                response.append(str);
-        }
-
-        return response.toString();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        doPost(request, response);
     }
 
-    private ArrayList<Integer> getIntegerArray(String boundry) {
+    private ArrayList<Integer> getIntegerArray(String str) {
         ArrayList<Integer> result = new ArrayList<>();
 
-        String[] tokens = boundry.split(",");
+        String[] tokens = str.split(",");
 
         for (String token : tokens) {
             result.add(Integer.parseInt(token));
+        }
+
+        return result;
+    }
+
+    private ArrayList<Double> getDoubleArray(String str) {
+        ArrayList<Double> result = new ArrayList<>();
+
+        String[] tokens = str.split(",");
+
+        for (String token : tokens) {
+            result.add(Double.parseDouble(token));
         }
 
         return result;
