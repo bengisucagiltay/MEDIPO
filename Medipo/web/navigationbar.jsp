@@ -17,8 +17,8 @@
 
     <a href="upload.jsp">Upload</a>
     <a href="imageHistory.jsp">Image History</a>
-    <a href="wandTest.jsp">Magic Wand</a>
-    <a href="superpixelTest.jsp">Magic Grid</a>
+    <a href="wandTest2.jsp">Magic Wand</a>
+    <a href="superpixelTest2.jsp">Magic Grid</a>
 
     <%
         if(session.getAttribute("firstname") != null && session.getAttribute("firstname") != "Guest"){%>

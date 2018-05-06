@@ -80,10 +80,10 @@
         </div>
         <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
             <h1 style=" text-align:center; font-family: 'Open Sans', sans-serif" >Image History</h1>
-            <br><form style="display:inline-block" action="superpixelTest.jsp" >
+            <br><form style="display:inline-block" action="superpixelTest2.jsp" >
                 <input style="height: 40px; width:150px; float:none;" type="submit" value="Magic Grid">
             </form>
-            <form style="display:inline-block"action="wandTest.jsp">
+            <form style="display:inline-block"action="wandTest2.jsp">
                 <input  style="height: 40px; width:150px; float:none;"type="submit" value="Magic Wand">
             </form>
 

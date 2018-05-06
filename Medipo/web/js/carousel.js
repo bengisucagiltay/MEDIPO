@@ -1,4 +1,3 @@
-var ananın;
 
 var _createClass = function () {
     function defineProperties(target, props) {
