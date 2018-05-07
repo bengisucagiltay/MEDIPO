@@ -52,6 +52,34 @@
             left: 0;
             top: 0;
         }
+        .slide {
+            width: 10%;
+        }
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 20px;
+            height: 20px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 
     <script src="js/jquery-1.10.2.js"></script>
@@ -98,6 +126,7 @@
             <button style="display: inline-block" onclick="updateThreshold(-0.01)">&#10094;</button>
             <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Wand Size  </button>
             <button style="display: inline-block" onclick="updateThreshold(0.01)">&#10095;</button>
+            <div id="loader"></div>
 
             <!--<button style="display: inline-block" onclick="semiAutomateLeft(1)">&#10094;</button>
             <button style="height: 40px; width:150px; float:none;pointer-events: none;">Paint</button>
@@ -132,7 +161,7 @@
                     onclick="changeVisibilityCanvas2()">COLOR : ON
             </button>
             <br>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(30)">
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(10)">
                 PAINT ALL
             </button>
             <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"
@@ -643,8 +672,11 @@
     let processRunningRight = false;
 
     function semiAutomate(count) {
+        loaderON();
         semiAutomateRight(count);
+        loaderON();
         semiAutomateLeft(count);
+
     }
 
     function semiAutomateLeft(count) {
@@ -653,7 +685,14 @@
             superPixelCastLeft(1, count);
         }
     }
+    function loaderON(){
+        document.getElementById("loader").style.display = "inline";
+        //var myVar = setTimeout(loaderOFF, 3000);
+    }
 
+    function loaderOFF(){
+        document.getElementById("loader").style.display = "none";
+    }
     function superPixelCastLeft(n, count) {
         if (n < count && index - n > 0 && selection[index - n + 1].toString().localeCompare("") !== 0) {
             $.post("SuperPixelCast", {
@@ -718,6 +757,7 @@
         }
         else {
             processRunningLeft = false;
+            loaderOFF();
             alert('complete left');
         }
     }
@@ -793,6 +833,7 @@
         }
         else {
             processRunningRight = false;
+            loaderOFF();
             alert('complete right');
         }
     }
@@ -945,6 +986,7 @@
 </script>
 
 <script>
+    loaderOFF();
     setCanvases();
     refresh();
 </script>
