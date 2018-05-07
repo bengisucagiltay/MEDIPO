@@ -133,7 +133,7 @@
             </button>
             <br>
             <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(30)">
-                PAINT FORWARD
+                PAINT ALL
             </button>
             <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"
                     onclick="clearArraysFor(index)">CLEAR CURRENT
@@ -655,21 +655,95 @@
 </script>
 
 <script>
+    let processRunningLeft = false;
+    let processRunningRight = false;
 
     function semiAutomate(count) {
         semiAutomateRight(count);
         semiAutomateLeft(count);
     }
 
-
-    function semiAutomateRight(count) {
-        if (!processRunning) {
-            processRunning = true;
-            superPixelCastGlobal(1, count);
+    function semiAutomateLeft(count) {
+        if (!processRunningLeft) {
+            processRunningLeft = true;
+            superPixelCastLeft(1, count);
         }
     }
 
-    function superPixelCastGlobal(n, count) {
+    function superPixelCastLeft(n, count) {
+        if (n < count && index - n > 0 && selection[index - n + 1].toString().localeCompare("") !== 0) {
+            $.post("SuperPixelCast", {
+                    index: index - n,
+                    superPixelSize: spSize[index],
+                    selection: selection[index - n + 1].toString(),
+                    spOfPixels: spOfPixels[index - n + 1].toString(),
+                    spAverage: spAverage[index - n + 1].toString(),
+                    averageTolerance: averageTolerance,
+                    coverageTolerance: coverageTolerance
+                },
+
+                function (responseText) {
+                    clearArraysFor(index - n);
+
+                    const buffer = responseText.split('|');
+
+                    spBorder[index - n] = buffer[0].split(',');
+                    spAverage[index - n] = buffer[1].split(',');
+                    spCenter[index - n] = buffer[2].split(',');
+
+                    let spBuffer = buffer[3].split("$");
+                    for (let i = 0; i < spBuffer.length; i++) {
+                        pixelsOfSp[index - n][i] = spBuffer[i].split(',');
+                    }
+
+                    // Clear selection
+                    for (let i = 0; i < spBuffer.length; i++) {
+                        spSelectedBinary[index - n][i] = 0;
+                    }
+
+                    for (let i = 0; i < imageWidth; i++) {
+                        for (let j = 0; j < imageHeight; j++) {
+                            selectionBinary[index - n][i + j * imageWidth] = 0;
+                        }
+                    }
+                    // Clear selection
+
+                    spBuffer = buffer[4].split("$");
+                    for (let i = 0; i < spBuffer.length; i++) {
+                        spNeighbourList[index - n][i] = spBuffer[i].split(',');
+                    }
+
+                    spOfPixels[index - n] = buffer[5].split(',');
+
+                    selection[index - n] = buffer[6].split(',');
+                    border[index - n] = buffer[7].split(',');
+                    spSelected[index - n] = buffer[8].split(',');
+
+                    for (let i = 0; i < spSelected[index - n].length; i++) {
+                        spSelectedBinary[index - n][spSelected[index - n][i]] = 1;
+                    }
+
+                    average[index - n] = buffer[9];
+                    spSize[index - n] = spSize[index];
+
+                    superPixelCastLeft(n + 1, count);
+                }
+            );
+        }
+        else {
+            processRunningLeft = false;
+            alert('complete left');
+        }
+    }
+
+    function semiAutomateRight(count) {
+        if (!processRunningRight) {
+            processRunningRight = true;
+            superPixelCastRight(1, count);
+        }
+    }
+
+    function superPixelCastRight(n, count) {
         if (n < count && index + n < imageCount && selection[index + n - 1].toString().localeCompare("") !== 0) {
             $.post("SuperPixelCast", {
                     index: index + n,
@@ -725,13 +799,13 @@
                     average[index + n] = buffer[9];
                     spSize[index + n] = spSize[index];
 
-                    superPixelCastGlobal(n + 1, count);
+                    superPixelCastRight(n + 1, count);
                 }
             );
         }
         else {
-            processRunning = false;
-            alert('complete');
+            processRunningRight = false;
+            alert('complete right');
         }
     }
 
