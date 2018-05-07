@@ -18,38 +18,38 @@ public class SuperPixelCast extends HttpServlet {
     private static final int M = 100;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String email = (String) request.getSession().getAttribute("email");
-        String extension = (String) request.getSession().getAttribute("extension");
-        int index = Integer.parseInt(request.getParameter("index"));
-        double superPixelSize = Double.parseDouble(request.getParameter("superPixelSize"));
-        String spAverage = request.getParameter("spAverage");
-        double averageTolerance = Double.parseDouble(request.getParameter("averageTolerance"));
-        double coverageTolerance = Double.parseDouble(request.getParameter("coverageTolerance"));
-        String selection = request.getParameter("selection");
-        String spOfPixels = request.getParameter("spOfPixels");
-
-        SuperPixel s = new SuperPixel();
-        BufferedImage img = null;
         try {
+            String email = (String) request.getSession().getAttribute("email");
+            String extension = (String) request.getSession().getAttribute("extension");
+            int index = Integer.parseInt(request.getParameter("index"));
+            double superPixelSize = Double.parseDouble(request.getParameter("superPixelSize"));
+            String spAverage = request.getParameter("spAverage");
+            String selection = request.getParameter("selection");
+            String spOfPixels = request.getParameter("spOfPixels");
+
+            SuperPixel s = new SuperPixel();
+            BufferedImage img = null;
+
             img = ImageIO.read(new File(FileManager.getDirPath_UserUpload(email) + "/" + index + extension));
+
+
+            s.calculate(img, superPixelSize, M);
+
+            String responseText = s.getSpBorder() + "|" + s.getSpAverage() + "|" + s.getSpCenter() + "|" + s.getPixelsOfSp() + "|" + s.getSpNeighbourList() + "|" + s.getSpOfPixels();
+            ArrayList<Integer> selectionArray = getIntegerArray(selection);
+            ArrayList<Integer> spOfPixelsArray = getIntegerArray(spOfPixels);
+            ArrayList<Double> spAverageArray = getDoubleArray(spAverage);
+
+            String result = s.castSelection(selectionArray, spOfPixelsArray, spAverageArray);
+            responseText += "|" + result;
+
+            response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(responseText);
+            response.getWriter().flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        s.calculate(img, superPixelSize, M);
-
-        String responseText = s.getSpBorder() + "|" + s.getSpAverage() + "|" + s.getSpCenter() + "|" + s.getPixelsOfSp() + "|" + s.getSpNeighbourList() + "|" + s.getSpOfPixels();
-        ArrayList<Integer> selectionArray = getIntegerArray(selection);
-        ArrayList<Integer> spOfPixelsArray = getIntegerArray(spOfPixels);
-        ArrayList<Double> spAverageArray = getDoubleArray(spAverage);
-
-        String result = s.castSelection(selectionArray, spOfPixelsArray, spAverageArray, coverageTolerance, averageTolerance);
-        responseText += "|" + result;
-
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(responseText);
-        response.getWriter().flush();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -25,6 +25,7 @@
             String extension = images[0].getName().substring(images[0].getName().length() - 4);
             session.setAttribute("extension", extension);
 %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="java">
 <head>
@@ -33,7 +34,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>
-
 
     <title>Magic Grid</title>
 
@@ -51,10 +51,6 @@
             position: absolute;
             left: 0;
             top: 0;
-        }
-
-        .slide {
-            width: 10%;
         }
     </style>
 
@@ -96,8 +92,12 @@
         <div class="col-25" style="left: 10%;width: 50%; align-content: center; text-align: center">
             <h1 style=" text-align:center; font-family: 'Open Sans', sans-serif">Magic Grid Tool</h1>
             <button style="display: inline-block" onclick="updateSuperPixelSize(-2)">&#10094;</button>
-            <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Grid Size  </button>
+            <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Grid Size</button>
             <button style="display: inline-block" onclick="updateSuperPixelSize(2)">&#10095;</button>
+
+            <button style="display: inline-block" onclick="updateThreshold(-0.01)">&#10094;</button>
+            <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Wand Size  </button>
+            <button style="display: inline-block" onclick="updateThreshold(0.01)">&#10095;</button>
 
             <!--<button style="display: inline-block" onclick="semiAutomateLeft(1)">&#10094;</button>
             <button style="height: 40px; width:150px; float:none;pointer-events: none;">Paint</button>
@@ -141,6 +141,9 @@
             <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="clearArraysAll()">
                 CLEAR ALL
             </button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="revertWand()">
+                REVERT WAND
+            </button>
             <br>
 
 
@@ -170,7 +173,6 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-with-addons.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
 <script type="text/javascript" src="js/carousel.js"></script>
-</div>
 
 <script>
     let imageCount = <%=images.length%>;
@@ -184,8 +186,7 @@
     let drawToCanvas3 = true;
 
     //BBuraya buton ekle
-    let averageTolerance = 0.02;
-    let coverageTolerance = 0.5;
+    let averageTolerance = 0.05;
 
     let clickX, clickY;
     let imageWidth = document.getElementById("image" + index).clientWidth;
@@ -193,6 +194,7 @@
 </script>
 
 <script>
+    let threshold = [];
     let spSize = [];                            // size (1D)
     let spSelected = [];                        // selected super pixel numbers (2D)
     let spSelectedBinary = [];                  // sp selected (yes/no) (2D)
@@ -209,8 +211,13 @@
     let average = [];                           // average value of the current selection (1D)
     let center = [];                            // center of the current selection (2D)
 
+    let selectionTemp = [];                         // selected pixels (x even, y odd) (2D)
+    let borderTemp = [];                            // border of the selection (x even, y odd) (2D)
+    let averageTemp = [];                           // average value of the current selection (1D)
+
     for (let i = 0; i < imageCount; i++) {
         spSize[i] = 10;
+        threshold[i] = 0.00;
         spSelectedBinary[i] = [];
         spSelected[i] = [];
         spBorder[i] = [];
@@ -225,6 +232,10 @@
         border[i] = [];
         average[i] = [];
         center[i] = [];
+
+        selectionTemp[i] = [];
+        borderTemp[i] = [];
+        averageTemp[i] = [];
     }
 </script>
 
@@ -245,22 +256,23 @@
 
 <script>
     function buttonUpdateIndex(n) {
+        const images = document.getElementsByClassName("image");
         index += n;
         if (index >= images.length)
             index = 0;
         else if (index < 0)
             index = images.length - 1;
-
         refresh();
     }
 
-    function slideUpdateIndex(element) {
-        for (let i = 0; i < images.length; i++) {
-            if (element.src.localeCompare(images[i].src) === 0)
-                index = i;
-        }
+    function updateThreshold(n) {
+        threshold[index] += n;
+        if (threshold[index] >= 0.2)
+            threshold[index] = 0.2;
+        else if (threshold[index] <= 0.00)
+            threshold[index] = 0.00;
 
-        refresh();
+        smoothie();
     }
 
     function updateSuperPixelSize(n) {
@@ -276,35 +288,8 @@
             superPixelCastLocal();
         else
             superPixelPixelate();
-    }
-    function updateAvgTolerance(n) {
-        averageTolerance[index] += n;
-        if (averageTolerance[index] > 40)
-            averageTolerance[index] = 40;
-        else if (averageTolerance[index] < 6)
-            averageTolerance[index] = 6;
 
-        document.getElementById("average_tolerance").innerText = averageTolerance[index];
 
-        if (selection[index].length !== 0)
-            superPixelCastLocal();
-        else
-            superPixelPixelate();
-    }
-
-    function updateCovTolerance(n) {
-        coverageTolerance[index] += n;
-        if (coverageTolerance[index] > 40)
-            coverageTolerance[index] = 40;
-        else if (coverageTolerance[index] < 6)
-            coverageTolerance[index] = 6;
-
-        document.getElementById("coverage_tolerance").innerText = coverageTolerance[index];
-
-        if (selection[index].length !== 0)
-            superPixelCastLocal();
-        else
-            superPixelPixelate();
     }
 
     function refresh() {
@@ -312,7 +297,6 @@
         document.getElementById("super_pixel_size").innerText = spSize[index];
 
         refreshImage();
-        //refreshSlides();
 
         refreshGlobalBorderCanvas();
         refreshSelectionCanvas();
@@ -327,28 +311,6 @@
             images[i].style.display = "none";
         }
         images[index].style.display = "inline-block";
-    }
-
-    function refreshSlides() {
-        const slides = document.getElementsByClassName("slide");
-
-        for (let i = 0; i < slides.length; i++) {
-            if (index === i) {
-                slides[i].border = "3";
-                slides[i].style.borderColor = "purple";
-            }
-            else if (selection[i].length !== 0) {
-                slides[i].border = "3";
-                slides[i].style.borderColor = "yellow";
-            }
-            else
-                slides[i].border = "0";
-
-            if (Math.abs(index - i) < 5)
-                slides[i].style.display = "inline-block";
-            else
-                slides[i].style.display = "none";
-        }
     }
 
     function clearArraysFor(clearIndex) {
@@ -366,6 +328,10 @@
         border[clearIndex] = [];
         average[clearIndex] = [];
         center[clearIndex] = [];
+
+        selectionTemp[clearIndex] = [];
+        borderTemp[clearIndex] = [];
+        averageTemp[clearIndex] = [];
         refresh();
     }
 
@@ -373,9 +339,7 @@
         for (let i = 0; i < imageCount; i++)
             clearArraysFor(i);
         refresh();
-
     }
-
 </script>
 
 <script>
@@ -530,6 +494,10 @@
 
                     spOfPixels[index] = buffer[5].split(',');
 
+                    borderTemp[index] = border[index];
+                    selectionTemp[index] = selection[index];
+                    averageTemp[index] = parseFloat(average[index]);
+
                     processRunning = false;
                     refreshGlobalBorderCanvas();
                 }
@@ -546,8 +514,6 @@
                     selection: selection[index].toString(),
                     spOfPixels: spOfPixels[index].toString(),
                     spAverage: spAverage[index].toString(),
-                    averageTolerance: averageTolerance,
-                    coverageTolerance: coverageTolerance
                 },
 
                 function (responseText) {
@@ -593,6 +559,10 @@
 
                     average[index] = buffer[9];
 
+                    borderTemp[index] = border[index];
+                    selectionTemp[index] = selection[index];
+                    averageTemp[index] = parseFloat(average[index]);
+
                     processRunning = false;
                     refreshGlobalBorderCanvas();
                     refreshSelectionCanvas();
@@ -625,33 +595,47 @@
                 border[index].push(currentY);
             }
         }
+
+        borderTemp[index] = border[index];
     }
 
-    /*
     function smoothie() {
         if (!processRunning) {
             processRunning = true;
             $.post("SuperPixelExpand",
                 {
                     index: index,
-                    border: selectionBorderPixels_index[index].toString(),
-                    selection: selectionPixels_index[index].toString(),
-                    average: selectionAverage_index[index],
-                    tolerance: 0.07
+                    border: borderTemp[index].toString(),
+                    selection: selectionTemp[index].toString(),
+                    average: averageTemp[index],
+                    tolerance: threshold[index]
                 },
                 function (responseText) {
                     const buffer = responseText.split('|');
-                    tempSelectionBorderPixels_index[index] = buffer[0].split(',');
-                    tempSelectionPixels_index[index] = buffer[1].split(',');
-                    tempSelectionAverage_index[index] = buffer[2];
+                    border[index] = [];
+                    selection[index] = [];
+
+                    border[index] = buffer[0].split(',');
+                    selection[index] = buffer[1].split(',');
+                    average[index] = buffer[2];
 
                     processRunning = false;
-                    drawTemp();
+                    refreshSelectionCanvas();
+                    refreshSelectionBorderCanvas();
                 }
             );
         }
     }
-    */
+
+    function revertWand(){
+        border[index] = borderTemp[index];
+        selection[index] = selectionTemp[index];
+        average[index] = averageTemp[index];
+        threshold[index] = 0.0;
+
+        refreshSelectionBorderCanvas();
+        refreshSelectionCanvas();
+    }
 </script>
 
 <script>
@@ -678,8 +662,6 @@
                     selection: selection[index - n + 1].toString(),
                     spOfPixels: spOfPixels[index - n + 1].toString(),
                     spAverage: spAverage[index - n + 1].toString(),
-                    averageTolerance: averageTolerance,
-                    coverageTolerance: coverageTolerance
                 },
 
                 function (responseText) {
@@ -723,6 +705,10 @@
                         spSelectedBinary[index - n][spSelected[index - n][i]] = 1;
                     }
 
+                    borderTemp[index - n] = border[index - n];
+                    selectionTemp[index - n] = selection[index - n];
+                    averageTemp[index - n] = parseFloat(average[index - n]);
+
                     average[index - n] = buffer[9];
                     spSize[index - n] = spSize[index];
 
@@ -751,8 +737,6 @@
                     selection: selection[index + n - 1].toString(),
                     spOfPixels: spOfPixels[index + n - 1].toString(),
                     spAverage: spAverage[index + n - 1].toString(),
-                    averageTolerance: averageTolerance,
-                    coverageTolerance: coverageTolerance
                 },
 
                 function (responseText) {
@@ -796,6 +780,10 @@
                         spSelectedBinary[index + n][spSelected[index + n][i]] = 1;
                     }
 
+                    borderTemp[index + n] = border[index + n];
+                    selectionTemp[index + n] = selection[index + n];
+                    averageTemp[index + n] = parseFloat(average[index + n]);
+
                     average[index + n] = buffer[9];
                     spSize[index + n] = spSize[index];
 
@@ -808,35 +796,6 @@
             alert('complete right');
         }
     }
-
-    /*
-    function semiAutomateLeft(count) {
-        if (!processRunning) {
-            processRunning = true;
-            if (count < 5) {
-                $.get("SuperPixelPixelate?index=" + (index - count) + "&superPixelSize=" + superPixelSize_index[index], function (responseText) {
-                    const buffer = responseText.split('|');
-
-                    borderPixels_index[index - count] = buffer[0].split(',');
-                    center_index[index] = buffer[1].split(',');
-                    average_index[index] = buffer[2].split(',');
-                    const bufferCluster = buffer[3].split("$");
-
-                    pixels_index_number[index - count] = [];
-                    clicked_index[index - count] = [];
-                    for (let i = 0; i < bufferCluster.length; i++) {
-                        pixels_index_number[index - count][i] = bufferCluster[i].split(',');
-                        clicked_index[index - count][i] = 0;
-                    }
-
-                    superPixelSize_index[index - count] = superPixelSize_index[index];
-                    automateLeft(count);
-                    semiAutomateLeft(count + 1);
-                });
-            }
-        }
-    }
-    */
 </script>
 
 <script>
@@ -888,6 +847,10 @@
 
         average[index] = sum / spSelected[index].length;
 
+        borderTemp[index] = border[index];
+        selectionTemp[index] = selection[index];
+        averageTemp[index] = parseFloat(average[index]);
+
         refreshSelectionCanvas();
         getBorder();
         refreshSelectionBorderCanvas();
@@ -897,8 +860,11 @@
         const clickIndex = findSuperPixel(clickX, clickY);
 
         let queue = [];
-        let wandSelection = [];
+        let wandSelection = spSelected[index];
         let selectionChecked = [];
+
+        for (let i = 0; i < wandSelection.length; i++)
+            selectionChecked[wandSelection[i]] = true;
 
         for (let i = 0; i < pixelsOfSp[index].length; i++) {
             selectionChecked[i] = false;
@@ -917,8 +883,11 @@
             }
 
             let pixelValue = spAverage[index][current];
-            if ((Math.abs(startAverage - pixelValue)) / 255.0 < averageTolerance) {
-                wandSelection.push(current);
+            if ((Math.abs(startAverage - pixelValue)) / 255.0 < 0.025) {
+
+                if (!wandSelection.includes(current))
+                    wandSelection.push(current);
+
                 selectionChecked[current] = true;
 
                 count++;
@@ -953,6 +922,10 @@
             selectionBinary[index][selection[index][i]] = 1;
 
         average[index] = finalAverage;
+
+        borderTemp[index] = border[index];
+        selectionTemp[index] = selection[index];
+        averageTemp[index] = parseFloat(average[index]);
 
         refreshSelectionCanvas();
         getBorder();
