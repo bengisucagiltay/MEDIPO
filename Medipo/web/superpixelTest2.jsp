@@ -52,9 +52,11 @@
             left: 0;
             top: 0;
         }
+
         .slide {
             width: 10%;
         }
+
         #loader {
             position: absolute;
             left: 50%;
@@ -71,14 +73,23 @@
             -webkit-animation: spin 2s linear infinite;
             animation: spin 2s linear infinite;
         }
+
         @-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 
@@ -124,7 +135,7 @@
             <button style="display: inline-block" onclick="updateSuperPixelSize(2)">&#10095;</button>
 
             <button style="display: inline-block" onclick="updateThreshold(-0.01)">&#10094;</button>
-            <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Wand Size  </button>
+            <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Wand Size</button>
             <button style="display: inline-block" onclick="updateThreshold(0.01)">&#10095;</button>
             <div id="loader"></div>
 
@@ -172,6 +183,9 @@
             </button>
             <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="revertWand()">
                 REVERT WAND
+            </button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="maskImages()">
+                MASK
             </button>
             <br>
 
@@ -656,7 +670,7 @@
         }
     }
 
-    function revertWand(){
+    function revertWand() {
         border[index] = borderTemp[index];
         selection[index] = selectionTemp[index];
         average[index] = averageTemp[index];
@@ -685,14 +699,16 @@
             superPixelCastLeft(1, count);
         }
     }
-    function loaderON(){
+
+    function loaderON() {
         document.getElementById("loader").style.display = "inline";
         //var myVar = setTimeout(loaderOFF, 3000);
     }
 
-    function loaderOFF(){
+    function loaderOFF() {
         document.getElementById("loader").style.display = "none";
     }
+
     function superPixelCastLeft(n, count) {
         if (n < count && index - n > 0 && selection[index - n + 1].toString().localeCompare("") !== 0) {
             $.post("SuperPixelCast", {
@@ -982,6 +998,30 @@
             isMagic = true;
             document.getElementById("magic").innerHTML = "Current Selection: Multiple Region ";
         }
+    }
+</script>
+
+<script>
+    function maskImages() {
+        let selectionIndex = "";
+        let selectionString = "";
+        for (let i = 0; i < imageCount; i++) {
+            if (selection[i].length != 0) {
+                selectionIndex = selectionIndex + i + "-";
+                for (let j = 0; j < selection[i].length; j++)
+                    selectionString = selectionString + selection[i][j] + ',';
+                selectionString += "-";
+            }
+        }
+
+        $.post("MaskImage", {
+                imageCount: imageCount,
+                selection: selectionString,
+                selectionIndexes: selectionIndex
+            }, function (responseText) {
+                alert(responseText);
+            }
+        );
     }
 </script>
 

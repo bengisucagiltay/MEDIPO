@@ -15,7 +15,7 @@ public class FileManager {
                     "C:\\Users\\Bengisu\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_war_exploded",
                     "C:\\Users\\imgew\\git\\CS491-Medipo\\out\\artifacts\\Medipo_war_exploded",
                     "C:\\Users\\PC\\IdeaProjects\\CS491\\out\\artifacts\\Medipo_Web_exploded",
-                    "apache-tomcat-9.0.5/webapps/Medipo_war"
+                    "../../apache-tomcat-9.0.5/webapps/Medipo_war"
             };
 
     public static String getDirPath_UserInfo(String userEmail) {
@@ -166,7 +166,7 @@ public class FileManager {
     public static File zip(String email, String firstname) throws IOException {
 
 
-        String directoryPath = getDirPath_UserUpload(email);
+        String directoryPath = getDirPath_UserDownload(email);
         String outputPath = getDirPath_User(email);
 
         List<File> files = Arrays.asList(Objects.requireNonNull(new File(directoryPath).listFiles()));

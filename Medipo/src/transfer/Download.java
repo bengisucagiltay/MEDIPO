@@ -3,7 +3,6 @@ package transfer;
 import utils.FileManager;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class Download extends HttpServlet {
         String firstname = (String) request.getSession().getAttribute("firstname");
 
         FileManager.zip(email, firstname);
-        String zipPath = FileManager.getDirPath_User( email+"/" +firstname + ".zip");
+        String zipPath = FileManager.getDirPath_User( email+"/" + firstname + ".zip");
         System.out.println("ZIPPATH IS:"+zipPath);
 
         OutputStream out= response.getOutputStream();

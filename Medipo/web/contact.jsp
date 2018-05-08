@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ page import="transfer.Contact" %>
+<%@ page import="utils.FileManager" %>
 <%@ page import="javax.mail.MessagingException" %>
 
 <%
@@ -140,7 +141,6 @@
         </div>
     </form>
 </div>
-
 <img src="images/pulse.png" alt="backg" width="100%">
 </body>
 </html>
