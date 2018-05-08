@@ -133,7 +133,7 @@
             <button style="display: inline-block" onclick="updateSuperPixelSize(-2)">&#10094;</button>
             <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Grid Size</button>
             <button style="display: inline-block" onclick="updateSuperPixelSize(2)">&#10095;</button>
-
+<br>
             <button style="display: inline-block" onclick="updateThreshold(-0.01)">&#10094;</button>
             <button style="height: 40px; width:150px; float:none; pointer-events: none;" onclick="">Wand Size</button>
             <button style="display: inline-block" onclick="updateThreshold(0.01)">&#10095;</button>
@@ -172,25 +172,29 @@
                     onclick="changeVisibilityCanvas2()">COLOR : ON
             </button>
             <br>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateLeft(10)">
+                PAINT LEFT
+            </button>
             <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(10)">
                 PAINT ALL
             </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateRight(10)">
+                PAINT RIGHT
+            </button>
+            <br>
+            <button style="height: 40px; width:150px; float:none;background-color: #42B6EF;"
                     onclick="clearArraysFor(index)">CLEAR CURRENT
             </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="clearArraysAll()">
+            <button style="height: 40px; width:150px; float:none;background-color: #42B6EF;" onclick="clearArraysAll()">
                 CLEAR ALL
             </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="revertWand()">
+            <button style="height: 40px; width:150px; float:none;background-color: #42B6EF;" onclick="revertWand()">
                 REVERT WAND
-            </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="maskImages()">
-                MASK
             </button>
             <br>
 
 
-            <button style="background-color: #42B6EF;" id="magic" onclick="changeTool()">Current Selection: Single
+            <button style="background-color: #28A8EA;" id="magic" onclick="changeTool()">Current Selection: Single
                 Region
             </button>
             <br><br>
@@ -204,7 +208,10 @@
             <script type="text/javascript" src="js/carousel.js"></script>
             <br><br><br><br><br><br><br>
             <h1 style="padding-left: 5%" id="index">0</h1>
-            <form action="Download" method="post">
+            <button style="display:inline-block;margin-left:4%; height: 40px; width:150px; float:none;" onclick="maskImages()">
+                SAVE Selection
+            </button>
+            <form style="display: inline-block;" action="Download" method="post">
                 <input style="margin-left:4%; height: 40px; width:150px; float:none;" type="submit" name="Submit"
                        value="Download ZIP"/>
             </form>
@@ -694,9 +701,17 @@
     }
 
     function semiAutomateLeft(count) {
+        loaderON();
         if (!processRunningLeft) {
             processRunningLeft = true;
             superPixelCastLeft(1, count);
+        }
+    }
+    function semiAutomateRight(count) {
+        loaderON();
+        if (!processRunningRight) {
+            processRunningRight = true;
+            superPixelCastRight(1, count);
         }
     }
 
@@ -778,12 +793,6 @@
         }
     }
 
-    function semiAutomateRight(count) {
-        if (!processRunningRight) {
-            processRunningRight = true;
-            superPixelCastRight(1, count);
-        }
-    }
 
     function superPixelCastRight(n, count) {
         if (n < count && index + n < imageCount && selection[index + n - 1].toString().localeCompare("") !== 0) {

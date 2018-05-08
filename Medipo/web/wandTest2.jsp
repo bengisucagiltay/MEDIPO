@@ -96,7 +96,16 @@
             <button style="height: 40px; width:150px; float:none;pointer-events: none;">Paint</button>
             <button style="display: inline-block" onclick="semiAutomateRight(50)">&#10095;</button>-->
             <br>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"onclick="semiAutomate(1)">PAINT FORWARD</button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateLeft(10)">
+                PAINT LEFT
+            </button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(10)">
+                PAINT ALL
+            </button>
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateRight(10)">
+                PAINT RIGHT
+            </button>
+            <br>
 
             <script>
                 var ijk = 0;
@@ -110,10 +119,10 @@
 
             </script>
 
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;"
+            <button style="height: 40px; width:150px; float:none;background-color: #42B6EF;"
                     onclick="clearArraysFor(index)">CLEAR CURRENT
             </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="clearArraysAll()">
+            <button style="height: 40px; width:150px; float:none;background-color: #42B6EF;" onclick="clearArraysAll()">
                 CLEAR ALL
             </button>
             <br>
@@ -127,8 +136,12 @@
             <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
             <script type="text/javascript" src="js/carousel.js"></script>
             <br><br><br><br><br><br><br><h1 style="padding-left: 5%" id="index">0</h1>
-            <form action="Download" method="post">
-                <input style="margin-left:4%; height: 40px; width:150px; float:none;"type="submit" name="Submit" value="Download ZIP"/>
+            <button style="display:inline-block;margin-left:4%; height: 40px; width:150px; float:none;" onclick="maskImages()">
+                SAVE Selection
+            </button>
+            <form style="display: inline-block;" action="Download" method="post">
+                <input style="margin-left:4%; height: 40px; width:150px; float:none;" type="submit" name="Submit"
+                       value="Download ZIP"/>
             </form>
         </div>
     </div>
