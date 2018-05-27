@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet("/SuperPixelPixelate")
 public class SuperPixelPixelate extends HttpServlet {
 
-    private static final int M = 100;
+    private static final int M = 20;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = (String)request.getSession().getAttribute("email");

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 @WebServlet("/SuperPixelCast")
 public class SuperPixelCast extends HttpServlet {
 
-    private static final int M = 100;
+    private static final int M = 20;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {

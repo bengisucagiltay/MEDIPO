@@ -96,13 +96,13 @@
             <button style="height: 40px; width:150px; float:none;pointer-events: none;">Paint</button>
             <button style="display: inline-block" onclick="semiAutomateRight(50)">&#10095;</button>-->
             <br>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateLeft(10)">
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateLeft(1)">
                 PAINT LEFT
             </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(10)">
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomate(1)">
                 PAINT ALL
             </button>
-            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateRight(10)">
+            <button style="height: 40px; width:150px; float:none;background-color: #5CC3F4;" onclick="semiAutomateRight(1)">
                 PAINT RIGHT
             </button>
             <br>
@@ -337,7 +337,7 @@
     }
 
     function semiAutomateRight(count) {
-        if (count < 5 && (index + count) < <%=images.length%>) {
+        if (count < 11 && (index + count) < <%=images.length%>) {
             clickXArray[index + count] = centerXArray[index + count - 1];
             clickYArray[index + count] = centerYArray[index + count - 1];
             threshold[index + count] = threshold[index];
@@ -367,7 +367,7 @@
     }
 
     function semiAutomateLeft(count) {
-        if (count < 5 && (index - count) >= 0) {
+        if (count < 11 && (index - count) >= 0) {
             clickXArray[index - count] = centerXArray[index - count + 1];
             clickYArray[index - count] = centerYArray[index - count + 1];
             threshold[index - count] = threshold[index];

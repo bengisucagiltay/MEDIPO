@@ -789,7 +789,6 @@
         else {
             processRunningLeft = false;
             loaderOFF();
-            alert('complete left');
         }
     }
 
@@ -859,7 +858,6 @@
         else {
             processRunningRight = false;
             loaderOFF();
-            alert('complete right');
         }
     }
 </script>
