@@ -1,6 +1,8 @@
 # CS491
 Senior Design Project - Bilkent University
 
+Cagiltay, B., Can, M. E., Gokalp, I., & Sezginer, C. (2018, October). MedIPO (Medical Image Processing Online)-A Web Based Decision Support and Educational Tool for Medical Image Processing. In E-Learn: World Conference on E-Learning in Corporate, Government, Healthcare, and Higher Education (pp. 1517-1523). Association for the Advancement of Computing in Education (AACE).
+
 # Medical Image Processing Online - Medipo
 
 Mert Ege Can
